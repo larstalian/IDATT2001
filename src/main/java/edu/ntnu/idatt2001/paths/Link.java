@@ -1,5 +1,9 @@
 package edu.ntnu.idatt2001.paths;
 
+import edu.ntnu.idatt2001.paths.actions.Action;
+
+import java.util.List;
+
 public class Link {
     String text;
     String ref;
@@ -39,7 +43,9 @@ public class Link {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Link link)) return false;
+        if (!(o instanceof Link)) return false;
+
+        Link link = (Link) o;
 
         if (!getText().equals(link.getText())) return false;
         return getRef().equals(link.getRef());
