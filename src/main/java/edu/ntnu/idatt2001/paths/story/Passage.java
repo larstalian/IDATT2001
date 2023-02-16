@@ -35,12 +35,17 @@ public class Passage {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Game.Passage{");
-        sb.append("title='").append(title).append('\'');
-        sb.append(", content='").append(content).append('\'');
-        sb.append('}');
+        StringBuilder sb = new StringBuilder();
+        sb.append("Title: ").append(title).append("\n");
+        sb.append("Content: ").append(content).append("\n");
+        sb.append("Links:\n");
+        for (Link link : links) {
+            sb.append("- ").append(link.getText()).append(": ")
+                    .append(link.getRef()).append("\n");
+        }
         return sb.toString();
     }
+
 
     @Override
     public boolean equals(Object o) {
