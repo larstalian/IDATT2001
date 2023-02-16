@@ -4,29 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57b2b7a7-4739-4455-a6d3-6c69f65d3779" name="Changes" comment="refactor: create 'game' and 'story' packages and move relevant classes&#10;&#10;classes affected: Player, Game, Story, Passage, Link">
+    <list default="true" id="57b2b7a7-4739-4455-a6d3-6c69f65d3779" name="Changes" comment="feat(passage): update toString method in passage class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Link.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/story/Link.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Passage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/story/Passage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/game/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Story.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/story/Story.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/GoldAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/GoldAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/HealthAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/HealthAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/InventoryAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/InventoryAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/ScoreAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/actions/ScoreAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/Goal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/Goal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/GoldGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/GoldGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/HealthGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/HealthGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/InventoryGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/InventoryGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/ScoreGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/goals/ScoreGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2001/paths/LinkTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2001/paths/LinkTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2001/paths/PassageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2001/paths/PassageTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,14 +62,105 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/ltsta/Desktop/MAPPEVURDERING/IDATT2001",
+    "last_opened_file_path": "C:/Users/ltsta/Downloads/lecture7",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.ConventionalCommit"
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
+  <component name="RunManager" selected="JUnit.PassageTest.testAddLink_shouldAddLinkToPassage">
+    <configuration name="PassageTest.testAddLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IDATT2001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2001.paths.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2001.paths" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2001.paths.PassageTest" />
+      <option name="METHOD_NAME" value="testAddLink" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassageTest.testAddLink_shouldAddLinkToPassage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IDATT2001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2001.paths.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2001.paths" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2001.paths.PassageTest" />
+      <option name="METHOD_NAME" value="testAddLink_shouldAddLinkToPassage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassageTest.testAddLink_shouldThrowExceptionWhenLinkIsNull" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IDATT2001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2001.paths.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2001.paths" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2001.paths.PassageTest" />
+      <option name="METHOD_NAME" value="testAddLink_shouldThrowExceptionWhenLinkIsNull" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassageTest.testToString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IDATT2001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2001.paths.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2001.paths" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2001.paths.PassageTest" />
+      <option name="METHOD_NAME" value="testToString" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PassageTest.testToString_shouldReturnPassageWithoutLinksIfThereAreNoLinks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IDATT2001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2001.paths.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2001.paths" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2001.paths.PassageTest" />
+      <option name="METHOD_NAME" value="testToString_shouldReturnPassageWithoutLinksIfThereAreNoLinks" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.PassageTest.testAddLink_shouldAddLinkToPassage" />
+        <item itemvalue="JUnit.PassageTest.testToString_shouldReturnPassageWithoutLinksIfThereAreNoLinks" />
+        <item itemvalue="JUnit.PassageTest.testAddLink_shouldThrowExceptionWhenLinkIsNull" />
+        <item itemvalue="JUnit.PassageTest.testToString" />
+        <item itemvalue="JUnit.PassageTest.testAddLink" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -94,7 +173,9 @@
       <workItem from="1675980966392" duration="1028000" />
       <workItem from="1675982987109" duration="1332000" />
       <workItem from="1676025024129" duration="2411000" />
-      <workItem from="1676551895636" duration="1561000" />
+      <workItem from="1676551895636" duration="1865000" />
+      <workItem from="1676555435705" duration="528000" />
+      <workItem from="1676558028265" duration="6614000" />
     </task>
     <task id="LOCAL-00001" summary="chore: initial commit">
       <created>1675984248800</created>
@@ -124,7 +205,35 @@
       <option name="project" value="LOCAL" />
       <updated>1676553756309</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="refactor: create 'game' and 'story' packages and move relevant classes&#10;&#10;classes affected: Player, Game, Story, Passage, Link">
+      <created>1676554243670</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676554243670</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix(passage): add create arraylist Links in constructor">
+      <created>1676563927321</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676563927321</updated>
+    </task>
+    <task id="LOCAL-00007" summary="chore(pom): add hamcrest dependency used in tests">
+      <created>1676572887735</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676572887735</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat(passage): update toString method in passage class">
+      <created>1676573006691</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676573006691</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +256,14 @@
     <MESSAGE value="fix: fix logic in go method, now returns correct passage" />
     <MESSAGE value="refactor(game): improve readability of go(link) method" />
     <MESSAGE value="refactor: create 'game' and 'story' packages and move relevant classes&#10;&#10;classes affected: Player, Game, Story, Passage, Link" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: create 'game' and 'story' packages and move relevant classes&#10;&#10;classes affected: Player, Game, Story, Passage, Link" />
+    <MESSAGE value="fix(passage): add create arraylist Links in constructor" />
+    <MESSAGE value="chore(pom): add hamcrest dependency used in tests" />
+    <MESSAGE value="feat(passage): update toString method in passage class" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(passage): update toString method in passage class" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IDATT2001$PassageTest_testAddLink.ic" NAME="PassageTest.testAddLink Coverage Results" MODIFIED="1676567660178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>edu.ntnu.idatt2001.paths.*</FILTER>
+    </SUITE>
   </component>
 </project>
