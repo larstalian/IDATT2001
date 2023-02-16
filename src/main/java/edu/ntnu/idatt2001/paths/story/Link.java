@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths;
+package edu.ntnu.idatt2001.paths.story;
 
 import edu.ntnu.idatt2001.paths.actions.Action;
 

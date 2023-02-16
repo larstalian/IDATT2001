@@ -1,6 +1,9 @@
-package edu.ntnu.idatt2001.paths;
+package edu.ntnu.idatt2001.paths.game;
 
 import edu.ntnu.idatt2001.paths.goals.Goal;
+import edu.ntnu.idatt2001.paths.story.Link;
+import edu.ntnu.idatt2001.paths.story.Passage;
+import edu.ntnu.idatt2001.paths.story.Story;
 
 import java.util.List;
 import java.util.Objects;
