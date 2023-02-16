@@ -29,7 +29,7 @@ public class Passage {
         return links.add(link);
     }
 
-    public boolean hasLinks(String ref) {
+    public boolean hasLinks() {
         return !links.isEmpty();
     }
 
