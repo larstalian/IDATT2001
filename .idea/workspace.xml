@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57b2b7a7-4739-4455-a6d3-6c69f65d3779" name="Changes" comment="chore(pom): add new dependencies and build plugins">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2001/paths/Game.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +59,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/ltsta/Desktop/MAPPEVURDERING/IDATT2001",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -78,6 +79,7 @@
       <workItem from="1675980966392" duration="1028000" />
       <workItem from="1675982987109" duration="1332000" />
       <workItem from="1676025024129" duration="2411000" />
+      <workItem from="1676551895636" duration="505000" />
     </task>
     <task id="LOCAL-00001" summary="chore: initial commit">
       <created>1675984248800</created>

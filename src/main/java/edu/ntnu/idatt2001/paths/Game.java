@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths;
 import edu.ntnu.idatt2001.paths.goals.Goal;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Game {
     Player player;
@@ -33,9 +34,10 @@ public class Game {
 
     // OBS NULLABLE RETURN
     public Passage go(Link link) {
-        return story.getPassages().stream()
-                .flatMap(p -> story.getPassages().stream())
-                .findFirst()
-                .orElse(null);
+        Passage passage = story.getPassage(link);
+        if (passage == null) {
+            throw new NoSuchElementException("No passage with link " + link);
+        }
+        return passage;
     }
 }
