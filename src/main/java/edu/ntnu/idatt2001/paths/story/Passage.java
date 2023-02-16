@@ -10,6 +10,7 @@ public class Passage {
     public Passage(String title, String content) {
         this.title = title;
         this.content = content;
+        this.links = new java.util.ArrayList<>();
     }
 
     public String getTitle() {
