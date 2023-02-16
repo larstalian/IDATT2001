@@ -43,13 +43,11 @@ class PassageTest {
 
     @Test
     void testHasLinks() {
-        assertThat(passage.hasLinks("Ref"), is(false));
-
+        assertThat(passage.hasLinks(), is(false));
         passage.addLink(link);
         Link link2 = new Link("Link", "Ref");
         passage.addLink(link2);
-
-        assertThat(passage.hasLinks("Ref"), is(true));
+        assertThat(passage.hasLinks(), is(true));
     }
 
     @Test
