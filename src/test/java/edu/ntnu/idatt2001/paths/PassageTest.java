@@ -9,9 +9,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
-class PassageTest {
-    Passage passage;
-    Link link;
+public class PassageTest {
+    private Passage passage;
+    private Link link;
 
     @BeforeEach
     void setUp() {
