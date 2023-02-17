@@ -11,6 +11,7 @@ public class Story {
     public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
+        this.passages = new java.util.HashMap<>();
     }
 
     public String getTitle() {
@@ -36,11 +37,16 @@ public class Story {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Story{");
-        sb.append("title='").append(title).append('\'');
-        sb.append(", openingPassage=").append(openingPassage);
-        sb.append('}');
+        StringBuilder sb = new StringBuilder();
+        sb.append("Title: ").append(title).append("\n");
+        sb.append("Opening Passage:\n");
+        sb.append(openingPassage.toString()).append("\n");
+        sb.append("Passages:\n");
+        for (Passage passage : passages.values()) {
+            sb.append("- ").append(passage.getTitle()).append(": ").append(passage.getContent()).append("\n");
+        }
         return sb.toString();
     }
+
 }
 
