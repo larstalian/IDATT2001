@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Passage {
@@ -10,7 +11,7 @@ public class Passage {
     public Passage(String title, String content) {
         this.title = title;
         this.content = content;
-        this.links = new java.util.ArrayList<>();
+        this.links = new ArrayList<>();
     }
 
     public String getTitle() {
