@@ -24,7 +24,8 @@ public class Story {
 
     public boolean addPassage(Passage passage) {
         Link link = new Link(passage.getTitle(), passage.getTitle());
-        return passages.put(link, passage) != null;
+        passages.put(link, passage);
+        return true;
     }
 
     public Passage getPassage(Link link) {
@@ -40,13 +41,12 @@ public class Story {
         StringBuilder sb = new StringBuilder();
         sb.append("Title: ").append(title).append("\n");
         sb.append("Opening Passage:\n");
-        sb.append(openingPassage.toString()).append("\n");
+        sb.append(openingPassage.getContent()).append("\n");
         sb.append("Passages:\n");
         for (Passage passage : passages.values()) {
             sb.append("- ").append(passage.getTitle()).append(": ").append(passage.getContent()).append("\n");
         }
         return sb.toString();
     }
-
 }
 
