@@ -20,10 +20,11 @@ class GameTest {
     private Game game;
     private Story story;
     private Passage openingPassage;
+    private Player player;
 
     @BeforeEach
     void setUp() {
-        Player player = new Player("PlayerName", 100, 0, 0);
+        player = new Player("PlayerName", 100, 0, 0);
         openingPassage = new Passage("The opening passage", "A test troll");
         story = new Story("Test Story", openingPassage);
 
@@ -37,7 +38,7 @@ class GameTest {
 
     @Test
     void testGetPlayer() {
-        assertThat("PlayerName", is(game.getPlayer().getName()));
+        assertThat(player, is(game.getPlayer()));
     }
 
     @Test
