@@ -1,7 +1,5 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import edu.ntnu.idatt2001.paths.story.Link;
-import edu.ntnu.idatt2001.paths.story.Passage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
-public class PassageTest {
+class PassageTest {
     private Passage passage;
     private Link link;
 

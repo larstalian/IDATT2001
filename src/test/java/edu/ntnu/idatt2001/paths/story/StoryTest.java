@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class StoryTest {
+class StoryTest {
 
     private Story story;
     private Passage openingPassage;
     private List<Passage> passages;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         // Create a test Story object with an opening passage and two linked passages
         openingPassage = new Passage("Opening Passage", "This is the opening passage.");
         story = new Story("Test Story", openingPassage);
@@ -39,23 +39,23 @@ public class StoryTest {
     }
 
     @Test
-    public void testGetTitle() {
+    void testGetTitle() {
         assertThat("Test Story", is(story.getTitle()));
     }
 
     @Test
-    public void testGetOpeningPassage() {
+    void testGetOpeningPassage() {
         assertThat(openingPassage, is (story.getOpeningPassage()));
     }
 
     @Test
-    public void testAddPassage() {
+    void testAddPassage() {
         Passage newPassage = new Passage("Passage 3", "This is a new passage.");
         assertTrue(story.addPassage(newPassage));
     }
 
     @Test
-    public void testGetPassage() {
+    void testGetPassage() {
         Link link = new Link("Passage 1", "Passage 1");
         Passage passage = story.getPassage(link);
         assertEquals("Passage 1", passage.getTitle());
@@ -64,12 +64,12 @@ public class StoryTest {
     }
 
     @Test
-    public void testGetPassages() {
+    void testGetPassages() {
         assertThat(story.getPassages(), containsInAnyOrder(passages.toArray()));
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String expected = "Title: Test Story\n" +
                 "Opening Passage:\n" +
                 "This is the opening passage.\n" +
