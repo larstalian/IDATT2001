@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -14,6 +15,7 @@ public class Player {
         this.health = health;
         this.score = score;
         this.gold = gold;
+        inventory = new ArrayList<>();
     }
 
     public String getName() {
@@ -57,13 +59,8 @@ public class Player {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Player{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", health=").append(health);
-        sb.append(", score=").append(score);
-        sb.append(", gold=").append(gold);
-        sb.append(", inventory=").append(inventory);
-        sb.append('}');
-        return sb.toString();
+        return String.format("%-15s %3d HP  %4d PTS  %4d GOLD  INV: %s",
+                name, health, score, gold, String.join(", ", inventory));
     }
+
 }
