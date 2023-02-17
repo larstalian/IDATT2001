@@ -12,6 +12,7 @@ public class Link {
     public Link(String text, String ref) {
         this.text = text;
         this.ref = ref;
+        this.actions = new java.util.ArrayList<>();
     }
 
     public String getText() {
