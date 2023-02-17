@@ -8,6 +8,13 @@ public class Passage {
     String content;
     List<Link> links;
 
+    /**
+     * Constructs a new Passage object with the given title and content.
+     *
+     * @param title   the title of the passage
+     * @param content the content of the passage
+     * @throws IllegalArgumentException if either the title or content parameter is null
+     */
     public Passage(String title, String content) throws IllegalArgumentException {
         if (title == null || content == null) {
             throw new IllegalArgumentException("Title and content cannot be null.");
