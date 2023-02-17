@@ -25,6 +25,13 @@ public class Passage {
         return links;
     }
 
+    /**
+     * Adds a link to the list of links.
+     *
+     * @param link the link to be added
+     * @return {@code true} if the link was added to the list, {@code false} otherwise
+     * @throws IllegalArgumentException if the link is null or already exists in the list
+     */
     public boolean addLink(Link link) {
         if (link == null) {
             throw new IllegalArgumentException("Link cannot be null");
