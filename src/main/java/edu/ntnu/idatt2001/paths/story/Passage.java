@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Passage {
-    String title;
-    String content;
-    List<Link> links;
+    private final String title;
+    private final String content;
+    private final List<Link> links;
 
     /**
      * Constructs a new Passage object with the given title and content.
