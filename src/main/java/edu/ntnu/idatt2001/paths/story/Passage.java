@@ -26,6 +26,12 @@ public class Passage {
     }
 
     public boolean addLink(Link link) {
+        if (link == null) {
+            throw new IllegalArgumentException("Link cannot be null");
+        }
+        if (links.contains(link)) {
+            throw new IllegalArgumentException("Link already exists in the list");
+        }
         return links.add(link);
     }
 
