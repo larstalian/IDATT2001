@@ -8,7 +8,10 @@ public class Passage {
     String content;
     List<Link> links;
 
-    public Passage(String title, String content) {
+    public Passage(String title, String content) throws IllegalArgumentException {
+        if (title == null || content == null) {
+            throw new IllegalArgumentException("Title and content cannot be null.");
+        }
         this.title = title;
         this.content = content;
         this.links = new ArrayList<>();
