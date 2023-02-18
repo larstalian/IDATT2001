@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class Story {
     String title;
@@ -43,7 +42,9 @@ public class Story {
         sb.append("Opening Passage:\n");
         sb.append(openingPassage.getContent()).append("\n");
         sb.append("Passages:\n");
-        for (Passage passage : passages.values()) {
+        List<Passage> passageList = new ArrayList<>(passages.values());
+        passageList.sort(Comparator.comparing(Passage::getTitle));
+        for (Passage passage : passageList) {
             sb.append("- ").append(passage.getTitle()).append(": ").append(passage.getContent()).append("\n");
         }
         return sb.toString();
