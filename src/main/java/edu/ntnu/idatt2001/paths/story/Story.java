@@ -3,9 +3,9 @@ package edu.ntnu.idatt2001.paths.story;
 import java.util.*;
 
 public class Story {
-    String title;
-    Passage openingPassage;
-    Map<Link, Passage> passages;
+    private final String title;
+    private final Passage openingPassage;
+    private final Map<Link, Passage> passages;
 
     public Story(String title, Passage openingPassage) {
         this.title = title;
