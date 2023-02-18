@@ -1,40 +1,94 @@
 package edu.ntnu.idatt2001.paths.story;
 
 import java.util.*;
-
+/**
+ * The Story class represents a story, or branching composed of interconnected passages.
+ *
+ * <p> Each passage is represented by a Passage object, and can be linked to other passages using Link objects.
+ * The opening passage of the story is represented by a Passage object passed to the constructor of the Story object.
+ * Passages can be added to the story using the {@link #addPassage(Passage)} method, and the
+ * full list of passages can be accessed using the {@link #getPassages()} method. Passages can be retrieved
+ * using the {@link #getPassage(Link)} method.</p>
+ *
+ * <p>The Story class is immutable, and its properties cannot be modified once the object is constructed.
+ * The properties of the story include its title, represented by a String object, and its passages, represented
+ * by a Map of Link objects and Passage objects.
+ *
+ * @see Passage
+ * @see Link
+ */
 public class Story {
     private final String title;
     private final Passage openingPassage;
     private final Map<Link, Passage> passages;
 
+    /**
+     * Constructs a new Story object with the given title and opening passage.
+     *
+     * @param title          the title of the story
+     * @param openingPassage the opening passage of the story
+     */
     public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
         this.passages = new HashMap<>();
     }
 
+    /**
+     * Returns the title of the story.
+     *
+     * @return the title of the story
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Returns the opening passage of the story.
+     *
+     * @return the opening passage of the story
+     */
     public Passage getOpeningPassage() {
         return openingPassage;
     }
 
+    /**
+     * Adds a passage to the story.
+     *
+     * @param passage the passage to be added
+     * @return {@code true} if the passage was added to the story, {@code false} otherwise
+     */
     public boolean addPassage(Passage passage) {
         Link link = new Link(passage.getTitle(), passage.getTitle());
         passages.put(link, passage);
         return true;
     }
 
+    /**
+     * Returns the passage with the given link.
+     *
+     * @param link the link to the passage
+     * @return the passage with the given link, or {@code null} if the link is not found
+     */
     public Passage getPassage(Link link) {
         return passages.get(link);
     }
 
+    /**
+     * Returns a collection of all the passages in the story.
+     *
+     * @return a collection of all the passages in the story
+     */
     public Collection<Passage> getPassages() {
         return passages.values();
     }
 
+    /**
+     * Returns a string representation of the story, including its title, opening passage,
+     * and all passages in the story.
+     *
+     * @return a string representation of the story
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
