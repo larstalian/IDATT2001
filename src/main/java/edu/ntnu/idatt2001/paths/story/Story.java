@@ -10,7 +10,7 @@ public class Story {
     public Story(String title, Passage openingPassage) {
         this.title = title;
         this.openingPassage = openingPassage;
-        this.passages = new java.util.HashMap<>();
+        this.passages = new HashMap<>();
     }
 
     public String getTitle() {
