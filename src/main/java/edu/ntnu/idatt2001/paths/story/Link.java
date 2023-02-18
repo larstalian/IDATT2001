@@ -5,9 +5,9 @@ import edu.ntnu.idatt2001.paths.actions.Action;
 import java.util.List;
 
 public class Link {
-    String text;
-    String ref;
-    List<Action> actions;
+    private final String text;
+    private final String ref;
+    private final List<Action> actions;
 
     public Link(String text, String ref) {
         this.text = text;
