@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
 import edu.ntnu.idatt2001.paths.actions.Action;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
  * @see Action
  * @see Passage
  */
+@EqualsAndHashCode
 public class Link {
     private final String text;
     private final String ref;
@@ -89,23 +91,5 @@ public class Link {
         sb.append(", actions=").append(actions);
         sb.append('}');
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Link)) return false;
-
-        Link link = (Link) o;
-
-        if (!getText().equals(link.getText())) return false;
-        return getRef().equals(link.getRef());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getText().hashCode();
-        result = 31 * result + getRef().hashCode();
-        return result;
     }
 }
