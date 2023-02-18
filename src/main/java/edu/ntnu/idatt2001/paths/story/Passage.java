@@ -1,8 +1,10 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@EqualsAndHashCode
 public class Passage {
     private final String title;
     private final String content;
@@ -68,26 +70,5 @@ public class Passage {
                     .append(link.getRef()).append("\n");
         }
         return sb.toString();
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Passage)) return false;
-
-        Passage passage = (Passage) o;
-
-        if (!getTitle().equals(passage.getTitle())) return false;
-        if (!getContent().equals(passage.getContent())) return false;
-        return getLinks().equals(passage.getLinks());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getTitle().hashCode();
-        result = 31 * result + getContent().hashCode();
-        result = 31 * result + getLinks().hashCode();
-        return result;
     }
 }
