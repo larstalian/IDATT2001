@@ -16,13 +16,14 @@ import java.util.List;
  * using the {@link #addLink(Link)} method.</p>
  *
  * <p>Passages are immutable: once created, their contents and links cannot be modified. However, new Passages can be added to
- * the network by creating new instances and adding links to existing Passages.</p>
+ * the map in {@link Story} by creating new instances and adding links to existing Passages.</p>
  *
  * <p>The Passage class also provides several methods for working with the passage and its links, including getters for the title,
  * content, and links, a method for checking if the Passage has any links, and a method for adding links to the Passage. The {@link
  * #toString()} method returns a string representation of the Passage, including its title, content, and links.</p>
  *
  * @see Link
+ * @see Story
  */
 @EqualsAndHashCode
 public class Passage {
