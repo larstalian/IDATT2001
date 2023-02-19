@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
 import java.util.*;
+
 /**
  * The Story class represents a story, or branching composed of interconnected passages.
  *
@@ -29,8 +30,11 @@ public class Story {
      * @param openingPassage the opening passage of the story
      */
     public Story(String title, Passage openingPassage) {
+        if (title.length() < 2 || title.length() > 50) {
+            throw new IllegalArgumentException("Title must be between 2 and 50 characters");
+        }
         this.title = title;
-        this.openingPassage = openingPassage;
+        this.openingPassage = Objects.requireNonNull(openingPassage, "Opening passage cannot be null");
         this.passages = new HashMap<>();
     }
 
@@ -56,10 +60,14 @@ public class Story {
      * Adds a passage to the story.
      *
      * @param passage the passage to be added
-     * @return {@code true} if the passage was added to the story, {@code false} otherwise
+     * @return {@code true} if the passage was added to the story, {@code false} if the passage already exists
      */
-    public boolean addPassage(Passage passage) {
+    public boolean addPassage(final Passage passage) {
+        Objects.requireNonNull(passage, "Passage cannot be null");
         Link link = new Link(passage.getTitle(), passage.getTitle());
+        if (passages.containsKey(link)) {
+            return false;
+        }
         passages.put(link, passage);
         return true;
     }
