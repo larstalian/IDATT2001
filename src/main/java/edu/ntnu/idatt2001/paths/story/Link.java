@@ -36,6 +36,9 @@ public class Link {
      * @param ref  the reference to the target passage
      */
     public Link(String text, String ref) {
+        if (text.length() < 2 || text.length() > 20 || ref.length() < 2 || ref.length() > 20) {
+            throw new IllegalArgumentException("Text and ref must be between 2 and 20 characters.");
+        }
         this.text = text;
         this.ref = ref;
         this.actions = new java.util.ArrayList<>();
@@ -74,7 +77,7 @@ public class Link {
      * @param action the Action to be added
      * @return {@code true} if the Action was added to the list, {@code false} otherwise
      */
-    public boolean addAction(Action action) {
+    public boolean addAction(final Action action) {
         return actions.add(action);
     }
 
