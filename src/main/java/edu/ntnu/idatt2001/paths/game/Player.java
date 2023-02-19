@@ -51,8 +51,8 @@ public class Player {
     }
 
     public void addHealth(int health) {
-        if (this.health + health < 0) {
-            throw new IllegalArgumentException("Health cannot be less than 0");
+        if (this.health + health < 0 || this.health + health > 1000) {
+            throw new IllegalArgumentException("Health cannot be less than 0 or greater than 1000");
         }
         this.health += health;
     }
