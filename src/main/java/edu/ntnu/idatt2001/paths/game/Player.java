@@ -11,6 +11,18 @@ public class Player {
     List<String> inventory;
 
     public Player(String name, int health, int score, int gold) {
+        if (name.length() < 2 || name.length() > 15) {
+            throw new IllegalArgumentException("Name cannot be less than 2 or greater than 15 characters");
+        }
+        if (health < 0 || health > 1000) {
+            throw new IllegalArgumentException("Health cannot be less than 0 or greater than 1000");
+        }
+        if (score < 0 || score > 1000) {
+            throw new IllegalArgumentException("Score cannot be less than 0 or greater than 1000");
+        }
+        if (gold < 0 || gold > 100000) {
+            throw new IllegalArgumentException("Gold cannot be less than 0 or greater than 100000");
+        }
         this.name = name;
         this.health = health;
         this.score = score;
