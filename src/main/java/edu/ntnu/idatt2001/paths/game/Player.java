@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    String name;
-    int health;
-    int score;
-    int gold;
-    List<String> inventory;
+    private final String name;
+    private final List<String> inventory;
+    private int health;
+    private int score;
+    private int gold;
 
     public Player(String name, int health, int score, int gold) {
         if (name.length() < 2 || name.length() > 15) {
