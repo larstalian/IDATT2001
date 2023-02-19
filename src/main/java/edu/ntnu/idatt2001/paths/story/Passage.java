@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The Passage class represents a section of a story or narrative, with a title, content, and optional links to other Passages.
@@ -36,9 +37,8 @@ public class Passage {
      *
      * @param title   the title of the passage
      * @param content the content of the passage
-     * @throws IllegalArgumentException if either the title or content parameter is null
      */
-    public Passage(String title, String content) throws IllegalArgumentException {
+    public Passage(String title, String content) {
         if (title == null || content == null) {
             throw new IllegalArgumentException("Title and content cannot be null.");
         }
@@ -79,12 +79,9 @@ public class Passage {
      *
      * @param link the link to be added
      * @return {@code true} if the link was added to the list, {@code false} otherwise
-     * @throws IllegalArgumentException if the link is null or already exists in the list
      */
     public boolean addLink(Link link) {
-        if (link == null) {
-            throw new IllegalArgumentException("Link cannot be null");
-        }
+        Objects.requireNonNull(link, "Link cannot be null");
         if (links.contains(link)) {
             throw new IllegalArgumentException("Link already exists in the list");
         }
