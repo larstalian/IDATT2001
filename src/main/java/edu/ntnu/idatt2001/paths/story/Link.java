@@ -89,11 +89,10 @@ public class Link {
      */
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Game.Link{");
-        sb.append("text='").append(text).append('\'');
-        sb.append(", ref='").append(ref).append('\'');
-        sb.append(", actions=").append(actions);
-        sb.append('}');
-        return sb.toString();
+        return "Game.Link{" +
+                "text='" + text + '\'' +
+                ", ref='" + ref + '\'' +
+                ", actions=" + actions +
+                '}';
     }
 }
