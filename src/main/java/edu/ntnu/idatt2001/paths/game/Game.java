@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Game {
-    Player player;
-    Story story;
-    List<Goal> goals;
+    private final Player player;
+    private final Story story;
+    private final List<Goal> goals;
 
     public Game(Player player, Story story, List<Goal> goals) {
-        this.player = player;
-        this.story = story;
-        this.goals = goals;
+        this.player = Objects.requireNonNull(player, "Player cannot be null");
+        this.story = Objects.requireNonNull(story, "Story cannot be null");
+        this.goals = Objects.requireNonNull(goals, "Goals cannot be null");
     }
 
     public Player getPlayer() {
@@ -35,7 +35,6 @@ public class Game {
         return story.getOpeningPassage();
     }
 
-    // OBS NULLABLE RETURN
     public Passage go(Link link) {
         Passage passage = story.getPassage(link);
         Objects.requireNonNull(passage, "No passage with link " + link);
