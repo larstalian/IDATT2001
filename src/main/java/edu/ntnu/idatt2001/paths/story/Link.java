@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths.story;
 import edu.ntnu.idatt2001.paths.actions.Action;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class Link {
         }
         this.text = text;
         this.ref = ref;
-        this.actions = new java.util.ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     /**
