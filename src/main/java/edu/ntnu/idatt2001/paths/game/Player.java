@@ -37,8 +37,8 @@ public class Player {
      */
     public Player(String name, int health, int score, int gold) {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("Name cannot be less than " + MIN_NAME_LENGTH + " " +
-                    "or greater than " + MAX_NAME_LENGTH + " characters");
+            throw new IllegalArgumentException("Name cannot be less than " + MIN_NAME_LENGTH +
+                    " or greater than " + MAX_NAME_LENGTH + " characters");
         }
         this.name = name;
         addHealth(health);
@@ -142,7 +142,7 @@ public class Player {
      * @throws IllegalArgumentException if the length of the item is less than 2 or greater than 15 characters
      */
     public void addToInventory(final String item) {
-        if (item.length() < 2 || item.length() > 15) {
+        if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
             throw new IllegalArgumentException("Item cannot be less than 2 or greater than 15 characters");
         }
         inventory.add(item);
@@ -160,7 +160,7 @@ public class Player {
     }
 
 
-    public static class PlayerConstants {
+    static class PlayerConstants {
         static final int MAX_NAME_LENGTH = 15;
         static final int MIN_ITEM_LENGTH = 2;
         static final int MAX_ITEM_LENGTH = 15;
