@@ -37,7 +37,8 @@ public class Story {
      */
     public Story(String title, Passage openingPassage) {
         if (title.length() < MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
-            throw new IllegalArgumentException("Title must be between 2 and 50 characters");
+            throw new IllegalArgumentException("Title must be between " + MIN_TITLE_LENGTH +
+                    " and " + MAX_TITLE_LENGTH + " characters");
         }
         this.title = title;
         this.openingPassage = Objects.requireNonNull(openingPassage, "Opening passage cannot be null");
