@@ -2,6 +2,9 @@ package edu.ntnu.idatt2001.paths.story;
 
 import java.util.*;
 
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
+
 /**
  * The Story class represents a story, or branching composed of interconnected passages.
  *
@@ -30,7 +33,7 @@ public class Story {
      * @param openingPassage the opening passage of the story
      */
     public Story(String title, Passage openingPassage) {
-        if (title.length() < 2 || title.length() > 50) {
+        if (title.length() < MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
             throw new IllegalArgumentException("Title must be between 2 and 50 characters");
         }
         this.title = title;
@@ -110,6 +113,11 @@ public class Story {
             sb.append("- ").append(passage.getTitle()).append(": ").append(passage.getContent()).append("\n");
         }
         return sb.toString();
+    }
+
+    static class StoryConstants {
+        public static final int MIN_TITLE_LENGTH = 2;
+        public static final int MAX_TITLE_LENGTH = 50;
     }
 }
 
