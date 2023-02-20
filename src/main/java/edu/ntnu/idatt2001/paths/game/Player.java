@@ -3,6 +3,8 @@ package edu.ntnu.idatt2001.paths.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
+
 /**
  * The Player class represents a player in a game. A player has a name, health, score, gold, and an inventory
  * of items they have collected. The Player class provides methods for accessing and modifying these attributes.
@@ -17,6 +19,7 @@ import java.util.List;
  * @see Game
  */
 public class Player {
+
     private final String name;
     private final List<String> inventory;
     private int health;
@@ -33,8 +36,9 @@ public class Player {
      * @throws IllegalArgumentException if any of the parameter values are invalid
      */
     public Player(String name, int health, int score, int gold) {
-        if (name.length() < 2 || name.length() > 15) {
-            throw new IllegalArgumentException("Name cannot be less than 2 or greater than 15 characters");
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("Name cannot be less than " + MIN_NAME_LENGTH + " " +
+                    "or greater than " + MAX_NAME_LENGTH + " characters");
         }
         this.name = name;
         addHealth(health);
@@ -97,8 +101,8 @@ public class Player {
      */
     public void addHealth(int health) {
         int totalHealth = this.health + health;
-        if (totalHealth < 0 || totalHealth > 1000) {
-            throw new IllegalArgumentException("Health cannot be less than 0 or greater than 1000");
+        if (totalHealth < 0 || totalHealth > MAX_HEALTH) {
+            throw new IllegalArgumentException("Health cannot be less than 0 or greater than " + MAX_HEALTH);
         }
         this.health += health;
     }
@@ -111,8 +115,8 @@ public class Player {
      */
     public void addScore(int score) {
         int totalScore = this.score + score;
-        if (totalScore < 0 || totalScore >= 1000) {
-            throw new IllegalArgumentException("The total score cannot be less than 0 or greater than 1000");
+        if (totalScore < 0 || totalScore >= MAX_SCORE) {
+            throw new IllegalArgumentException("The total score cannot be less than 0 or greater than" + MAX_SCORE);
         }
         this.score += score;
     }
@@ -125,8 +129,8 @@ public class Player {
      */
     public void addGold(int gold) {
         int totalGold = this.gold + gold;
-        if (totalGold < 0 || totalGold > 100000) {
-            throw new IllegalArgumentException("Gold cannot be less than 0 or greater than 100000");
+        if (totalGold < 0 || totalGold > MAX_GOLD) {
+            throw new IllegalArgumentException("Gold cannot be less than 0 or greater than" + MAX_GOLD);
         }
         this.gold += gold;
     }
@@ -153,5 +157,16 @@ public class Player {
     public String toString() {
         return String.format("%-15s %3d HP  %4d PTS  %4d GOLD  INV: %s",
                 name, health, score, gold, String.join(", ", inventory));
+    }
+
+
+    public static class PlayerConstants {
+        static final int MAX_NAME_LENGTH = 15;
+        static final int MIN_ITEM_LENGTH = 2;
+        static final int MAX_ITEM_LENGTH = 15;
+        static final int MAX_GOLD = 100000;
+        static final int MAX_HEALTH = 1000;
+        static final int MAX_SCORE = 1000;
+        static final int MIN_NAME_LENGTH = 2;
     }
 }
