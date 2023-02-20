@@ -159,7 +159,12 @@ public class Player {
                 name, health, score, gold, String.join(", ", inventory));
     }
 
-
+    /**
+     * The PlayerConstants class contains constants used by the Player class to set the valid range of its fields.
+     * The constants are declared as static and final, and can therefore not be modified.
+     *
+     * @see Player
+     */
     static class PlayerConstants {
         static final int MAX_NAME_LENGTH = 15;
         static final int MIN_ITEM_LENGTH = 2;
