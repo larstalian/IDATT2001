@@ -93,7 +93,7 @@ public class Player {
      * The health cannot be less than 0 or greater than 1000.
      *
      * @param health the amount to increase the health by
-     * @throws IllegalArgumentException if the resulting health is invalid
+     * @throws IllegalArgumentException if the resulting health is less than 0 or greater than 1000
      */
     public void addHealth(int health) {
         int totalHealth = this.health + health;
@@ -107,7 +107,7 @@ public class Player {
      * Increases the current score of the player by the given amount.
      *
      * @param score the amount to increase the score by
-     * @throws IllegalArgumentException if the resulting score is invalid
+     * @throws IllegalArgumentException if the resulting score is less than 0 or greater than 1000
      */
     public void addScore(int score) {
         int totalScore = this.score + score;
@@ -121,7 +121,7 @@ public class Player {
      * Increases the current amount of gold the player has by the given amount.
      *
      * @param gold the amount to increase the gold by
-     * @throws IllegalArgumentException if the resulting gold is invalid
+     * @throws IllegalArgumentException if the resulting gold is less than 0 or greater than 100000
      */
     public void addGold(int gold) {
         int totalGold = this.gold + gold;
@@ -131,6 +131,12 @@ public class Player {
         this.gold += gold;
     }
 
+    /**
+     * Adds a new item to the inventory.
+     *
+     * @param item the name of the item to be added to the inventory
+     * @throws IllegalArgumentException if the length of the item is less than 2 or greater than 15 characters
+     */
     public void addToInventory(final String item) {
         if (item.length() < 2 || item.length() > 15) {
             throw new IllegalArgumentException("Item cannot be less than 2 or greater than 15 characters");
@@ -148,5 +154,4 @@ public class Player {
         return String.format("%-15s %3d HP  %4d PTS  %4d GOLD  INV: %s",
                 name, health, score, gold, String.join(", ", inventory));
     }
-
 }
