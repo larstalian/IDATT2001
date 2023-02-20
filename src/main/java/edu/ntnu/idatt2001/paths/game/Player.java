@@ -36,19 +36,10 @@ public class Player {
         if (name.length() < 2 || name.length() > 15) {
             throw new IllegalArgumentException("Name cannot be less than 2 or greater than 15 characters");
         }
-        if (health < 0 || health > 1000) {
-            throw new IllegalArgumentException("Health cannot be less than 0 or greater than 1000");
-        }
-        if (score < 0 || score > 1000) {
-            throw new IllegalArgumentException("Score cannot be less than 0 or greater than 1000");
-        }
-        if (gold < 0 || gold > 100000) {
-            throw new IllegalArgumentException("Gold cannot be less than 0 or greater than 100000");
-        }
         this.name = name;
-        this.health = health;
-        this.score = score;
-        this.gold = gold;
+        addHealth(health);
+        addScore(score);
+        addGold(gold);
         inventory = new ArrayList<>();
     }
 
@@ -105,7 +96,8 @@ public class Player {
      * @throws IllegalArgumentException if the resulting health is invalid
      */
     public void addHealth(int health) {
-        if (this.health + health < 0 || this.health + health > 1000) {
+        int totalHealth = this.health + health;
+        if (totalHealth < 0 || totalHealth > 1000) {
             throw new IllegalArgumentException("Health cannot be less than 0 or greater than 1000");
         }
         this.health += health;
@@ -115,8 +107,13 @@ public class Player {
      * Increases the current score of the player by the given amount.
      *
      * @param score the amount to increase the score by
+     * @throws IllegalArgumentException if the resulting score is invalid
      */
     public void addScore(int score) {
+        int totalScore = this.score + score;
+        if (totalScore < 0 || totalScore >= 1000) {
+            throw new IllegalArgumentException("The total score cannot be less than 0 or greater than 1000");
+        }
         this.score += score;
     }
 
@@ -124,12 +121,20 @@ public class Player {
      * Increases the current amount of gold the player has by the given amount.
      *
      * @param gold the amount to increase the gold by
+     * @throws IllegalArgumentException if the resulting gold is invalid
      */
     public void addGold(int gold) {
+        int totalGold = this.gold + gold;
+        if (totalGold < 0 || totalGold > 100000) {
+            throw new IllegalArgumentException("Gold cannot be less than 0 or greater than 100000");
+        }
         this.gold += gold;
     }
 
-    public void addToInventory(String item) {
+    public void addToInventory(final String item) {
+        if (item.length() < 2 || item.length() > 15) {
+            throw new IllegalArgumentException("Item cannot be less than 2 or greater than 15 characters");
+        }
         inventory.add(item);
     }
 
