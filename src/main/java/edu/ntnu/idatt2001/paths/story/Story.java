@@ -18,8 +18,11 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENG
  * The properties of the story include its title, represented by a String object, and its passages, represented
  * by a Map of Link objects and Passage objects.
  *
+ * <p>The Story field variables constraints are defined in the {@link StoryConstants} inner class</p>
+ *
  * @see Passage
  * @see Link
+ * @see StoryConstants
  */
 public class Story {
     private final String title;
@@ -115,9 +118,17 @@ public class Story {
         return sb.toString();
     }
 
+    /**
+     * The StoryConstants class contains constants used by the Story class to set the valid range of its fields.
+     * The constants are declared as static and final, and can therefore not be modified.
+     *
+     * <p>Use the constants to check that parameter values are within the valid range when creating or modifying Story objects.</p>
+     *
+     * @see Story
+     */
     static class StoryConstants {
-        public static final int MIN_TITLE_LENGTH = 2;
-        public static final int MAX_TITLE_LENGTH = 50;
+        static final int MIN_TITLE_LENGTH = 2;
+        static final int MAX_TITLE_LENGTH = 50;
     }
 }
 
