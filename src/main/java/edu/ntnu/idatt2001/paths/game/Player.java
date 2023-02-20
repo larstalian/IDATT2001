@@ -19,6 +19,7 @@ import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
  * <p>The field variables constraints are defined in the {@link PlayerConstants} inner class</p>
  *
  * @see Game
+ * @see PlayerConstants
  */
 public class Player {
     private final String name;
