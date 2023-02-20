@@ -16,10 +16,11 @@ import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
  *
  * <p>The attributes {@link Player#name} and {@link Player#inventory} are immutable and cannot be modified.
  *
+ * <p>The field variables constraints are defined in the {@link PlayerConstants} inner class</p>
+ *
  * @see Game
  */
 public class Player {
-
     private final String name;
     private final List<String> inventory;
     private int health;
@@ -162,6 +163,8 @@ public class Player {
     /**
      * The PlayerConstants class contains constants used by the Player class to set the valid range of its fields.
      * The constants are declared as static and final, and can therefore not be modified.
+     *
+     * <p>Use the constants to check that parameter values are within the valid range when creating or modifying Player objects.</p>
      *
      * @see Player
      */
