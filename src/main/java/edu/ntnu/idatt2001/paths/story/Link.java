@@ -98,6 +98,17 @@ public class Link {
         return "Game.Link{" + "text='" + text + '\'' + ", ref='" + ref + '\'' + ", actions=" + actions + '}';
     }
 
+    /**
+     * The `LinkConstants` class defines constants used in the `Link` class.
+     *
+     * <p>These constants include the maximum and minimum lengths for the `text` and `ref` fields in a `Link` object.
+     * They are used to ensure that the `text` and `ref` fields are within the expected range of lengths. </p>
+     *
+     * <p>This class is not intended to be instantiated,
+     * but rather provides a namespace for constants that are used throughout the `Link` class.</p>
+     *
+     * @see Link
+     */
     static class LinkConstants {
         static final int TEXT_MAX_LENGTH = 50;
         static final int REF_MIN_LENGTH = 2;
