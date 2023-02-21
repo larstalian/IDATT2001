@@ -9,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class StoryTest {
@@ -39,20 +39,39 @@ class StoryTest {
     }
 
     @Test
+    void testConstructor() {
+        Passage passage = new Passage("Opening Passage", "Content");
+        assertThrows(NullPointerException.class, () -> new Story(null, passage));
+        assertThrows(IllegalArgumentException.class, () -> new Story("", null));
+        assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
+
+        String tooLongTitle = new String(new char[Story.StoryConstants.MAX_TITLE_LENGTH + 1]).replace("\0", "a");
+        assertThrows(IllegalArgumentException.class, () -> new Story(tooLongTitle, passage));
+        String tooShortTitle = new String(new char[Story.StoryConstants.MIN_TITLE_LENGTH - 1]).replace("\0", "a");
+        assertThrows(IllegalArgumentException.class, () -> new Story(tooShortTitle, passage));
+    }
+
+    @Test
     void testGetTitle() {
         assertThat("Test Story", is(story.getTitle()));
     }
 
     @Test
     void testGetOpeningPassage() {
-        assertThat(openingPassage, is (story.getOpeningPassage()));
+        assertThat(openingPassage, is(story.getOpeningPassage()));
     }
 
     @Test
     void testAddPassage() {
         Passage newPassage = new Passage("Passage 3", "This is a new passage.");
-        assertTrue(story.addPassage(newPassage));
+        assertThat(story.addPassage(newPassage), is(true));
     }
+
+    @Test
+    void addPassage_ReturnsFalseIfKeyAlreadyExists() {
+        assertThat(story.addPassage(new Passage("Passage 1", "Passage 1")), is(false));
+    }
+
 
     @Test
     void testGetPassage() {
@@ -64,18 +83,29 @@ class StoryTest {
     }
 
     @Test
+    void testGetPassage_ThrowsNullIfPassageDoesNotExist() {
+        assertThrows(NullPointerException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
+    }
+
+    @Test
+    void testGetPassage_ThrowsNullIfLinkIsNull() {
+        assertThrows(NullPointerException.class, () -> story.getPassage(null));
+    }
+
+    @Test
     void testGetPassages() {
         assertThat(story.getPassages(), containsInAnyOrder(passages.toArray()));
     }
 
     @Test
+    void testGetPassages_ReturnsEmptyListIfStoryHasNoPassages() {
+        Story story = new Story("Test Story", new Passage("Opening Passage", "Content"));
+        assertThat(story.getPassages(), is(empty()));
+    }
+
+    @Test
     void testToString() {
-        String expected = "Title: Test Story\n" +
-                "Opening Passage:\n" +
-                "This is the opening passage.\n" +
-                "Passages:\n" +
-                "- Passage 1: This is passage 1.\n" +
-                "- Passage 2: This is passage 2.\n";
+        String expected = "Title: Test Story\n" + "Opening Passage:\n" + "This is the opening passage.\n" + "Passages:\n" + "- Passage 1: This is passage 1.\n" + "- Passage 2: This is passage 2.\n";
         String actual = story.toString();
         assertThat(actual, is(expected));
     }
