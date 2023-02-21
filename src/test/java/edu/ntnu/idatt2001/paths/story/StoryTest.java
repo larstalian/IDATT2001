@@ -38,16 +38,19 @@ class StoryTest {
     }
 
     @Test
-    void testConstructor() {
+    void testConstructor_TitleTooLongOrShortShouldThrowIllegalArgumentException() {
         Passage passage = new Passage("Opening Passage", "Content");
-        assertThrows(NullPointerException.class, () -> new Story(null, passage));
-        assertThrows(IllegalArgumentException.class, () -> new Story("", null));
-        assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
 
         String tooLongTitle = new String(new char[Story.StoryConstants.MAX_TITLE_LENGTH + 1]).replace("\0", "a");
         assertThrows(IllegalArgumentException.class, () -> new Story(tooLongTitle, passage));
         String tooShortTitle = new String(new char[Story.StoryConstants.MIN_TITLE_LENGTH - 1]).replace("\0", "a");
         assertThrows(IllegalArgumentException.class, () -> new Story(tooShortTitle, passage));
+    }
+
+    @Test
+    void testConstructor_ThrowsNullPointerExceptionIfPassageOrTitleIsNull() {
+        assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
+        assertThrows(NullPointerException.class, () -> new Story(null, new Passage("Opening Passage", "Content")));
     }
 
     @Test
