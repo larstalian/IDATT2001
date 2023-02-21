@@ -147,6 +147,9 @@ public class Player {
         if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
             throw new IllegalArgumentException("Item cannot be less than 2 or greater than 15 characters");
         }
+        if (inventory.size() >= MAX_INVENTORY_SIZE) {
+            throw new IllegalArgumentException("Inventory is full");
+        }
         inventory.add(item);
     }
 
@@ -170,6 +173,7 @@ public class Player {
      * @see Player
      */
     static class PlayerConstants {
+        public static final int MAX_INVENTORY_SIZE = 10;
         static final int MAX_NAME_LENGTH = 15;
         static final int MIN_ITEM_LENGTH = 2;
         static final int MAX_ITEM_LENGTH = 15;
