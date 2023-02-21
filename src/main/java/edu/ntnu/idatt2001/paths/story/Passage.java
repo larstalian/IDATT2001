@@ -37,6 +37,7 @@ public class Passage {
      *
      * @param title   the title of the passage
      * @param content the content of the passage
+     * @throws IllegalArgumentException if the title or content is null
      */
     public Passage(String title, String content) {
         if (title == null || content == null) {
@@ -79,6 +80,7 @@ public class Passage {
      *
      * @param link the link to be added
      * @return {@code true} if the link was added to the list, {@code false} otherwise
+     * @throws IllegalArgumentException if the link already exists in the list
      */
     public boolean addLink(Link link) {
         Objects.requireNonNull(link, "Link cannot be null");
