@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.*;
+
 /**
  * The Link class represents a hyperlink or a doorway from one passage to another, with an associated text label and optional actions.
  *
@@ -35,10 +37,14 @@ public class Link {
      *
      * @param text the text label for the link
      * @param ref  the reference to the target passage
+     * @throws IllegalArgumentException if the text label or reference is invalid
      */
     public Link(String text, String ref) {
-        if (text.length() < 2 || text.length() > 20 || ref.length() < 2 || ref.length() > 20) {
-            throw new IllegalArgumentException("Text and ref must be between 2 and 20 characters.");
+        if (text.length() < 2 || text.length() > TEXT_MAX_LENGTH) {
+            throw new IllegalArgumentException("Text and must be between " + TEXT_MIN_LENGTH + " and " + TEXT_MAX_LENGTH + " characters.");
+        }
+        if (ref.length() < REF_MIN_LENGTH || ref.length() > REF_MAX_LENGTH) {
+            throw new IllegalArgumentException("Ref must be between " + REF_MIN_LENGTH + " and " + REF_MAX_LENGTH + " characters.");
         }
         this.text = text;
         this.ref = ref;
@@ -89,10 +95,13 @@ public class Link {
      */
     @Override
     public String toString() {
-        return "Game.Link{" +
-                "text='" + text + '\'' +
-                ", ref='" + ref + '\'' +
-                ", actions=" + actions +
-                '}';
+        return "Game.Link{" + "text='" + text + '\'' + ", ref='" + ref + '\'' + ", actions=" + actions + '}';
+    }
+
+    static class LinkConstants {
+        static final int TEXT_MAX_LENGTH = 50;
+        static final int REF_MIN_LENGTH = 2;
+        static final int REF_MAX_LENGTH = 50;
+        static final int TEXT_MIN_LENGTH = 2;
     }
 }
