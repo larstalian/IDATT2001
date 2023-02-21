@@ -83,10 +83,11 @@ public class Story {
      * Returns the passage with the given link.
      *
      * @param link the link to the passage
-     * @return the passage with the given link, or {@code null} if the link is not found
+     * @return the passage with the given link
+     * @throws NullPointerException if the link is {@code null}
      */
     public Passage getPassage(Link link) {
-        return passages.get(link);
+        return Objects.requireNonNull(passages.get(link));
     }
 
     /**
