@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -77,8 +76,8 @@ class StoryTest {
     void testGetPassage() {
         Link link = new Link("Passage 1", "Passage 1");
         Passage passage = story.getPassage(link);
-        assertEquals("Passage 1", passage.getTitle());
-        assertEquals("This is passage 1.", passage.getContent());
+        assertThat("Passage 1", is(passage.getTitle()));
+        assertThat("This is passage 1.", is(passage.getContent()));
         assertThat(passage.getLinks(), hasItem(new Link("Go to passage 2", "Passage 2")));
     }
 
