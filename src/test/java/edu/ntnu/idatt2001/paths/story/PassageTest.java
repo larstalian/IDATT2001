@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PassageTest {
     private Passage passage;
@@ -20,6 +21,12 @@ class PassageTest {
     @Test
     void testGetTitle() {
         assertThat(passage.getTitle(), is("A4-110"));
+    }
+
+    @Test
+    void testAddLink_ShouldThrowIllegalArgumentExceptionIfLinkAlreadyExists() {
+        passage.addLink(link);
+        assertThrows(IllegalArgumentException.class, () -> passage.addLink(link));
     }
 
     @Test
@@ -40,12 +47,15 @@ class PassageTest {
     }
 
     @Test
-    void testHasLinks() {
+    void testHasLinks_ShouldReturnTrueIfThereAreNoLinks() {
         assertThat(passage.hasLinks(), is(false));
+    }
+
+    @Test
+    void testHasLinks_shouldReturnTrueIfThereAreLinks() {
         passage.addLink(link);
-        Link link2 = new Link("Link", "Ref");
-        passage.addLink(link2);
         assertThat(passage.hasLinks(), is(true));
+
     }
 
     @Test
