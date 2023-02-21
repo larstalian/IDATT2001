@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.*;
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
