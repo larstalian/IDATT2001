@@ -8,8 +8,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 class GoldGoalTest {
-    Player player;
-    Goal goldGoal;
+    private Player player;
+    private Goal goldGoal;
 
     @BeforeEach
     void setUp() {
