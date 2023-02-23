@@ -50,6 +50,14 @@ class LinkTest {
 
     @Test
     void addAction() {
+
+        Link link = new Link("Go to another room", "room3");
+
+        Action action = player -> System.out.println("Executing action");
+        link.addAction(action);
+
+
+        assertTrue(link.getActions().contains(action));
     }
 
     @Test
