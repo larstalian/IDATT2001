@@ -68,7 +68,7 @@ class LinkTest {
       link.addAction(action1);
       link.addAction(action2);
 
-      String expected = "Game.Link{text='Go to another room', ref='room3', actions=[" + action1 + ", " + action2 + "]}";
+      String expected = "Game.Link{text='Go to another room', ref='room 4', actions=[" + action1 + ", " + action2 + "]}";
       assertEquals(expected, link.toString());
   }
 }
