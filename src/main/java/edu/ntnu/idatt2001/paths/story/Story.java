@@ -105,9 +105,15 @@ public class Story {
      * @return boolean if passage was removed from passages
      */
     public boolean removePassage(Link link){
+        for(Passage p : passages.values()){
+            if (p.getLinks().contains(link)){
+                return false;
+            }
+        }
         if (passages.remove(link) == null){
             throw new IllegalArgumentException("Passage does not exist");
         }
+
         return true;
     }
 
