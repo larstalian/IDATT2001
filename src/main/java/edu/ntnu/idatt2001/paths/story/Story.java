@@ -1,6 +1,5 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import java.net.PasswordAuthentication;
 import java.util.*;
 
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
@@ -106,13 +105,10 @@ public class Story {
      * @return boolean if passage was removed from passages
      */
     public boolean removePassage(Link link){
-        boolean removed = false;
-        if(passages.get(link) != null){
-        passages.remove(link);
-        removed = true;
+        if (passages.remove(link) == null){
+            throw new IllegalArgumentException("Passage does not exist");
         }
-        return removed;
-
+        return true;
     }
 
     /**
