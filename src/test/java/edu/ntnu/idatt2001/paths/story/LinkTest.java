@@ -1,76 +1,79 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import edu.ntnu.idatt2001.paths.actions.Action;
-import java.util.List;
+import edu.ntnu.idatt2001.paths.actions.GoldAction;
+import edu.ntnu.idatt2001.paths.actions.HealthAction;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collection;
+import java.util.List;
+
+import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.REF_MIN_LENGTH;
+import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.TEXT_MIN_LENGTH;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LinkTest {
 
-  @Test
-  void getText() {
-    String expectedText = "hello world";
-    String expectedRef = "HELLO WORLD";
-    Link example = new Link(expectedText, expectedRef);
+  private Link link;
 
-    String actualText = example.getText();
-
-    assertEquals(expectedText, actualText);
+  @BeforeEach
+  void setUp() {
+    link = new Link("Go to the next passage", "Go to the next passage");
   }
 
   @Test
-  void getRef() {
-    String expectedText = "hello world";
-    String expectedRef = "HELLO WORLD";
-    Link example = new Link(expectedText, expectedRef);
-
-    String actualRef = example.getRef();
-
-    assertEquals(expectedRef, actualRef);
+  void testGetText() {
+    assertThat(link.getText(), is("Go to the next passage"));
   }
 
   @Test
-  void getActions() {
-    Link link = new Link("Go to the next room", "room2");
-    List<Action> actions = link.getActions();
+  void testGetRef() {
+    assertThat(link.getRef(), is("Go to the next passage"));
+  }
 
-    assertNotNull(actions);
-
-    assertTrue(actions.isEmpty());
-
-    Action action = player -> System.out.println("Executing");
+  @Test
+  void testGetActions() {
+    GoldAction action = new GoldAction(10);
+    HealthAction action2 = new HealthAction(10);
     link.addAction(action);
-
-    assertTrue(actions.contains(action));
+    link.addAction(action2);
+    Collection<Action> actions = List.of(action, action2);
+    assertThat(link.getActions(), containsInAnyOrder(actions.toArray()));
   }
 
   @Test
-  void addAction() {
+  void testGetActions_ShouldReturnEmptyListWhenThereAreNoActions() {
+    assertThat(link.getActions(), empty());
+  }
 
-    Link link = new Link("Go to another room", "room3");
-
-    Action action = player -> System.out.println("Executing");
+  @Test
+  void testAddAction() {
+    GoldAction action = new GoldAction(10);
     link.addAction(action);
-
-    assertTrue(link.getActions().contains(action));
+    assertThat(link.getActions(), contains(action));
   }
 
   @Test
   void testToString() {
-
-    Link link = new Link("Go to another room", "room 4");
-
-    Action action1 = player -> System.out.println("Executing 1");
-    Action action2 = player -> System.out.println("Executing 2");
-    link.addAction(action1);
-    link.addAction(action2);
-
-    String expected =
-        "Game.Link{text='Go to another room', ref='room 4', actions=[" + action1 + ", " + action2
-            + "]}";
-    assertEquals(expected, link.toString());
+    String expectedString =
+        "Game.Link{text='Go to the next passage', ref='Go to the next passage', actions=[]}";
+    assertThat(link.toString(), equalTo(expectedString));
   }
+
+  @Test
+  void testConstructor_ShouldThrowIllegalArgumentExceptionIfTextIsTooShort() {
+    String tooShortText = "a".repeat(TEXT_MIN_LENGTH - 1);
+    String ref = "a".repeat(REF_MIN_LENGTH);
+    assertThrows(IllegalArgumentException.class, () -> new Link(tooShortText, ref));
+  }
+
+    @Test
+    void testConstructor_ShouldThrowIllegalArgumentExceptionIfRefIsTooShort() {
+        String text = "a".repeat(TEXT_MIN_LENGTH);
+        String tooShortRef = "a".repeat(REF_MIN_LENGTH - 1);
+        assertThrows(IllegalArgumentException.class, () -> new Link(text, tooShortRef));
+    }
 }
