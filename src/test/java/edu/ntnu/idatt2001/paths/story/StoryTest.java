@@ -6,7 +6,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +129,18 @@ class StoryTest {
             + "- Passage 2: This is passage 2.\n";
     String actual = story.toString();
     assertThat(actual, is(expected));
+  }
+
+  @Test
+  void testRemovePassage(){
+    Link link1 = new Link("Passage 1", "Passage 1");
+    story.addPassage(passage1);
+    assertTrue(story.removePassage(link1));
+
+    assertThrows(IllegalArgumentException.class, () -> story.removePassage(null));
+
+
+
+
   }
 }
