@@ -106,7 +106,7 @@ public class Story {
      */
     public boolean removePassage(Link link) {
         Objects.requireNonNull(passages.get(link), "Passage does not exist");
-        return passages.entrySet().removeIf(entry -> entry.getKey().equals(link));
+        return passages.entrySet().removeIf(entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
     }
 
     /**
