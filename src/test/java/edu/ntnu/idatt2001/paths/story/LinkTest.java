@@ -9,8 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 import java.util.List;
 
+import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.REF_MIN_LENGTH;
+import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.TEXT_MIN_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class LinkTest {
 
@@ -42,9 +45,9 @@ class LinkTest {
   }
 
   @Test
-    void testGetActions_ShouldReturnEmptyListWhenThereAreNoActions() {
-        assertThat(link.getActions(), empty());
-    }
+  void testGetActions_ShouldReturnEmptyListWhenThereAreNoActions() {
+    assertThat(link.getActions(), empty());
+  }
 
   @Test
   void testAddAction() {
@@ -53,10 +56,24 @@ class LinkTest {
     assertThat(link.getActions(), contains(action));
   }
 
-
   @Test
-  public void testToString() {
-    String expectedString = "Game.Link{text='Go to the next passage', ref='Go to the next passage', actions=[]}";
+  void testToString() {
+    String expectedString =
+        "Game.Link{text='Go to the next passage', ref='Go to the next passage', actions=[]}";
     assertThat(link.toString(), equalTo(expectedString));
   }
+
+  @Test
+  void testConstructor_ShouldThrowIllegalArgumentExceptionIfTextIsTooShort() {
+    String tooShortText = "a".repeat(TEXT_MIN_LENGTH - 1);
+    String ref = "a".repeat(REF_MIN_LENGTH);
+    assertThrows(IllegalArgumentException.class, () -> new Link(tooShortText, ref));
+  }
+
+    @Test
+    void testConstructor_ShouldThrowIllegalArgumentExceptionIfRefIsTooShort() {
+        String text = "a".repeat(TEXT_MIN_LENGTH);
+        String tooShortRef = "a".repeat(REF_MIN_LENGTH - 1);
+        assertThrows(IllegalArgumentException.class, () -> new Link(text, tooShortRef));
+    }
 }
