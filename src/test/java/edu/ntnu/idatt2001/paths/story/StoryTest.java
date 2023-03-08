@@ -139,6 +139,11 @@ class StoryTest {
 
     assertThrows(IllegalArgumentException.class, () -> story.removePassage(null));
 
+    Passage passageWithLink = new Passage("PassageWithLink", "Passage With Link");
+    passageWithLink.addLink(new Link("Passage 1", "Passage 1"));
+    story.addPassage(passageWithLink);
+    assertFalse(story.removePassage(link1));
+
 
 
 
