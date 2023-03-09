@@ -1,17 +1,16 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
-import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
+import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class StoryTest {
@@ -128,4 +127,30 @@ class StoryTest {
     String actual = story.toString();
     assertThat(actual, is(expected));
   }
+
+    @Test
+    void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
+        assertThrows(NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
+    }
+
+    @Test
+    void testRemovePassage_ThrowsIllegalArgumentExceptionIfLinkIsNull() {
+        assertThrows(NullPointerException.class, () -> story.removePassage(null));
+    }
+
+    @Test
+    void testRemovePassage_ReturnsFalseIfOtherPassageHasLinkToGivenPassage() {
+        story.addPassage(passage1);
+        story.addPassage(passage2);
+        Link link = new Link("Passage 1", "Passage 1");
+        passage2.addLink(link);
+        assertThat(story.removePassage(link), is(false));
+    }
+
+     @Test
+    void testRemovePassage_ReturnsTrueIfPassageIsRemoved() {
+       story.addPassage(passage1);
+       Link link = new Link("Passage 1", "Passage 1");
+       assertThat(story.removePassage(link), is(true));
+     }
 }

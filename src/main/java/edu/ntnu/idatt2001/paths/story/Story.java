@@ -37,8 +37,7 @@ public class Story {
      */
     public Story(String title, Passage openingPassage) {
         if (title.length() < MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
-            throw new IllegalArgumentException("Title must be between " + MIN_TITLE_LENGTH +
-                    " and " + MAX_TITLE_LENGTH + " characters");
+            throw new IllegalArgumentException("Title must be between " + MIN_TITLE_LENGTH + " and " + MAX_TITLE_LENGTH + " characters");
         }
         this.title = title;
         this.openingPassage = Objects.requireNonNull(openingPassage, "Opening passage cannot be null");
@@ -97,6 +96,17 @@ public class Story {
      */
     public Collection<Passage> getPassages() {
         return passages.values();
+    }
+
+    /**
+     * Removes the passage associated with the specified link from this game's passages map.
+     *
+     * @param link the link whose associated passage is to be removed from the map
+     * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
+     */
+    public boolean removePassage(Link link) {
+        Objects.requireNonNull(passages.get(link), "Passage does not exist");
+        return passages.entrySet().removeIf(entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
     }
 
     /**
