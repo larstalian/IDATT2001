@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StoryTest {
 
-  Passage passage1;
-  Passage passage2;
+  private Passage passage1;
+  private Passage passage2;
   private Story story;
   private Passage openingPassage;
   private List<Passage> passages;
