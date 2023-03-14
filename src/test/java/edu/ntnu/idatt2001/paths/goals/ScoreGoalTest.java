@@ -1,11 +1,11 @@
 package edu.ntnu.idatt2001.paths.goals;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import edu.ntnu.idatt2001.paths.game.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class ScoreGoalTest {
 
@@ -14,7 +14,7 @@ class ScoreGoalTest {
 
   @BeforeEach
   void setUp() {
-    player = new Player("PlayerName", 100, 0, 0);
+    player = new Player.Builder("PlayerName").build();
     scoreGoal = new ScoreGoal(100);
   }
 
