@@ -142,7 +142,7 @@ public class Story {
 
   /**
    * Returns a collection of all the broken links in the story, that is, links that reference a
-   * passage that does not exist.
+   * passage that does no longer exist.
    *
    * @return a collection of all the broken links in the story
    */
