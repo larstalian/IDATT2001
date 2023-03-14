@@ -31,8 +31,6 @@ class StoryTest {
     passage1.addLink(new Link("Go to passage 2", "Passage 2"));
 
     passage2 = new Passage("Passage 2", "This is passage 2.");
-    passage2.addLink(new Link("Go to opening passage", "Opening Passage"));
-
     passages = new ArrayList<>();
   }
 
@@ -153,4 +151,31 @@ class StoryTest {
        Link link = new Link("Passage 1", "Passage 1");
        assertThat(story.removePassage(link), is(true));
      }
+
+  @Test
+  void testGetBrokenLinks_ReturnsEmptySetIfAllLinksAreValid() {
+    story.addPassage(passage1);
+    story.addPassage(passage2);
+    passage2.addLink(new Link(passage1.getTitle(), passage1.getTitle()));
+    assertThat(story.getBrokenLinks(), is(empty()));
+  }
+
+  @Test
+  void testGetBrokenLinks_ReturnsSetWithInvalidLink() {
+    Link link = new Link("Go to invalid passage", "Invalid Passage");
+    story.addPassage(passage2);
+    passage2.addLink(link);
+    assertThat(story.getBrokenLinks(), contains(link) );
+  }
+
+  @Test
+  void testGetBrokenLinks_ReturnsSetWithMultipleInvalidLinks() {
+    Link link1 = new Link("Go to invalid passage 1", "Invalid Passage 1");
+    Link link2 = new Link("Go to invalid passage 2", "Invalid Passage 2");
+    story.addPassage(passage2);
+    passage2.addLink(link1);
+    passage2.addLink(link2);
+    assertThat(story.getBrokenLinks(), containsInAnyOrder(link1, link2));
+  }
+
 }
