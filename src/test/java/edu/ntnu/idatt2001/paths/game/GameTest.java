@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 
 class GameTest {
 
-  List<Goal> goals;
+  private List<Goal> goals;
   private Game game;
   private Story story;
   private Passage openingPassage;
