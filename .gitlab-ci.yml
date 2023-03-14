@@ -2,12 +2,44 @@ image: maven:3.8.3-openjdk-17
 
 stages:
   - build
+  - test
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  ARTIFACT_DIR: "target"
+
+cache:
+  paths:
+    - .m2/repository
+
+before_script:
+  - echo "MAVEN_OPTS=$MAVEN_OPTS"
+  - echo "MAVEN_CLI_OPTS=$MAVEN_CLI_OPTS"
 
 build:
   stage: build
   script:
-    - mvn clean package
+    - mvn $MAVEN_CLI_OPTS clean compile
   artifacts:
     paths:
-      - target/*.jar
-      - target/surefire-reports/*.xml
+      - $ARTIFACT_DIR/classes
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+  artifacts:
+    when: always
+    paths:
+      - $ARTIFACT_DIR/surefire-reports/*.xml
+      - $ARTIFACT_DIR/failsafe-reports/*.xml
+
+deploy:
+  stage: deploy
+  script:
+    - mvn $MAVEN_CLI_OPTS package
+  artifacts:
+    paths:
+      - $ARTIFACT_DIR/*.jar
