@@ -1,8 +1,5 @@
 package edu.ntnu.idatt2001.paths.game;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import edu.ntnu.idatt2001.paths.goals.Goal;
 import edu.ntnu.idatt2001.paths.goals.HealthGoal;
 import edu.ntnu.idatt2001.paths.goals.InventoryGoal;
@@ -10,9 +7,13 @@ import edu.ntnu.idatt2001.paths.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class GameTest {
 
