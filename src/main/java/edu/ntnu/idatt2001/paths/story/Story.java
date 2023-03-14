@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
@@ -128,6 +129,15 @@ public class Story {
             sb.append("- ").append(passage.getTitle()).append(": ").append(passage.getContent()).append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Returns a collection of all the broken links in the story, that is, links that reference a passage that does not exist.
+     *
+     * @return a collection of all the broken links in the story
+     */
+    public Collection<Link> getBrokenLinks() {
+        return passages.values().stream().flatMap(passage -> passage.getLinks().stream()).filter(link -> !passages.containsKey(link)).collect(Collectors.toSet());
     }
 
     /**
