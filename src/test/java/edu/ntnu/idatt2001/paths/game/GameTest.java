@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GameTest {
 
@@ -39,28 +40,49 @@ class GameTest {
 
   @Test
   void testGetPlayer() {
-    assertThat(player, is(game.getPlayer()));
+    assertThat(game.getPlayer(), is(player));
   }
 
   @Test
   void testGetStory() {
-    assertThat(story, is(game.getStory()));
+    assertThat(game.getStory(), is(story));
   }
 
   @Test
   void testGetGoals() {
-    assertThat(goals, is(game.getGoals()));
+    assertThat(game.getGoals(), containsInAnyOrder(goals.toArray(new Goal[0])));
   }
 
   @Test
   void testBegin() {
-    assertThat(openingPassage, is(game.begin()));
+    assertThat(game.begin(), is(openingPassage));
   }
 
   @Test
   void testGo_GoToNewPassage() {
     Passage nextPassage = new Passage("Killed by Troll", "Game finished");
     story.addPassage(nextPassage);
+
     assertThat(game.go(new Link(nextPassage.getTitle(), nextPassage.getTitle())), is(nextPassage));
+  }
+
+  @Test
+  void testConstructor_NullPlayer_ThrowsNullPointerException() {
+    assertThrows(NullPointerException.class, () -> new Game(null, story, goals));
+  }
+
+  @Test
+  void testConstructor_NullStory_ThrowsNullPointerException() {
+    assertThrows(NullPointerException.class, () -> new Game(player, null, goals));
+  }
+
+  @Test
+  void testConstructor_NullGoals_ThrowsNullPointerException() {
+    assertThrows(NullPointerException.class, () -> new Game(player, story, null));
+  }
+
+  @Test
+  void testGo_LinkToNonexistentPassage_ThrowsNullPointerException() {
+    assertThrows(NullPointerException.class, () -> game.go(new Link("Nonexistent Passage", "Nonexistent Passage")));
   }
 }
