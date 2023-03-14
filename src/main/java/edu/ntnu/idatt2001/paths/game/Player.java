@@ -318,6 +318,7 @@ public class Player {
       player.checkScoreRange(player.score);
       player.checkInventorySize(player.inventory);
     }
+
     /**
      * Checks if the provided name's length is within the valid range.
      *
