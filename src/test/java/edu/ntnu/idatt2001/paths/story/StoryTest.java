@@ -10,8 +10,7 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENG
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StoryTest {
 
@@ -23,7 +22,7 @@ class StoryTest {
 
   @BeforeEach
   void setup() {
-    //Define passages and links for testing
+    // Define passages and links for testing
     openingPassage = new Passage("Opening Passage", "This is the opening passage.");
     story = new Story("Test Story", openingPassage);
 
@@ -36,23 +35,21 @@ class StoryTest {
 
   @Test
   void testConstructor_TitleTooLongShouldThrowIllegalArgumentException() {
-    String tooLongTitle =
-        new String(new char[MAX_TITLE_LENGTH + 1]).replace("\0", "a");
+    String tooLongTitle = new String(new char[MAX_TITLE_LENGTH + 1]).replace("\0", "a");
     assertThrows(IllegalArgumentException.class, () -> new Story(tooLongTitle, passage1));
   }
 
   @Test
   void testConstructor_TitleTooShortShouldThrowIllegalArgumentException() {
-    String tooShortTitle =
-        new String(new char[MIN_TITLE_LENGTH - 1]).replace("\0", "a");
+    String tooShortTitle = new String(new char[MIN_TITLE_LENGTH - 1]).replace("\0", "a");
     assertThrows(IllegalArgumentException.class, () -> new Story(tooShortTitle, passage1));
   }
 
   @Test
   void testConstructor_ThrowsNullPointerExceptionIfPassageOrTitleIsNull() {
-    assertThrows(NullPointerException.class,
-        () -> new Story("Test Story", null));
-    assertThrows(NullPointerException.class,
+    assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
+    assertThrows(
+        NullPointerException.class,
         () -> new Story(null, new Passage("Opening Passage", "Content")));
   }
 
@@ -74,10 +71,9 @@ class StoryTest {
   @Test
   void addPassage_ReturnsFalseIfKeyAlreadyExists() {
     story.addPassage(passage1);
-    assertThat(story.addPassage(new Passage(passage1.getTitle(), passage1.getContent())),
-        is(false));
+    assertThat(
+        story.addPassage(new Passage(passage1.getTitle(), passage1.getContent())), is(false));
   }
-
 
   @Test
   void testGetPassage() {
@@ -89,8 +85,8 @@ class StoryTest {
 
   @Test
   void testGetPassage_ThrowsNullIfPassageDoesNotExist() {
-    assertThrows(NullPointerException.class,
-        () -> story.getPassage(new Link("Passage 3", "Passage 3")));
+    assertThrows(
+        NullPointerException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
@@ -109,8 +105,7 @@ class StoryTest {
 
   @Test
   void testGetPassages_ReturnsEmptyListIfStoryHasNoPassages() {
-    Story story =
-        new Story("Test Story", new Passage("Opening Passage", "Content"));
+    Story story = new Story("Test Story", new Passage("Opening Passage", "Content"));
     assertThat(story.getPassages(), is(empty()));
   }
 
@@ -119,38 +114,44 @@ class StoryTest {
     story.addPassage(passage1);
     story.addPassage(passage2);
     String expected =
-        "Title: Test Story\n" + "Opening Passage:\n" + "This is the opening passage.\n"
-            + "Passages:\n" + "- Passage 1: This is passage 1.\n"
-            + "- Passage 2: This is passage 2.\n";
+            """
+                    Title: Test Story
+                    Opening Passage:
+                    This is the opening passage.
+                    Passages:
+                    - Passage 1: This is passage 1.
+                    - Passage 2: This is passage 2.
+                    """;
     String actual = story.toString();
     assertThat(actual, is(expected));
   }
 
-    @Test
-    void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
-        assertThrows(NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
-    }
+  @Test
+  void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
+    assertThrows(
+        NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
+  }
 
-    @Test
-    void testRemovePassage_ThrowsIllegalArgumentExceptionIfLinkIsNull() {
-        assertThrows(NullPointerException.class, () -> story.removePassage(null));
-    }
+  @Test
+  void testRemovePassage_ThrowsIllegalArgumentExceptionIfLinkIsNull() {
+    assertThrows(NullPointerException.class, () -> story.removePassage(null));
+  }
 
-    @Test
-    void testRemovePassage_ReturnsFalseIfOtherPassageHasLinkToGivenPassage() {
-        story.addPassage(passage1);
-        story.addPassage(passage2);
-        Link link = new Link("Passage 1", "Passage 1");
-        passage2.addLink(link);
-        assertThat(story.removePassage(link), is(false));
-    }
+  @Test
+  void testRemovePassage_ReturnsFalseIfOtherPassageHasLinkToGivenPassage() {
+    story.addPassage(passage1);
+    story.addPassage(passage2);
+    Link link = new Link("Passage 1", "Passage 1");
+    passage2.addLink(link);
+    assertThat(story.removePassage(link), is(false));
+  }
 
-     @Test
-    void testRemovePassage_ReturnsTrueIfPassageIsRemoved() {
-       story.addPassage(passage1);
-       Link link = new Link("Passage 1", "Passage 1");
-       assertThat(story.removePassage(link), is(true));
-     }
+  @Test
+  void testRemovePassage_ReturnsTrueIfPassageIsRemoved() {
+    story.addPassage(passage1);
+    Link link = new Link("Passage 1", "Passage 1");
+    assertThat(story.removePassage(link), is(true));
+  }
 
   @Test
   void testGetBrokenLinks_ReturnsEmptySetIfAllLinksAreValid() {
@@ -165,7 +166,7 @@ class StoryTest {
     Link link = new Link("Go to invalid passage", "Invalid Passage");
     story.addPassage(passage2);
     passage2.addLink(link);
-    assertThat(story.getBrokenLinks(), contains(link) );
+    assertThat(story.getBrokenLinks(), contains(link));
   }
 
   @Test
@@ -177,5 +178,4 @@ class StoryTest {
     passage2.addLink(link2);
     assertThat(story.getBrokenLinks(), containsInAnyOrder(link1, link2));
   }
-
 }
