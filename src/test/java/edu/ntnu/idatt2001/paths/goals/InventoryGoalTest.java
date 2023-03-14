@@ -1,12 +1,13 @@
 package edu.ntnu.idatt2001.paths.goals;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
 import edu.ntnu.idatt2001.paths.game.Player;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class InventoryGoalTest {
 
@@ -15,7 +16,7 @@ class InventoryGoalTest {
 
   @BeforeEach
   void setUp() {
-    player = new Player("PlayerName", 100, 0, 0);
+    player = new Player.Builder("PlayerName").build();
     inventoryGoal = new InventoryGoal(List.of("Sword", "Shield"));
   }
 

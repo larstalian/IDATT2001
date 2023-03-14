@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
@@ -16,10 +17,13 @@ import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
  *
  * <p>The attributes {@link Player#name} and {@link Player#inventory} are immutable and cannot be modified.
  *
- * <p>The field variables constraints are defined in the {@link PlayerConstants} inner class</p>
+ * <p>The field variables constraints are defined in the {@link PlayerConstants} inner class.</p>
+ *
+ * <p>To create a Player object, use the {@link Builder} class.</p>
  *
  * @see Game
  * @see PlayerConstants
+ * @see Builder
  */
 public class Player {
     private final String name;
@@ -28,26 +32,15 @@ public class Player {
     private int score;
     private int gold;
 
-    /**
-     * Creates a new Player with the given name, health, score, and gold.
-     *
-     * @param name   the name of the player
-     * @param health the starting health of the player, must be between 0 and 1000 (inclusive)
-     * @param score  the starting score of the player, must be between 0 and 1000 (inclusive)
-     * @param gold   the starting amount of gold the player has, must be between 0 and 100000 (inclusive)
-     * @throws IllegalArgumentException if any of the parameter values are invalid
-     */
-    public Player(String name, int health, int score, int gold) {
-        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            throw new IllegalArgumentException("Name cannot be less than " + MIN_NAME_LENGTH +
-                    " or greater than " + MAX_NAME_LENGTH + " characters");
-        }
-        this.name = name;
-        addHealth(health);
-        addScore(score);
-        addGold(gold);
-        inventory = new ArrayList<>();
+
+    private Player(Builder builder) {
+        this.name = builder.name;
+        this.inventory = builder.inventory;
+        this.health = builder.health;
+        this.score = builder.score;
+        this.gold = builder.gold;
     }
+
 
     /**
      * Returns the name of the player.
@@ -162,6 +155,122 @@ public class Player {
     public String toString() {
         return String.format("%-15s %3d HP  %4d PTS  %4d GOLD  INV: %s",
                 name, health, score, gold, String.join(", ", inventory));
+    }
+
+    /**
+     * The Builder class is a utility class used to create a Player object
+     * following the Builder design pattern. It allows the creation of Player objects
+     * with optional fields while ensuring readability and maintainability of the code.
+     * <p>
+     * The Builder class offers methods to set the health, score, gold, and inventory
+     * of a Player object. Each method returns the current Builder instance, allowing
+     * method chaining for a more readable code.
+     * <p>
+     * Example usage:
+     * <pre>
+     * {@code
+     * Player player = new Player.Builder("PlayerName")
+     *                  .health(100)
+     *                  .score(50)
+     *                  .gold(250)
+     *                  .inventory("Sword", "Shield")
+     *                  .build();
+     * }
+     * </pre>
+     *
+     * @see Player
+     */
+    public static class Builder {
+        private final String name;
+        private int health;
+        private int score;
+        private int gold;
+        private final List<String> inventory;
+
+        public Builder(String name) {
+            this.name = name;
+            inventory = new ArrayList<>();
+        }
+
+        /**
+         * Sets the health of the Player to be built.
+         *
+         * @param health the health value for the Player
+         * @return the current Builder instance for method chaining
+         */
+        public Builder health(int health) {
+            this.health = health;
+            return this;
+        }
+
+        /**
+         * Sets the score of the Player to be built.
+         *
+         * @param score the score value for the Player
+         * @return the current Builder instance for method chaining
+         */
+        public Builder score(int score) {
+            this.score = score;
+            return this;
+        }
+
+        /**
+         * Sets the gold of the Player to be built.
+         *
+         * @param gold the gold value for the Player
+         * @return the current Builder instance for method chaining
+         */
+        public Builder gold(int gold) {
+            this.gold = gold;
+            return this;
+        }
+
+        /**
+         * Sets the inventory of the Player to be built.
+         *
+         * @param items an array of Strings representing the items to be added to the Player's inventory
+         * @return the current Builder instance for method chaining
+         */
+        public Builder inventory(String... items) {
+            inventory.addAll(Arrays.asList(items));
+            return this;
+        }
+
+        /**
+         * Builds and returns a new Player object with the specified attributes.
+         *
+         * @return a new Player object with the attributes set using the Builder methods
+         */
+        public Player build() {
+            Player player = new Player(this);
+            validateObject(player);
+            return player;
+        }
+
+        private void validateObject(Player player) {
+            if (player.name.length() < MIN_NAME_LENGTH || player.name.length() > MAX_NAME_LENGTH) {
+                throw new IllegalArgumentException("Name cannot be less than " + MIN_NAME_LENGTH +
+                        " or greater than " + MAX_NAME_LENGTH + " characters");
+            }
+            if (player.health < 0 || player.health > MAX_HEALTH) {
+                throw new IllegalArgumentException("Health cannot be less than 0 or greater than " + MAX_HEALTH);
+            }
+            if (player.score < 0 || player.score > MAX_SCORE) {
+                throw new IllegalArgumentException("Score cannot be less than 0 or greater than " + MAX_SCORE);
+            }
+            if (player.gold < 0 || player.gold > MAX_GOLD) {
+                throw new IllegalArgumentException("Gold cannot be less than 0 or greater than " + MAX_GOLD);
+            }
+            if (player.inventory.size() > MAX_INVENTORY_SIZE) {
+                throw new IllegalArgumentException("Inventory cannot be greater than " + MAX_INVENTORY_SIZE + " items");
+            }
+            for (String item : player.inventory) {
+                if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
+                    throw new IllegalArgumentException("Item cannot be less than " + MIN_ITEM_LENGTH +
+                            " or greater than " + MAX_ITEM_LENGTH + " characters");
+                }
+            }
+        }
     }
 
     /**

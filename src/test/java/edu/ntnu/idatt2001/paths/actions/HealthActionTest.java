@@ -13,7 +13,7 @@ class HealthActionTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player("PlayerName", 100, 0, 0);
+        player = new Player.Builder("PlayerName").health(100).build();
         healthAction = new HealthAction(-50);
     }
 

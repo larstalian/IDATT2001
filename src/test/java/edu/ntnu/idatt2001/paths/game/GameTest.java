@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GameTest {
@@ -26,7 +27,7 @@ class GameTest {
 
   @BeforeEach
   void setUp() {
-    player = new Player("PlayerName", 100, 0, 0);
+    player = new Player.Builder("PlayerName").build();
     openingPassage = new Passage("The opening passage", "A test troll");
     story = new Story("Test Story", openingPassage);
 
