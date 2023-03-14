@@ -96,10 +96,7 @@ public class Player {
    */
   public void addHealth(int health) {
     int totalHealth = this.health + health;
-    if (totalHealth < 0 || totalHealth > MAX_HEALTH) {
-      throw new IllegalArgumentException(
-          "Health cannot be less than 0 or greater than " + MAX_HEALTH);
-    }
+    checkHealthRange(totalHealth);
     this.health += health;
   }
 
@@ -111,10 +108,7 @@ public class Player {
    */
   public void addScore(int score) {
     int totalScore = this.score + score;
-    if (totalScore < 0 || totalScore >= MAX_SCORE) {
-      throw new IllegalArgumentException(
-          "The total score cannot be less than 0 or greater than" + MAX_SCORE);
-    }
+    checkScoreRange(totalScore);
     this.score += score;
   }
 
@@ -126,9 +120,7 @@ public class Player {
    */
   public void addGold(int gold) {
     int totalGold = this.gold + gold;
-    if (totalGold < 0 || totalGold > MAX_GOLD) {
-      throw new IllegalArgumentException("Gold cannot be less than 0 or greater than" + MAX_GOLD);
-    }
+    checkGoldRange(totalGold);
     this.gold += gold;
   }
 
@@ -140,14 +132,76 @@ public class Player {
    *     characters
    */
   public void addToInventory(final String item) {
+    checkItemLength(item);
+    checkInventorySize(getInventory());
+    inventory.add(item);
+  }
+
+  /**
+   * Checks if the provided health value is within the valid range.
+   *
+   * @param health the health value to check
+   * @throws IllegalArgumentException if the health value is less than 0 or greater than MAX_HEALTH
+   */
+  private void checkHealthRange(int health) {
+    if (health < 0 || health > MAX_HEALTH) {
+      throw new IllegalArgumentException(
+          "Health cannot be less than 0 or greater than " + MAX_HEALTH);
+    }
+  }
+
+  /**
+   * Checks if the provided score value is within the valid range.
+   *
+   * @param score the score value to check
+   * @throws IllegalArgumentException if the score value is less than 0 or greater than or equal to
+   *     MAX_SCORE
+   */
+  private void checkScoreRange(int score) {
+    if (score < 0 || score >= MAX_SCORE) {
+      throw new IllegalArgumentException(
+          "The total score cannot be less than 0 or greater than " + MAX_SCORE);
+    }
+  }
+
+  /**
+   * Checks if the provided gold value is within the valid range.
+   *
+   * @param gold the gold value to check
+   * @throws IllegalArgumentException if the gold value is less than 0 or greater than MAX_GOLD
+   */
+  private void checkGoldRange(int gold) {
+    if (gold < 0 || gold > MAX_GOLD) {
+      throw new IllegalArgumentException("Gold cannot be less than 0 or greater than " + MAX_GOLD);
+    }
+  }
+
+  /**
+   * Checks if the provided item's length is within the valid range.
+   *
+   * @param item the item to check
+   * @throws IllegalArgumentException if the length of the item is less than MIN_ITEM_LENGTH or
+   *     greater than MAX_ITEM_LENGTH
+   */
+  private void checkItemLength(String item) {
     if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
       throw new IllegalArgumentException(
           "Item cannot be less than 2 or greater than 15 characters");
     }
+  }
+
+  /**
+   * Checks if the provided inventory's size is within the valid range.
+   *
+   * @param inventory the inventory to check
+   * @throws IllegalArgumentException if the size of the inventory is greater than
+   *     MAX_INVENTORY_SIZE
+   */
+  private void checkInventorySize(List<String> inventory) {
     if (inventory.size() >= MAX_INVENTORY_SIZE) {
-      throw new IllegalArgumentException("Inventory is full");
+      throw new IllegalArgumentException(
+          "Inventory cannot be greater than " + MAX_INVENTORY_SIZE + " items");
     }
-    inventory.add(item);
   }
 
   /**
@@ -251,50 +305,34 @@ public class Player {
     }
 
     /**
-     * Validates the Player object to be built.
+     * Validates the Player object to be built by checking the validity of its fields.
      *
      * @param player the Player object to be validated
-     * @throws IllegalArgumentException if the name is less than 2 or greater than 15 characters
-     * @throws IllegalArgumentException if the health is less than 0 or greater than 1000
-     * @throws IllegalArgumentException if the score is less than 0 or greater than 1000
-     * @throws IllegalArgumentException if the gold is less than 0 or greater than 100000
-     * @throws IllegalArgumentException if the inventory contains an item less than 2 or greater
-     *     than 15 characters
+     * @throws IllegalArgumentException if any of the fields are outside the valid range or have
+     *     invalid values
      */
     private void validateObject(Player player) {
-      if (player.name.length() < MIN_NAME_LENGTH || player.name.length() > MAX_NAME_LENGTH) {
+      checkNameLength(player.name);
+      player.checkGoldRange(player.gold);
+      player.checkHealthRange(player.health);
+      player.checkScoreRange(player.score);
+      player.checkInventorySize(player.inventory);
+    }
+    /**
+     * Checks if the provided name's length is within the valid range.
+     *
+     * @param name the name to check
+     * @throws IllegalArgumentException if the length of the name is less than MIN_NAME_LENGTH or
+     *     greater than MAX_NAME_LENGTH
+     */
+    private void checkNameLength(String name) {
+      if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
         throw new IllegalArgumentException(
             "Name cannot be less than "
                 + MIN_NAME_LENGTH
                 + " or greater than "
                 + MAX_NAME_LENGTH
                 + " characters");
-      }
-      if (player.health < 0 || player.health > MAX_HEALTH) {
-        throw new IllegalArgumentException(
-            "Health cannot be less than 0 or greater than " + MAX_HEALTH);
-      }
-      if (player.score < 0 || player.score > MAX_SCORE) {
-        throw new IllegalArgumentException(
-            "Score cannot be less than 0 or greater than " + MAX_SCORE);
-      }
-      if (player.gold < 0 || player.gold > MAX_GOLD) {
-        throw new IllegalArgumentException(
-            "Gold cannot be less than 0 or greater than " + MAX_GOLD);
-      }
-      if (player.inventory.size() > MAX_INVENTORY_SIZE) {
-        throw new IllegalArgumentException(
-            "Inventory cannot be greater than " + MAX_INVENTORY_SIZE + " items");
-      }
-      for (String item : player.inventory) {
-        if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
-          throw new IllegalArgumentException(
-              "Item cannot be less than "
-                  + MIN_ITEM_LENGTH
-                  + " or greater than "
-                  + MAX_ITEM_LENGTH
-                  + " characters");
-        }
       }
     }
   }
