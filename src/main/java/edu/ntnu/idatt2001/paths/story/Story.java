@@ -137,7 +137,8 @@ public class Story {
      * @return a collection of all the broken links in the story
      */
     public Collection<Link> getBrokenLinks() {
-        return passages.values().stream().flatMap(passage -> passage.getLinks().stream()).filter(link -> !passages.containsKey(link)).collect(Collectors.toSet());
+        return passages.values().stream().flatMap(passage -> passage.getLinks().stream())
+                .filter(link -> !passages.containsKey(link)).collect(Collectors.toSet());
     }
 
     /**
