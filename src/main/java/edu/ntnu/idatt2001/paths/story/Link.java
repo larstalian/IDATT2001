@@ -1,6 +1,8 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.ntnu.idatt2001.paths.actions.Action;
+import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.LinkDeserializer;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.*;
  * @see Passage
  */
 @EqualsAndHashCode(of = "ref")
+@JsonDeserialize(using = LinkDeserializer.class)
 public class Link {
     private final String text;
     private final String ref;
