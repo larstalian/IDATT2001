@@ -41,7 +41,7 @@ test:
 deploy:
   stage: deploy
   script:
-    - - mkdir -p src/main/resources/stories
+    - mkdir -p src/main/resources/stories
     - mvn $MAVEN_CLI_OPTS package
   artifacts:
     paths:
