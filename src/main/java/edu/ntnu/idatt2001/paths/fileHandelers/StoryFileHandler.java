@@ -75,6 +75,11 @@ public class StoryFileHandler {
     return objectMapper.readValue(jsonString, Story.class);
   }
 
+  /**
+   * Returns the file path where stories are stored.
+   *
+   * @return the file path
+   */
   public Path getFilePath() {
     return filePath;
   }
