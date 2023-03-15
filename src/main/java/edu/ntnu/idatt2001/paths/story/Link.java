@@ -32,7 +32,6 @@ import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.*;
  */
 @EqualsAndHashCode(of = "ref")
 public class Link {
-
   private final String text;
   private final String ref;
 
