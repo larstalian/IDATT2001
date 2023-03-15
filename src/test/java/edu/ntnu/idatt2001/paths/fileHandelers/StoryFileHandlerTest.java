@@ -41,10 +41,10 @@ class StoryFileHandlerTest {
         assertEquals(testStory.getOpeningPassage().getContent(), loadedStory.getOpeningPassage().getContent(), "The opening passage content should be the same");
 
         // Clean up the created story file
-//        try {
-//            Files.delete(savedStoryPath);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Files.delete(savedStoryPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
