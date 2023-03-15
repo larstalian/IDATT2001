@@ -1,9 +1,9 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.REF_MAX_LENGTH;
-import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.REF_MIN_LENGTH;
-import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.TEXT_MAX_LENGTH;
-import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.TEXT_MIN_LENGTH;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.ntnu.idatt2001.paths.actions.Action;
+import lombok.EqualsAndHashCode;
 
 import edu.ntnu.idatt2001.paths.actions.Action;
 import java.util.ArrayList;
@@ -35,9 +35,25 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "ref")
 public class Link {
 
-  private final String text;
-  private final String ref;
-  private final List<Action> actions;
+    /**
+     * Constructs a new Link object with the given text label and reference.
+     *
+     * @param text the text label for the link
+     * @param ref  the reference to the target passage
+     * @throws IllegalArgumentException if the text label or reference is invalid
+     */
+    @JsonCreator
+    public Link(@JsonProperty("text") String text, @JsonProperty("ref") String ref) {
+        if (text.length() < 2 || text.length() > TEXT_MAX_LENGTH) {
+            throw new IllegalArgumentException("Text and must be between " + TEXT_MIN_LENGTH + " and " + TEXT_MAX_LENGTH + " characters.");
+        }
+        if (ref.length() < REF_MIN_LENGTH || ref.length() > REF_MAX_LENGTH) {
+            throw new IllegalArgumentException("Ref must be between " + REF_MIN_LENGTH + " and " + REF_MAX_LENGTH + " characters.");
+        }
+        this.text = text;
+        this.ref = ref;
+        this.actions = new ArrayList<>();
+    }
 
   /**
    * Constructs a new Link object with the given text label and reference.

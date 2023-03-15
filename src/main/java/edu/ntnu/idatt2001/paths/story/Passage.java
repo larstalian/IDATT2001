@@ -1,5 +1,9 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +38,22 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class Passage {
 
-  private final String title;
-  private final String content;
-  private final List<Link> links;
+    /**
+     * Constructs a new Passage object with the given title and content.
+     *
+     * @param title   the title of the passage
+     * @param content the content of the passage
+     * @throws IllegalArgumentException if the title or content is null
+     */
+    @JsonCreator
+    public Passage(@JsonProperty("title") String title, @JsonProperty("content") String content) {
+        if (title == null || content == null) {
+            throw new IllegalArgumentException("Title and content cannot be null.");
+        }
+        this.title = title;
+        this.content = content;
+        this.links = new ArrayList<>();
+    }
 
   /**
    * Constructs a new Passage object with the given title and content.
