@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.PassageDeserializer;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.Objects;
  * @see Story
  */
 @EqualsAndHashCode
+@JsonDeserialize(using = PassageDeserializer.class)
 public class Passage {
     private final String title;
     private final String content;
