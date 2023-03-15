@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.StoryDeserializer;
+import edu.ntnu.idatt2001.paths.filehandlers.deserializers.StoryDeserializer;
 
 import java.util.*;
 import java.util.stream.Collectors;

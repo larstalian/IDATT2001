@@ -2,7 +2,7 @@ package edu.ntnu.idatt2001.paths.story;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.ntnu.idatt2001.paths.actions.Action;
-import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.LinkDeserializer;
+import edu.ntnu.idatt2001.paths.filehandlers.deserializers.LinkDeserializer;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;

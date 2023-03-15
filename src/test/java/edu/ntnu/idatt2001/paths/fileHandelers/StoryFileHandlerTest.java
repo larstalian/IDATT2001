@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.fileHandelers;
 
+import edu.ntnu.idatt2001.paths.filehandlers.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
