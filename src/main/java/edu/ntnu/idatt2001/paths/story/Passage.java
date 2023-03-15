@@ -7,30 +7,27 @@ import lombok.EqualsAndHashCode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import lombok.EqualsAndHashCode;
 
 /**
  * The Passage class represents a section of a story or narrative, with a title, content, and
  * optional links to other Passages.
  *
  * <p>A Passage contains a title and content, and can contain links to other Passages. Links are
- * represented
- * as instances of the {@link Link} class. A Passage can be thought of as a "scene" in a collection
- * of scenes in a story, where the links represent the door or a key into another passage.</p>
+ * represented as instances of the {@link Link} class. A Passage can be thought of as a "scene" in a
+ * collection of scenes in a story, where the links represent the door or a key into another
+ * passage.
  *
  * <p>To create a new Passage, provide a title and content as arguments. Links can be added to the
- * Passage
- * using the {@link #addLink(Link)} method.</p>
+ * Passage using the {@link #addLink(Link)} method.
  *
  * <p>Passages are immutable: once created, their contents and links cannot be modified. However,
- * new Passages can be added to
- * the map in {@link Story} by creating new instances and adding links to existing Passages.</p>
+ * new Passages can be added to the map in {@link Story} by creating new instances and adding links
+ * to existing Passages.
  *
  * <p>The Passage class also provides several methods for working with the passage and its links,
- * including getters for the title,
- * content, and links, a method for checking if the Passage has any links, and a method for adding
- * links to the Passage. The {@link #toString()} method returns a string representation of the
- * Passage, including its title, content, and links.</p>
+ * including getters for the title, content, and links, a method for checking if the Passage has any
+ * links, and a method for adding links to the Passage. The {@link #toString()} method returns a
+ * string representation of the Passage, including its title, content, and links.
  *
  * @see Link
  * @see Story
@@ -38,31 +35,19 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class Passage {
 
-    /**
-     * Constructs a new Passage object with the given title and content.
-     *
-     * @param title   the title of the passage
-     * @param content the content of the passage
-     * @throws IllegalArgumentException if the title or content is null
-     */
-    @JsonCreator
-    public Passage(@JsonProperty("title") String title, @JsonProperty("content") String content) {
-        if (title == null || content == null) {
-            throw new IllegalArgumentException("Title and content cannot be null.");
-        }
-        this.title = title;
-        this.content = content;
-        this.links = new ArrayList<>();
-    }
+  private final String title;
+  private final String content;
+  private final List<Link> links;
 
   /**
    * Constructs a new Passage object with the given title and content.
    *
-   * @param title   the title of the passage
+   * @param title the title of the passage
    * @param content the content of the passage
    * @throws IllegalArgumentException if the title or content is null
    */
-  public Passage(String title, String content) {
+  @JsonCreator
+  public Passage(@JsonProperty("title") String title, @JsonProperty("content") String content) {
     if (title == null || content == null) {
       throw new IllegalArgumentException("Title and content cannot be null.");
     }
@@ -134,8 +119,7 @@ public class Passage {
     sb.append("Content: ").append(content).append("\n");
     sb.append("Links:\n");
     for (Link link : links) {
-      sb.append("- ").append(link.getText()).append(": ")
-          .append(link.getRef()).append("\n");
+      sb.append("- ").append(link.getText()).append(": ").append(link.getRef()).append("\n");
     }
     return sb.toString();
   }

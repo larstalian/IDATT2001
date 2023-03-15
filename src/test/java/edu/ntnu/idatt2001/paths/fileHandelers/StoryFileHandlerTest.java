@@ -23,7 +23,7 @@ class StoryFileHandlerTest {
   private Story testStory;
 
   @AfterAll
-  public static void cleanUp() {
+  static void cleanUp() {
     try {
       Files.delete(savedStoryPath);
     } catch (IOException e) {
@@ -32,7 +32,7 @@ class StoryFileHandlerTest {
   }
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     storyFileHandler = new StoryFileHandler();
 
     Passage openingPassage = new Passage("Opening Passage", "This is the opening passage");
@@ -43,7 +43,7 @@ class StoryFileHandlerTest {
   }
 
   @Test
-  public void testSaveAndLoadStory() throws IOException {
+  void testSaveAndLoadStory() throws IOException {
     storyFileHandler.saveStoryToFile(testStory);
     savedStoryPath = storyFileHandler.getFilePath().resolve(testStory.getTitle() + ".json");
     assertThat("The story file should exist", Files.exists(savedStoryPath), is(true));
