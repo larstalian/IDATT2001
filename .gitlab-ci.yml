@@ -30,6 +30,7 @@ build:
 test:
   stage: test
   script:
+    - mkdir -p src/main/resources/stories
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
     when: always
