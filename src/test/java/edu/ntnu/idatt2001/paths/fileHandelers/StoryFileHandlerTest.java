@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.paths.filehandlers.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,41 +12,51 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 class StoryFileHandlerTest {
 
-    private StoryFileHandler storyFileHandler;
-    private Story testStory;
+  private static Path savedStoryPath;
+  private StoryFileHandler storyFileHandler;
+  private Story testStory;
 
-    @BeforeEach
-    public void setUp() {
-        storyFileHandler = new StoryFileHandler();
-
-        Passage openingPassage = new Passage("Opening", "Once upon a time...");
-        openingPassage.addLink(new Link("Go to the forest", "Forest"));
-        Passage forestPassage = new Passage("Forest", "You are in a forest.");
-        testStory = new Story("Test Story", openingPassage);
-        testStory.addPassage(forestPassage);
+  @AfterAll
+  public static void cleanUp() {
+    try {
+      Files.delete(savedStoryPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Test
-    public void testSaveAndLoadStory() throws IOException {
-        storyFileHandler.saveStoryToFile(testStory);
-        Path savedStoryPath = storyFileHandler.getFilePath().resolve(testStory.getTitle() + ".json");
-        assertTrue(Files.exists(savedStoryPath), "The story file should exist");
+  @BeforeEach
+  public void setUp() {
+    storyFileHandler = new StoryFileHandler();
 
-        Story loadedStory = storyFileHandler.loadStoryFromFile(testStory.getTitle());
-        assertEquals(testStory.getTitle(), loadedStory.getTitle(), "The story title should be the same");
-        assertEquals(testStory.getOpeningPassage().getTitle(), loadedStory.getOpeningPassage().getTitle(), "The opening passage title should be the same");
-        assertEquals(testStory.getOpeningPassage().getContent(), loadedStory.getOpeningPassage().getContent(), "The opening passage content should be the same");
+    Passage openingPassage = new Passage("Opening Passage", "This is the opening passage");
+    openingPassage.addLink(new Link("Go to the forest", "Forest"));
+    Passage forestPassage = new Passage("Forest", "You are in a forest.");
+    testStory = new Story("Test Story", openingPassage);
+    testStory.addPassage(forestPassage);
+  }
 
-        // Clean up the created story file
-        try {
-            Files.delete(savedStoryPath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  @Test
+  public void testSaveAndLoadStory() throws IOException {
+    storyFileHandler.saveStoryToFile(testStory);
+    savedStoryPath = storyFileHandler.getFilePath().resolve(testStory.getTitle() + ".json");
+    assertThat("The story file should exist", Files.exists(savedStoryPath), is(true));
+
+    Story loadedStory = storyFileHandler.loadStoryFromFile(testStory.getTitle());
+    assertThat(loadedStory.getTitle(), equalTo(testStory.getTitle()));
+
+    assertThat(
+        loadedStory.getOpeningPassage().getTitle(),
+        equalTo(testStory.getOpeningPassage().getTitle()));
+
+    assertThat(
+        loadedStory.getOpeningPassage().getContent(),
+        equalTo(testStory.getOpeningPassage().getContent()));
+  }
 }
