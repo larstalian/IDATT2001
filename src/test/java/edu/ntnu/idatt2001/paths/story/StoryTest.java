@@ -1,16 +1,18 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class StoryTest {
 
@@ -35,19 +37,22 @@ class StoryTest {
 
   @Test
   void testConstructor_TitleTooLongShouldThrowIllegalArgumentException() {
-    String tooLongTitle = new String(new char[MAX_TITLE_LENGTH + 1]).replace("\0", "a");
+    String tooLongTitle =
+        new String(new char[MAX_TITLE_LENGTH + 1]).replace("\0", "a");
     assertThrows(IllegalArgumentException.class, () -> new Story(tooLongTitle, passage1));
   }
 
   @Test
   void testConstructor_TitleTooShortShouldThrowIllegalArgumentException() {
-    String tooShortTitle = new String(new char[MIN_TITLE_LENGTH - 1]).replace("\0", "a");
+    String tooShortTitle =
+        new String(new char[MIN_TITLE_LENGTH - 1]).replace("\0", "a");
     assertThrows(IllegalArgumentException.class, () -> new Story(tooShortTitle, passage1));
   }
 
   @Test
   void testConstructor_ThrowsNullPointerExceptionIfPassageOrTitleIsNull() {
-    assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
+    assertThrows(
+        NullPointerException.class, () -> new Story("Test Story", null));
     assertThrows(
         NullPointerException.class,
         () -> new Story(null, new Passage("Opening Passage", "Content")));
@@ -86,7 +91,8 @@ class StoryTest {
   @Test
   void testGetPassage_ThrowsNullIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
+        NullPointerException.class, () ->
+            story.getPassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
@@ -105,7 +111,8 @@ class StoryTest {
 
   @Test
   void testGetPassages_ReturnsEmptyListIfStoryHasNoPassages() {
-    Story story = new Story("Test Story", new Passage("Opening Passage", "Content"));
+    Story story =
+        new Story("Test Story", new Passage("Opening Passage", "Content"));
     assertThat(story.getPassages(), is(empty()));
   }
 
@@ -114,14 +121,14 @@ class StoryTest {
     story.addPassage(passage1);
     story.addPassage(passage2);
     String expected =
-            """
-                    Title: Test Story
-                    Opening Passage:
-                    This is the opening passage.
-                    Passages:
-                    - Passage 1: This is passage 1.
-                    - Passage 2: This is passage 2.
-                    """;
+        """
+            Title: Test Story
+            Opening Passage:
+            This is the opening passage.
+            Passages:
+            - Passage 1: This is passage 1.
+            - Passage 2: This is passage 2.
+            """;
     String actual = story.toString();
     assertThat(actual, is(expected));
   }
@@ -129,7 +136,8 @@ class StoryTest {
   @Test
   void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
+        NullPointerException.class, () ->
+            story.removePassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
