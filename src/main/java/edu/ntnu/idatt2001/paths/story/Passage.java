@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import edu.ntnu.idatt2001.paths.filehandlers.deserializers.PassageDeserializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import java.util.Objects;
  * @see Story
  */
 @EqualsAndHashCode
-@JsonDeserialize(using = PassageDeserializer.class)
 public class Passage {
     private final String title;
     private final String content;
@@ -42,7 +41,8 @@ public class Passage {
      * @param content the content of the passage
      * @throws IllegalArgumentException if the title or content is null
      */
-    public Passage(String title, String content) {
+    @JsonCreator
+    public Passage(@JsonProperty("title") String title, @JsonProperty("content") String content) {
         if (title == null || content == null) {
             throw new IllegalArgumentException("Title and content cannot be null.");
         }

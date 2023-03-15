@@ -1,8 +1,8 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.actions.Action;
-import edu.ntnu.idatt2001.paths.filehandlers.deserializers.LinkDeserializer;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.*;
  * @see Passage
  */
 @EqualsAndHashCode(of = "ref")
-@JsonDeserialize(using = LinkDeserializer.class)
 public class Link {
     private final String text;
     private final String ref;
@@ -42,7 +41,8 @@ public class Link {
      * @param ref  the reference to the target passage
      * @throws IllegalArgumentException if the text label or reference is invalid
      */
-    public Link(String text, String ref) {
+    @JsonCreator
+    public Link(@JsonProperty("text") String text, @JsonProperty("ref") String ref) {
         if (text.length() < 2 || text.length() > TEXT_MAX_LENGTH) {
             throw new IllegalArgumentException("Text and must be between " + TEXT_MIN_LENGTH + " and " + TEXT_MAX_LENGTH + " characters.");
         }

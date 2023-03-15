@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import edu.ntnu.idatt2001.paths.filehandlers.deserializers.StoryDeserializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +28,6 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENG
  * @see Link
  * @see StoryConstants
  */
-@JsonDeserialize(using = StoryDeserializer.class)
 public class Story {
   private final String title;
   private final Passage openingPassage;
@@ -40,7 +39,10 @@ public class Story {
    * @param title the title of the story
    * @param openingPassage the opening passage of the story
    */
-  public Story(String title, Passage openingPassage) {
+  @JsonCreator
+  public Story(
+      @JsonProperty("title") String title, @JsonProperty("openingPassage") Passage openingPassage) {
+
     if (title.length() < MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
       throw new IllegalArgumentException(
           "Title must be between " + MIN_TITLE_LENGTH + " and " + MAX_TITLE_LENGTH + " characters");
