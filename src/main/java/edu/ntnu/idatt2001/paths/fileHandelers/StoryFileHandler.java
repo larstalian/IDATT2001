@@ -2,7 +2,11 @@ package edu.ntnu.idatt2001.paths.fileHandelers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.LinkDeserializer;
+import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.PassageDeserializer;
 import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.StoryDeserializer;
+import edu.ntnu.idatt2001.paths.story.Link;
+import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
 
 import java.io.IOException;
@@ -11,12 +15,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * Class for handling saving and reading of Story objects to and from files. The files are stored in
+ * JSON format with a ".json" extension in the "src/main/resources/stories" directory.
+ *
+ * <p>Files are being saved and serialized using default jackson serialization, and uses custom
+ * deserialization for the {@link Story}, {@link Passage} and {@link Link} classes. because Jacksons
+ * default deserialization does not work with the custom classes.
+ *
+ * @see StoryDeserializer
+ * @see PassageDeserializer
+ * @see LinkDeserializer
+ */
 public class StoryFileHandler {
 
   private final ObjectMapper objectMapper;
 
   private final Path filePath;
 
+  /**
+   * Constructs a new StoryFileHandler with default settings. Initializes an ObjectMapper and sets
+   * the file path for the stories.
+   */
   public StoryFileHandler() {
     objectMapper = new ObjectMapper();
     SimpleModule module = new SimpleModule();
