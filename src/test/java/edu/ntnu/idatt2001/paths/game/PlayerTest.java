@@ -1,17 +1,23 @@
 package edu.ntnu.idatt2001.paths.game;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_GOLD;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_HEALTH;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_INVENTORY_SIZE;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_ITEM_LENGTH;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_NAME_LENGTH;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MAX_SCORE;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MIN_ITEM_LENGTH;
+import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.MIN_NAME_LENGTH;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class PlayerTest {
 
@@ -21,11 +27,11 @@ class PlayerTest {
   @BeforeEach
   void setUp() {
     player = new Player.Builder("PlayerName")
-            .health(100)
-            .score(0)
-            .gold(0)
-            .inventory("Armor", "Sword")
-            .build();
+        .health(100)
+        .score(0)
+        .gold(0)
+        .inventory("Armor", "Sword")
+        .build();
     inventory = new ArrayList<>();
     inventory.add("Armor");
     inventory.add("Sword");
@@ -159,10 +165,10 @@ class PlayerTest {
   @Test
   void testBuilder_InventoryIsUpdated() {
     Player.Builder builder = new Player.Builder("TestPlayer")
-            .health(100)
-            .score(50)
-            .gold(25)
-            .inventory("Item1", "Item2", "Item3");
+        .health(100)
+        .score(50)
+        .gold(25)
+        .inventory("Item1", "Item2", "Item3");
 
     Player builtPlayer = builder.build();
     List<String> expectedInventory = Arrays.asList("Item1", "Item2", "Item3");
