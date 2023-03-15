@@ -1,19 +1,22 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import edu.ntnu.idatt2001.paths.actions.Action;
-import edu.ntnu.idatt2001.paths.actions.GoldAction;
-import edu.ntnu.idatt2001.paths.actions.HealthAction;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.Collection;
-import java.util.List;
-
 import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.REF_MIN_LENGTH;
 import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.TEXT_MIN_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import edu.ntnu.idatt2001.paths.actions.Action;
+import edu.ntnu.idatt2001.paths.actions.GoldAction;
+import edu.ntnu.idatt2001.paths.actions.HealthAction;
+import java.util.Collection;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class LinkTest {
 
@@ -70,10 +73,10 @@ class LinkTest {
     assertThrows(IllegalArgumentException.class, () -> new Link(tooShortText, ref));
   }
 
-    @Test
-    void testConstructor_ShouldThrowIllegalArgumentExceptionIfRefIsTooShort() {
-        String text = "a".repeat(TEXT_MIN_LENGTH);
-        String tooShortRef = "a".repeat(REF_MIN_LENGTH - 1);
-        assertThrows(IllegalArgumentException.class, () -> new Link(text, tooShortRef));
-    }
+  @Test
+  void testConstructor_ShouldThrowIllegalArgumentExceptionIfRefIsTooShort() {
+    String text = "a".repeat(TEXT_MIN_LENGTH);
+    String tooShortRef = "a".repeat(REF_MIN_LENGTH - 1);
+    assertThrows(IllegalArgumentException.class, () -> new Link(text, tooShortRef));
+  }
 }

@@ -1,19 +1,26 @@
 package edu.ntnu.idatt2001.paths.story;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MAX_TITLE_LENGTH;
 import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENGTH;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The Story class represents a story, or branching composed of interconnected passages.
  *
  * <p>Each passage is represented by a Passage object, and can be linked to other passages using
  * Link objects. The opening passage of the story is represented by a Passage object passed to the
- * constructor of the Story object. Passages can be added to the story using the {@link
- * #addPassage(Passage)} method, and the full list of passages can be accessed using the {@link
- * #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)} method.
+ * constructor of the Story object. Passages can be added to the story using the
+ * {@link #addPassage(Passage)} method, and the full list of passages can be accessed using the
+ * {@link #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)}
+ * method.
  *
  * <p>The Story class is immutable, and its properties cannot be modified once the object is
  * constructed. The properties of the story include its title, represented by a String object, and
@@ -26,6 +33,7 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENG
  * @see StoryConstants
  */
 public class Story {
+
   private final String title;
   private final Passage openingPassage;
   private final Map<Link, Passage> passages;
@@ -33,7 +41,7 @@ public class Story {
   /**
    * Constructs a new Story object with the given title and opening passage.
    *
-   * @param title the title of the story
+   * @param title          the title of the story
    * @param openingPassage the opening passage of the story
    */
   public Story(String title, Passage openingPassage) {
@@ -42,7 +50,8 @@ public class Story {
           "Title must be between " + MIN_TITLE_LENGTH + " and " + MAX_TITLE_LENGTH + " characters");
     }
     this.title = title;
-    this.openingPassage = Objects.requireNonNull(openingPassage, "Opening passage cannot be null");
+    this.openingPassage = Objects.requireNonNull
+        (openingPassage, "Opening passage cannot be null");
     this.passages = new HashMap<>();
   }
 
@@ -69,7 +78,7 @@ public class Story {
    *
    * @param passage the passage to be added
    * @return {@code true} if the passage was added to the story, {@code false} if the passage
-   *     already exists
+   * already exists
    */
   public boolean addPassage(final Passage passage) {
     Objects.requireNonNull(passage, "Passage cannot be null");
@@ -157,12 +166,13 @@ public class Story {
    * The StoryConstants class contains constants used by the Story class to set the valid range of
    * its fields. The constants are declared as static and final, and can therefore not be modified.
    *
-   * <p>Use the constants to check that parameter values are within the valid range when creating or
-   * modifying Story objects.
+   * <p>Use the constants to check that parameter values are within the valid range when creating
+   * or modifying Story objects.
    *
    * @see Story
    */
   static class StoryConstants {
+
     static final int MIN_TITLE_LENGTH = 2;
     static final int MAX_TITLE_LENGTH = 50;
   }
