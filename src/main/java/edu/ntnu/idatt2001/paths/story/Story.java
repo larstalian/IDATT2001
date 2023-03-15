@@ -1,5 +1,8 @@
 package edu.ntnu.idatt2001.paths.story;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.ntnu.idatt2001.paths.fileHandelers.deserializers.StoryDeserializer;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,7 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENG
  * @see Link
  * @see StoryConstants
  */
+@JsonDeserialize(using = StoryDeserializer.class)
 public class Story {
   private final String title;
   private final Passage openingPassage;
