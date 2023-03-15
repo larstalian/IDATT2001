@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.filehandlers.deserializers;
+package edu.ntnu.idatt2001.paths.filehandlers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

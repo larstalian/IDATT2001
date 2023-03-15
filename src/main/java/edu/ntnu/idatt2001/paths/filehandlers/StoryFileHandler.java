@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.paths.filehandlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import edu.ntnu.idatt2001.paths.filehandlers.deserializers.StoryDeserializer;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
