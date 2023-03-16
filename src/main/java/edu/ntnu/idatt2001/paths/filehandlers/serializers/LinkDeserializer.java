@@ -20,9 +20,6 @@ import java.util.List;
  * be deserialized according to their respective types. The {@link Link} objects are also a key in
  * in the {@code Map<Link, Passage>} in the {@link Story} class.
  *
- * <p>There is not a custom serializer for {@link Link} class as Jackson can serialize the class
- * using the default serializer.
- *
  * <p>To use this deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}, register
  * it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module to the
  * ObjectMapper. For example:
