@@ -16,10 +16,24 @@ import java.util.Objects;
  * JSON format with a ".json" extension in the "src/main/resources/stories" directory.
  *
  * <p>Files are being saved and serialized using default jackson serialization, and uses custom
- * deserialization for the {@link Story} class because Jacksons default deserialization cannot
- * deserialize the map.
+ * serializing deserializing for the {@link Story} class and custom deserializing for the {@link
+ * Link} class because Jacksons default deserialization cannot deserialize the map in the {@link
+ * Story} class, or the {@code actions} List in the {@link Link} class.
+ *
+ * <p>To use this class to write and read stories to and from files, create a new instance of this
+ * class and use the {@link #saveStoryToFile(Story)} and {@link #loadStoryFromFile(String)} methods.
+ * For example:
+ *
+ * <pre>{@code
+ * StoryFileHandler storyFileHandler = new StoryFileHandler();
+ * Story myStory = new Story("My Story", openingPassage);
+ * storyFileHandler.saveStoryToFile(myStory);
+ * Story loadedStory = storyFileHandler.loadStoryFromFile("My Story");
+ * }</pre>
  *
  * @see StoryDeserializer
+ * @see StorySerializer
+ * @see LinkDeserializer
  */
 public class StoryFileHandler {
 
