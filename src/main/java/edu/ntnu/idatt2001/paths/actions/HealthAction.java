@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.actions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
 
 /**
@@ -9,10 +11,10 @@ import edu.ntnu.idatt2001.paths.game.Player;
  * @see Action
  */
 public class HealthAction implements Action {
+  @JsonProperty private final int healthChange;
 
-  private final int healthChange;
-
-  public HealthAction(int health) {
+  @JsonCreator
+  public HealthAction(@JsonProperty int health) {
     this.healthChange = health;
   }
 

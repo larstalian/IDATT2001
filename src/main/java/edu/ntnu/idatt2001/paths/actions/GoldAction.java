@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.actions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
 
 /**
@@ -10,9 +12,10 @@ import edu.ntnu.idatt2001.paths.game.Player;
  */
 public class GoldAction implements Action {
 
-  private final int goldChange;
+  @JsonProperty private final int goldChange;
 
-  public GoldAction(int gold) {
+  @JsonCreator
+  public GoldAction(@JsonProperty int gold) {
     this.goldChange = gold;
   }
 
