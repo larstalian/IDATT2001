@@ -31,6 +31,7 @@ test:
   stage: test
   script:
     - mkdir -p src/main/resources/stories
+    - mkdir -p src/main/resources/saves
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
     when: always
@@ -42,6 +43,7 @@ deploy:
   stage: deploy
   script:
     - mkdir -p src/main/resources/stories
+    - mkdir -p src/main/resources/saves
     - mvn $MAVEN_CLI_OPTS package
   artifacts:
     paths:
