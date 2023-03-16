@@ -1,10 +1,10 @@
-package edu.ntnu.idatt2001.paths.filehandlers;
+package edu.ntnu.idatt2001.paths.filehandlers.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import edu.ntnu.idatt2001.paths.filehandlers.serializers.LinkDeserializer;
-import edu.ntnu.idatt2001.paths.filehandlers.serializers.StoryDeserializer;
-import edu.ntnu.idatt2001.paths.filehandlers.serializers.StorySerializer;
+import edu.ntnu.idatt2001.paths.filehandlers.json.serializers.LinkDeserializer;
+import edu.ntnu.idatt2001.paths.filehandlers.json.serializers.StoryDeserializer;
+import edu.ntnu.idatt2001.paths.filehandlers.json.serializers.StorySerializer;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Story;
 

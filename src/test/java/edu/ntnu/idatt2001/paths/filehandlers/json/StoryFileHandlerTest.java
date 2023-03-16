@@ -1,4 +1,8 @@
-package edu.ntnu.idatt2001.paths.filehandlers;
+package edu.ntnu.idatt2001.paths.filehandlers.json;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import edu.ntnu.idatt2001.paths.actions.Action;
 import edu.ntnu.idatt2001.paths.actions.GoldAction;
@@ -6,19 +10,14 @@ import edu.ntnu.idatt2001.paths.actions.HealthAction;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class StoryFileHandlerTest {
 
