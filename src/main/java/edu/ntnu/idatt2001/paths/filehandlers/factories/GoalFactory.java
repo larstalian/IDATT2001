@@ -6,8 +6,18 @@ import edu.ntnu.idatt2001.paths.goals.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Factory class responsible for creating instances of {@link Goal} subclasses based on their goal
+ * type and a JsonNode containing the necessary data. This factory class is useful when
+ * deserializing goals from a JSON file.
+ */
 public class GoalFactory {
 
+  /**
+   * Creates an instance of a {@link Goal} subclass based on the provided goal type and a JsonNode
+   * containing the necessary data. This method is particularly useful when deserializing goals from
+   * a JSON file.
+   */
   public static Goal createGoal(String goalType, JsonNode goalNode) {
     switch (goalType) {
       case "minimumHealth" -> {
