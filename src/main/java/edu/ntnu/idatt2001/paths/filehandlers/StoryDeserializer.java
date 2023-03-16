@@ -49,10 +49,8 @@ public class StoryDeserializer extends JsonDeserializer<Story> {
       Passage passage = createPassageFromJsonNode(jsonParser, entry.getValue());
       story.addPassage(passage);
     }
-
     return story;
   }
-
   /**
    * Creates a Passage object from the given JSON node.
    *
