@@ -1,9 +1,8 @@
-package edu.ntnu.idatt2001.paths.fileHandelers;
+package edu.ntnu.idatt2001.paths.filehandlers;
 
 import edu.ntnu.idatt2001.paths.actions.Action;
 import edu.ntnu.idatt2001.paths.actions.GoldAction;
 import edu.ntnu.idatt2001.paths.actions.HealthAction;
-import edu.ntnu.idatt2001.paths.filehandlers.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
