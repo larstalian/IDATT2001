@@ -17,7 +17,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalTo;
 
 class GameFileHandlerTest {
 
@@ -25,7 +25,6 @@ class GameFileHandlerTest {
   private GameFileHandler gameFileHandler;
   private Game testGame;
   private Story testStory;
-  private Player testPlayer;
   private List<Goal> testGoals;
 
   @AfterAll
@@ -44,7 +43,7 @@ class GameFileHandlerTest {
     testStory = new Story("Test Story", openingPassage);
     testStory.addPassage(new Passage("Forest", "You are in a forest."));
     testStory.addPassage(new Passage("Cave", "You are in a cave."));
-    testPlayer = new Player.Builder("Test Player").build();
+    Player testPlayer = new Player.Builder("Test Player").build();
     testGoals = List.of(new HealthGoal(1), new ScoreGoal(100));
     testGame = new Game(testPlayer, testStory, testGoals);
     gameFileHandler = new GameFileHandler();
