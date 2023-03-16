@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.actions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
 
 /**
@@ -10,9 +12,10 @@ import edu.ntnu.idatt2001.paths.game.Player;
  */
 public class InventoryAction implements Action {
 
-  private final String item;
+  @JsonProperty private final String item;
 
-  public InventoryAction(String item) {
+  @JsonCreator
+  public InventoryAction(@JsonProperty String item) {
     this.item = item;
   }
 

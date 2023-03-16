@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.actions;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
 
 /**
@@ -10,9 +12,10 @@ import edu.ntnu.idatt2001.paths.game.Player;
  */
 public class ScoreAction implements Action {
 
-  private final int scoreChange;
+  @JsonProperty private final int scoreChange;
 
-  public ScoreAction(int points) {
+  @JsonCreator
+  public ScoreAction(@JsonProperty int points) {
     this.scoreChange = points;
   }
 

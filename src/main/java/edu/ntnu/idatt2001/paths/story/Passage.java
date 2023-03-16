@@ -35,9 +35,9 @@ import java.util.Objects;
 @EqualsAndHashCode
 public class Passage {
 
-  private final String title;
-  private final String content;
-  private final List<Link> links;
+  @JsonProperty private final String title;
+  @JsonProperty private final String content;
+  @JsonProperty private final List<Link> links;
 
   /**
    * Constructs a new Passage object with the given title and content.

@@ -32,10 +32,9 @@ import static edu.ntnu.idatt2001.paths.story.Link.LinkConstants.*;
  */
 @EqualsAndHashCode(of = "ref")
 public class Link {
-  private final String text;
-  private final String ref;
-
-  private final List<Action> actions;
+  @JsonProperty private final String text;
+  @JsonProperty private final String ref;
+  @JsonProperty private final List<Action> actions;
 
   /**
    * Constructs a new Link object with the given text label and reference.

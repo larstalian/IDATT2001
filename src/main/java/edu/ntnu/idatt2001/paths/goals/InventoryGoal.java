@@ -1,17 +1,18 @@
 package edu.ntnu.idatt2001.paths.goals;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
+
 import java.util.HashSet;
 import java.util.List;
 
 /**
- * <p>The <em>InventoryGoal</em> class implements the <em>Goal</em> interface and represents a goal
- * of the game
- * based on the inventory of items a player must have. </p>
+ * The <em>InventoryGoal</em> class implements the <em>Goal</em> interface and represents a goal of
+ * the game based on the inventory of items a player must have.
  *
  * <p>It specifies a list of mandatory items that a player must have in their inventory to fulfill
- * the goal
- * by calling the {@link #isFulfilled} method and passing in a Player object.</p>
+ * the goal by calling the {@link #isFulfilled} method and passing in a Player object.
  *
  * <p>The <em>InventoryGoal</em> class is a part of the <em>Paths</em> game.
  *
@@ -20,15 +21,16 @@ import java.util.List;
  */
 public class InventoryGoal implements Goal {
 
-  private final List<String> mandatoryItems;
+  @JsonProperty private final List<String> mandatoryItems;
 
   /**
    * Constructs a new `InventoryGoal` object with the specified list of mandatory items.
    *
    * @param mandatoryItems the list of mandatory items that a player must collect to fulfill the
-   *                       goal
+   *     goal
    */
-  public InventoryGoal(List<String> mandatoryItems) {
+  @JsonCreator
+  public InventoryGoal(@JsonProperty List<String> mandatoryItems) {
     this.mandatoryItems = mandatoryItems;
   }
 
@@ -38,7 +40,7 @@ public class InventoryGoal implements Goal {
    *
    * @param player the player whose inventory is to be checked
    * @return {@code true}` if the player has collected all the mandatory items, {@code false}
-   * otherwise
+   *     otherwise
    */
   @Override
   public boolean isFulfilled(Player player) {
