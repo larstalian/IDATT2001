@@ -6,6 +6,7 @@ import edu.ntnu.idatt2001.paths.goals.Goal;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import java.util.Objects;
  * @see Story
  * @see Goal
  */
+@EqualsAndHashCode(of = {"player", "story"})
 public class Game {
 
   @JsonProperty private final Player player;

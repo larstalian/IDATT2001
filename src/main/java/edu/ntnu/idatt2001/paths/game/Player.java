@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ import static edu.ntnu.idatt2001.paths.game.Player.PlayerConstants.*;
  * @see Builder
  */
 @JsonDeserialize(builder = Player.Builder.class)
+@EqualsAndHashCode(of = {"name", "inventory"})
 public class Player {
 
   @JsonProperty private final String name;
