@@ -28,7 +28,7 @@ public class StoryFileHandler {
 
   /**
    * Constructs a new StoryFileHandler with default settings. Initializes an ObjectMapper and sets
-   * the file path for the stories.
+   * the file path for the stories. Registers the custom deserializer for the Story class.
    */
   public StoryFileHandler() {
     objectMapper = new ObjectMapper();
