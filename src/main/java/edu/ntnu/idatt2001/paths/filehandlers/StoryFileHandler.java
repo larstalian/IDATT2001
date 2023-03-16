@@ -48,7 +48,7 @@ public class StoryFileHandler {
     Objects.requireNonNull(story, "Story cannot be null");
     String filename = story.getTitle();
 
-    String jsonString = objectMapper.writeValueAsString(story);
+    String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(story);
     Path storyFilePath = filePath.resolve(filename + ".json"); // Add ".json" extension
     Files.write(storyFilePath, jsonString.getBytes());
   }
