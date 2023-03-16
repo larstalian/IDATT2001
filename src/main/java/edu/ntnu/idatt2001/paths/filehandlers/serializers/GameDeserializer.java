@@ -1,7 +1,6 @@
 package edu.ntnu.idatt2001.paths.filehandlers.serializers;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -44,7 +43,7 @@ public class GameDeserializer extends JsonDeserializer<Game> {
 
   @Override
   public Game deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-      throws IOException, JsonProcessingException {
+      throws IOException {
     JsonNode gameNode = jsonParser.getCodec().readTree(jsonParser);
     Player player = jsonParser.getCodec().treeToValue(gameNode.get("player"), Player.class);
     Story story = jsonParser.getCodec().treeToValue(gameNode.get("story"), Story.class);
