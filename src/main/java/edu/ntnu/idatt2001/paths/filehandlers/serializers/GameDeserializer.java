@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import edu.ntnu.idatt2001.paths.game.Game;
 import edu.ntnu.idatt2001.paths.game.Player;
 import edu.ntnu.idatt2001.paths.goals.Goal;
-import edu.ntnu.idatt2001.paths.goals.GoalFactory;
+import edu.ntnu.idatt2001.paths.filehandlers.factories.GoalFactory;
 import edu.ntnu.idatt2001.paths.story.Story;
 
 import java.io.IOException;

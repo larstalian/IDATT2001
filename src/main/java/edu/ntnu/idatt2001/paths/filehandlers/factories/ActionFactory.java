@@ -1,4 +1,6 @@
-package edu.ntnu.idatt2001.paths.actions;
+package edu.ntnu.idatt2001.paths.filehandlers.factories;
+
+import edu.ntnu.idatt2001.paths.actions.*;
 
 public class ActionFactory {
 

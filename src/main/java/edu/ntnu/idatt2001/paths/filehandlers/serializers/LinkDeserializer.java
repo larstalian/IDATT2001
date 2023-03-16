@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import edu.ntnu.idatt2001.paths.actions.Action;
-import edu.ntnu.idatt2001.paths.actions.ActionFactory;
+import edu.ntnu.idatt2001.paths.filehandlers.factories.ActionFactory;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Story;
 
@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @see Link
  * @see edu.ntnu.idatt2001.paths.actions.Action
- * @see edu.ntnu.idatt2001.paths.actions.ActionFactory
+ * @see ActionFactory
  * @see edu.ntnu.idatt2001.paths.story.Story
  * @see com.fasterxml.jackson.databind.ObjectMapper
  */

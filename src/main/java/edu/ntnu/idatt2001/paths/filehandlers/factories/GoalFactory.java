@@ -1,6 +1,7 @@
-package edu.ntnu.idatt2001.paths.goals;
+package edu.ntnu.idatt2001.paths.filehandlers.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import edu.ntnu.idatt2001.paths.goals.*;
 
 import java.util.ArrayList;
 import java.util.List;
