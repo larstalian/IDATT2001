@@ -12,15 +12,15 @@ public class ActionFactory {
      */
     public static Action createAction(String actionName, String actionValue) {
         switch (actionName) {
-            case "gold":
+            case "goldChange":
                 int gold = Integer.parseInt(actionValue);
                 return new GoldAction(gold);
-            case "health":
+            case "healthChange":
                 int health = Integer.parseInt(actionValue);
                 return new HealthAction(health);
-            case "inventory":
+            case "inventoryChange":
                 return new InventoryAction(actionValue);
-            case "score":
+            case "scoreChange":
                 int points = Integer.parseInt(actionValue);
                 return new ScoreAction(points);
             default:
