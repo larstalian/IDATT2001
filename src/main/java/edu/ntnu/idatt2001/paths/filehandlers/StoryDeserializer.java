@@ -14,7 +14,8 @@ import java.util.Map;
 
 /**
  * A custom deserializer for the Story class, using Jackson library. This class is responsible for
- * deserializing JSON data into a Story object.
+ * deserializing JSON data into a Story object. This class is necessary because of the passage map
+ * is of type Map<Link, Passage> and Jacksons default deserialization cannot deserialize the map.
  *
  * @see Story
  * @see edu.ntnu.idatt2001.paths.filehandlers.StoryFileHandler
