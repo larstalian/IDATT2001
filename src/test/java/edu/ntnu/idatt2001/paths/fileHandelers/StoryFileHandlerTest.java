@@ -1,10 +1,10 @@
 package edu.ntnu.idatt2001.paths.fileHandelers;
 
+import edu.ntnu.idatt2001.paths.actions.GoldAction;
 import edu.ntnu.idatt2001.paths.filehandlers.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,14 +22,14 @@ class StoryFileHandlerTest {
   private StoryFileHandler storyFileHandler;
   private Story testStory;
 
-  @AfterAll
-  static void cleanUp() {
-    try {
-      Files.delete(savedStoryPath);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+//  @AfterAll
+//  static void cleanUp() {
+//    try {
+//      Files.delete(savedStoryPath);
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
   @BeforeEach
   void setUp() {
@@ -40,6 +40,10 @@ class StoryFileHandlerTest {
     Passage forestPassage = new Passage("Forest", "You are in a forest.");
     testStory = new Story("Test Story", openingPassage);
     testStory.addPassage(forestPassage);
+    testStory.addPassage(new Passage("Cave", "You are in a cave."));
+    testStory.getPassage(new Link("Forest", "Forest")).addLink(new Link("Go to the cave", "Cave"));
+    testStory.getPassage(new Link("Forest", "Forest")).getLinks().get(0).addAction(new GoldAction(10));
+    testStory.addPassage(new Passage("River", "You are by a river."));
   }
 
   @Test
