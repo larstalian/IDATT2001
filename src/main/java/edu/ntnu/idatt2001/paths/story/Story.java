@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.paths.story;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import static edu.ntnu.idatt2001.paths.story.Story.StoryConstants.MIN_TITLE_LENG
  * @see Link
  * @see StoryConstants
  */
+@EqualsAndHashCode(of = {"title", "openingPassage"})
 public class Story {
   @JsonProperty private final String title;
   @JsonProperty private final Passage openingPassage;

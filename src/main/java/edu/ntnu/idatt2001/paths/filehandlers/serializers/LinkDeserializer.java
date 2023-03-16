@@ -1,11 +1,11 @@
-package edu.ntnu.idatt2001.paths.filehandlers;
+package edu.ntnu.idatt2001.paths.filehandlers.serializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import edu.ntnu.idatt2001.paths.actions.Action;
-import edu.ntnu.idatt2001.paths.actions.ActionFactory;
+import edu.ntnu.idatt2001.paths.filehandlers.factories.ActionFactory;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Story;
 
@@ -20,9 +20,6 @@ import java.util.List;
  * be deserialized according to their respective types. The {@link Link} objects are also a key in
  * in the {@code Map<Link, Passage>} in the {@link Story} class.
  *
- * <p>There is not a custom serializer for {@link Link} class as Jackson can serialize the class
- * using the default serializer.
- *
  * <p>To use this deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}, register
  * it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module to the
  * ObjectMapper. For example:
@@ -36,7 +33,7 @@ import java.util.List;
  *
  * @see Link
  * @see edu.ntnu.idatt2001.paths.actions.Action
- * @see edu.ntnu.idatt2001.paths.actions.ActionFactory
+ * @see ActionFactory
  * @see edu.ntnu.idatt2001.paths.story.Story
  * @see com.fasterxml.jackson.databind.ObjectMapper
  */
