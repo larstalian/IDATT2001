@@ -1,9 +1,12 @@
 package edu.ntnu.idatt2001.paths.game;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.goals.Goal;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +15,10 @@ import java.util.Objects;
  * class provides methods for accessing these attributes.
  *
  * <p>The game's player, story, and goals cannot be null or an IllegalArgumentException will be
- * thrown.
- * The game's story can be progressed through by calling the {@link #begin} method and then the
- * {@link #go} method to navigate to different passages using the associated link</p>
+ * thrown. The game's story can be progressed through by calling the {@link #begin} method and then
+ * the {@link #go} method to navigate to different passages using the associated link
  *
- * <p>The field variables is immutable and cannot be modified.</p>
+ * <p>The field variables is immutable and cannot be modified.
  *
  * @see Player
  * @see Story
@@ -24,20 +26,21 @@ import java.util.Objects;
  */
 public class Game {
 
-  private final Player player;
-  private final Story story;
-  private final List<Goal> goals;
-
+  @JsonProperty private final Player player;
+  @JsonProperty private final Story story;
+  @JsonProperty private final List<Goal> goals;
 
   /**
    * Creates a new game with the given player, story, and goals.
    *
    * @param player the player of the game, cannot be null
-   * @param story  the story of the game, cannot be null
-   * @param goals  the goals of the game, cannot be null
+   * @param story the story of the game, cannot be null
+   * @param goals the goals of the game, cannot be null
    * @throws IllegalArgumentException if any of the parameter values are invalid
    */
-  public Game(Player player, Story story, List<Goal> goals) {
+  @JsonCreator
+  public Game(
+      @JsonProperty("player") Player player, @JsonProperty("story") Story story, @JsonProperty("goals") List<Goal> goals) {
     this.player = Objects.requireNonNull(player, "Player cannot be null");
     this.story = Objects.requireNonNull(story, "Story cannot be null");
     this.goals = Objects.requireNonNull(goals, "Goals cannot be null");
