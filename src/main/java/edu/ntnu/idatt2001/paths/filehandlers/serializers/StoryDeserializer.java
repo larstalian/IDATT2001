@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.filehandlers;
+package edu.ntnu.idatt2001.paths.filehandlers.serializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +32,7 @@ import java.util.Map;
  * }</pre>
  *
  * @see Story
- * @see edu.ntnu.idatt2001.paths.filehandlers.StoryDeserializer
+ * @see StoryDeserializer
  * @see com.fasterxml.jackson.databind.ObjectMapper
  */
 public class StoryDeserializer extends JsonDeserializer<Story> {
