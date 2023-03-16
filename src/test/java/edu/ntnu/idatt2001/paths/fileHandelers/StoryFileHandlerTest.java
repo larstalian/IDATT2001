@@ -8,6 +8,7 @@ import edu.ntnu.idatt2001.paths.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,14 +27,14 @@ class StoryFileHandlerTest {
   private StoryFileHandler storyFileHandler;
   private Story testStory;
 
-  //  @AfterAll
-  //  static void cleanUp() {
-  //    try {
-  //      Files.delete(savedStoryPath);
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //  }
+  @AfterAll
+  static void cleanUp() {
+    try {
+      Files.delete(savedStoryPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   @BeforeEach
   void setUp() {
