@@ -55,7 +55,7 @@ public class StoryFileHandler {
     module.addDeserializer(Story.class, new StoryDeserializer());
     module.addDeserializer(Link.class, new LinkDeserializer());
     objectMapper.registerModule(module);
-    filePath = Paths.get("src/main/resources/stories");
+    filePath = Paths.get("src/main/resources/stories/json");
   }
 
   /**
@@ -69,6 +69,7 @@ public class StoryFileHandler {
     String filename = story.getTitle();
 
     String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(story);
+    Files.createDirectories(filePath);
     Path storyFilePath = filePath.resolve(filename + ".json"); // Add ".json" extension
     Files.write(storyFilePath, jsonString.getBytes());
   }
