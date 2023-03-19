@@ -30,7 +30,8 @@ build:
 test:
   stage: test
   script:
-    - mkdir -p src/main/resources/stories
+    - mkdir -p src/main/resources/stories/json
+    - mkdir -p src/main/resources/stories/txt/
     - mkdir -p src/main/resources/saves
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
@@ -42,8 +43,8 @@ test:
 deploy:
   stage: deploy
   script:
-    - mkdir -p src/main/resources/stories
-    - mkdir -p src/main/resources/saves
+    - mkdir -p src/main/resources/stories/json
+    - mkdir -p src/main/resources/saves/txt
     - mvn $MAVEN_CLI_OPTS package
   artifacts:
     paths:
