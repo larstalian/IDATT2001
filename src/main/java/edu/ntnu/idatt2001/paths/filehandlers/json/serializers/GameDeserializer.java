@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.filehandlers.serializers;
+package edu.ntnu.idatt2001.paths.filehandlers.json.serializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

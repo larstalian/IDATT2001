@@ -32,7 +32,7 @@ import java.util.Objects;
  * @see Link
  * @see Story
  */
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "title")
 public class Passage {
 
   @JsonProperty private final String title;

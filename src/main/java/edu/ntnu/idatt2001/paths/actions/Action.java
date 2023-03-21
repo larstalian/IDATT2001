@@ -16,4 +16,7 @@ public interface Action {
    * @param player the player object that the action should be executed on
    */
   void execute(Player player);
+
+  @Override
+  String toString();
 }

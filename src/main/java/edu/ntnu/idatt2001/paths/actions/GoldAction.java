@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths.actions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
+import lombok.EqualsAndHashCode;
 
 /**
  * The GoldAction class represents an action that changes the gold value of a player. The amount of
@@ -10,6 +11,7 @@ import edu.ntnu.idatt2001.paths.game.Player;
  *
  * @see Action
  */
+@EqualsAndHashCode
 public class GoldAction implements Action {
 
   @JsonProperty private final int goldChange;
@@ -28,5 +30,10 @@ public class GoldAction implements Action {
   @Override
   public void execute(Player player) {
     player.addGold(player.getGold() + goldChange);
+  }
+
+  @Override
+  public String toString() {
+    return "G:" + goldChange;
   }
 }

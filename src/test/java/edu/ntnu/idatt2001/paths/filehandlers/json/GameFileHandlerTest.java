@@ -1,4 +1,7 @@
-package edu.ntnu.idatt2001.paths.filehandlers;
+package edu.ntnu.idatt2001.paths.filehandlers.json;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 import edu.ntnu.idatt2001.paths.game.Game;
 import edu.ntnu.idatt2001.paths.game.Player;
@@ -7,17 +10,13 @@ import edu.ntnu.idatt2001.paths.goals.HealthGoal;
 import edu.ntnu.idatt2001.paths.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class GameFileHandlerTest {
 
@@ -67,11 +66,12 @@ class GameFileHandlerTest {
     assertThat(loadedGame, equalTo(testGame));
   }
 
- @Test
+  @Test
   void loadGameFromFile_ContainsAllPassages() throws IOException {
     gameFileHandler.saveGameToFile(testGame);
     Game loadedGame = gameFileHandler.loadGameFromStyle("Test Story");
-    assertThat(loadedGame.getStory().getPassages().toArray(), equalTo(testStory.getPassages().toArray()));
+    assertThat(
+        loadedGame.getStory().getPassages().toArray(), equalTo(testStory.getPassages().toArray()));
   }
 
   @Test
