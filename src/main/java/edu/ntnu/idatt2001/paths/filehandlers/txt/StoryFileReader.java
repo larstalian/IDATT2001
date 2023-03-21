@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -50,7 +51,7 @@ public class StoryFileReader {
    * @return A Story object representing the story read from the file.
    * @throws IOException If there is a problem reading the file.
    */
-  public static Story readStoryFromFile(String fileName) throws IOException {
+  public static Story readStoryFromFile(String fileName) throws IOException, ParseException {
     String storyContent = readFile(fileName);
     return parseStoryContent(storyContent);
   }
@@ -61,7 +62,7 @@ public class StoryFileReader {
    * @param storyContent The content of the story as a string.
    * @return A Story object representing the story.
    */
-  private static Story parseStoryContent(String storyContent) {
+  private static Story parseStoryContent(String storyContent)throws ParseException {
     String[] lines = storyContent.split(DELIMITER);
     String storyTitle = lines[0];
     Passage openingPassage = createPassage(lines, 2);
@@ -126,7 +127,7 @@ public class StoryFileReader {
    * @param index The index in the array where the passage information starts.
    * @return A Passage object representing the passage.
    */
-  private static Passage createPassage(String[] lines, int index) {
+  private static Passage createPassage(String[] lines, int index) throws ParseException {
     Matcher passageMatcher = Pattern.compile(PASSAGE_PATTERN).matcher(lines[index]);
     if (passageMatcher.find()) {
       String passageTitle = passageMatcher.group(1);
@@ -135,7 +136,7 @@ public class StoryFileReader {
       addLinks(passage, index + 2, lines);
       return passage;
     }
-    throw new IllegalArgumentException("Invalid passage format: " + lines[index]);
+    throw new ParseException("Invalid passage format: " + lines[index], index);
   }
 
   /**
@@ -146,7 +147,7 @@ public class StoryFileReader {
    * @param index The index in the array where the link information starts.
    * @param lines An array of strings representing the story content.
    */
-  private static void addLinks(Passage passage, int index, String[] lines) {
+  private static void addLinks(Passage passage, int index, String[] lines)throws ParseException {
     Iterator<String> lineIterator = Arrays.asList(lines).listIterator(index);
 
     while (lineIterator.hasNext()) {
@@ -176,7 +177,7 @@ public class StoryFileReader {
    * @param link The link to add actions to.
    * @param line The line containing action information.
    */
-  private static void buildActionsContent(Link link, String line) {
+  private static void buildActionsContent(Link link, String line) throws ParseException {
     Matcher actionsMatcher = Pattern.compile(ACTIONS_PATTERN).matcher(line);
     if (actionsMatcher.find()) {
       String actions = actionsMatcher.group(1);
@@ -193,8 +194,7 @@ public class StoryFileReader {
             case "I" -> link.addAction(new InventoryAction(actionValue));
             case "S" -> link.addAction(new ScoreAction(Integer.parseInt(actionValue)));
             case "G" -> link.addAction(new GoldAction(Integer.parseInt(actionValue)));
-            default -> throw new IllegalArgumentException(
-                "Unrecognized action type: " + actionType);
+            default -> throw new ParseException("Unrecognized action type: " + actionType, 0);
           }
         }
       }
