@@ -31,11 +31,11 @@ test:
   stage: test
   script:
     - mkdir -p src/main/resources/stories/json
-      - mkdir -p src/main/resources/stories/txt/
-      - mkdir -p src/main/resources/saves
-      - touch src/main/resources/stories/txt/Empty\ Test\ Story.txt
-      - touch src/main/resources/stories/txt/No\ Actions\ Test\ Story.txt
-      - mvn $MAVEN_CLI_OPTS test
+    - mkdir -p src/main/resources/stories/txt/
+    - mkdir -p src/main/resources/saves
+    - touch src/main/resources/stories/txt/Empty\ Test\ Story.txt
+    - touch src/main/resources/stories/txt/No\ Actions\ Test\ Story.txt
+    - mvn $MAVEN_CLI_OPTS test
   artifacts:
     when: always
     paths:
