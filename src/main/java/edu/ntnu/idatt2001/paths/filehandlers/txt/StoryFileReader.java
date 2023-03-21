@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,10 +36,9 @@ public class StoryFileReader {
   private static final String DELIMITER = System.getProperty("line.separator");
   private static final String FILE_ENDING = ".txt";
   private static final Path FILE_PATH = Paths.get("src/main/resources/stories/txt/");
-
   private static final String PASSAGE_PATTERN = "^::(.+)$";
   private static final String LINK_PATTERN = "^\\[(.+)]\\((.+)\\)$";
-  private static final String ACTIONS_PATTERN = "^\\{(.+)]}$";
+  private static final String ACTIONS_PATTERN = "^\\{(.+)}$";
   private static final String ACTION_TYPE_PATTERN = "^([HISG]):";
 
   private StoryFileReader() {}
@@ -146,8 +145,8 @@ public class StoryFileReader {
    * @param index The index in the array where the link information starts.
    * @param lines An array of strings representing the story content.
    */
-  private static void addLinks(Passage passage, int index, String[] lines)throws ParseException {
-    Iterator<String> lineIterator = Arrays.asList(lines).listIterator(index);
+  private static void addLinks(Passage passage, int index, String[] lines) throws ParseException {
+    ListIterator<String> lineIterator = Arrays.asList(lines).listIterator(index);
 
     while (lineIterator.hasNext()) {
       String line = lineIterator.next();
@@ -159,8 +158,14 @@ public class StoryFileReader {
           String linkText = linkMatcher.group(1);
           String linkRef = linkMatcher.group(2);
           Link link = new Link(linkText, linkRef);
-          if (lineIterator.hasNext() && isActions(lineIterator.next())) {
-            buildActionsContent(link, lineIterator.next());
+          if (lineIterator.hasNext()) {
+            String nextLine = lineIterator.next(); // Advance the iterator
+            if (isActions(nextLine)) {
+              buildActionsContent(link, nextLine);
+            } else {
+              // If the line is not an action, go back one step in the iterator
+              lineIterator.previous();
+            }
           }
           passage.addLink(link);
         } else {
