@@ -94,29 +94,58 @@ class StoryFileHandlerTest {
   }
 
   @Test
-  void whenStoryIsSavedWithNoLinks_itShouldNotThrowException() throws IOException, ParseException {
+  void whenStoryIsSavedWithNoLinks_itShouldNotThrowException() {
+    String invalidFileTitle = "Invalid Test Story";
+    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
     Passage openingPassage = new Passage("Empty Story", "This is an empty story.");
-    Story emptyStory = new Story("Empty Test Story", openingPassage);
-    StoryFileWriter.saveStoryToFile(emptyStory);
-    Story loadedEmptyStory = StoryFileReader.readStoryFromFile(emptyStory.getTitle());
+    Story emptyStory = new Story(invalidFileTitle, openingPassage);
+    try {
+      StoryFileWriter.saveStoryToFile(emptyStory);
+      Story loadedEmptyStory = StoryFileReader.readStoryFromFile(emptyStory.getTitle());
+      assertThat(loadedEmptyStory, equalTo(emptyStory));
 
-    assertThat(loadedEmptyStory, equalTo(emptyStory));
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("IOException occurred while writing invalid file content");
+    } catch (ParseException e) {
+      e.printStackTrace();
+      fail("ParseException occurred while reading invalid file content");
+    } finally {
+      try {
+        Files.delete(invalidFilePath);
+      } catch (IOException e) {
+        e.printStackTrace();
+        fail("IOException occurred while deleting invalid file");
+      }
+    }
   }
 
   @Test
-  void whenStoryIsSavedWithNoActions_itShouldNotThrowException()
-      throws IOException, ParseException {
+  void whenStoryIsSavedWithNoActions_itShouldNotThrowException() {
+    String invalidFileTitle = "Invalid Test Story";
+    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
     Passage openingPassage = new Passage("No Actions Story", "This is a story with no actions.");
     Passage passage1 = new Passage("Passage1", "This is the first passage.");
     Link link1 = new Link("Go to the first passage", "Passage1");
     openingPassage.addLink(link1);
-    Story noActionsStory = new Story("No Actions Test Story", openingPassage);
+    Story noActionsStory = new Story(invalidFileTitle, openingPassage);
     noActionsStory.addPassage(passage1);
 
-    StoryFileWriter.saveStoryToFile(noActionsStory);
-    Story loadedNoActionsStory = StoryFileReader.readStoryFromFile(noActionsStory.getTitle());
-
-    assertThat(loadedNoActionsStory, equalTo(noActionsStory));
+    try {
+      StoryFileWriter.saveStoryToFile(noActionsStory);
+      Story loadedNoActionsStory = StoryFileReader.readStoryFromFile(noActionsStory.getTitle());
+      assertThat(loadedNoActionsStory, equalTo(noActionsStory));
+    } catch (IOException | ParseException e) {
+      e.printStackTrace();
+      fail("IOException occurred while writing invalid file content");
+    } finally {
+      try {
+        Files.delete(invalidFilePath);
+      } catch (IOException e) {
+        e.printStackTrace();
+        fail("IOException occurred while deleting invalid file");
+      }
+    }
   }
 
   @Test
@@ -145,16 +174,13 @@ class StoryFileHandlerTest {
     String invalidPassageContent =
         "Story Title\n\n::Passage1\nThis is the first passage.\nInvalid Link";
     Path path = Path.of("src/main/resources/stories/txt/InvalidPassageFormatStory.txt");
-
     try {
       Files.writeString(path, invalidPassageContent);
       assertThrows(
           ParseException.class,
           () -> StoryFileReader.readStoryFromFile("InvalidPassageFormatStory"));
-
     } catch (IOException e) {
       fail("Unable to create a temporary file for testing invalid passage format.");
-
     } finally {
       try {
         Files.delete(path);
