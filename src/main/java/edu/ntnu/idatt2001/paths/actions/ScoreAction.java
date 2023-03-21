@@ -29,4 +29,9 @@ public class ScoreAction implements Action {
   public void execute(Player player) {
     player.addScore(player.getScore() + scoreChange);
   }
+
+  @Override
+  public String toString() {
+    return scoreChange + "points";
+  }
 }

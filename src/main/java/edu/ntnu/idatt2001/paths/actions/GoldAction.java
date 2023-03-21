@@ -29,4 +29,9 @@ public class GoldAction implements Action {
   public void execute(Player player) {
     player.addGold(player.getGold() + goldChange);
   }
+
+  @Override
+  public String toString() {
+    return goldChange + "gold";
+  }
 }
