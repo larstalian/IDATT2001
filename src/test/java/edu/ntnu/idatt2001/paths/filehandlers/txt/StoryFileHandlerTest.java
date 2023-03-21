@@ -191,6 +191,7 @@ class StoryFileHandlerTest {
         "Story Title\n\n::Passage1\nThis is the first passage.\nInvalid Link";
     Path path = Path.of("src/main/resources/stories/txt/InvalidPassageFormatStory.txt");
     try {
+      Files.createDirectories(path.getParent());
       Files.writeString(path, invalidPassageContent);
       assertThrows(
           ParseException.class,
