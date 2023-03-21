@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.filehandlers.txt;
 
+import edu.ntnu.idatt2001.paths.actions.Action;
 import edu.ntnu.idatt2001.paths.story.Link;
 import edu.ntnu.idatt2001.paths.story.Passage;
 import edu.ntnu.idatt2001.paths.story.Story;
@@ -18,6 +19,8 @@ public class StoryFileWriter {
   private static final String LINK_TEXT_SUFFIX = "]";
   private static final String LINK_REF_PREFIX = "(";
   private static final String LINK_REF_SUFFIX = ")";
+  private static final String ACTION_PREFIX = "{";
+  private static final String ACTION_SUFFIX = "}";
 
   private static Path FILE_PATH = Paths.get(FILEPATH);
 
@@ -49,12 +52,13 @@ public class StoryFileWriter {
   private static String buildLinkContent(Link link) {
     StringBuilder sb = new StringBuilder();
     sb.append(LINK_TEXT_PREFIX)
-            .append(link.getText())
-            .append(LINK_TEXT_SUFFIX)
-            .append(LINK_REF_PREFIX)
-            .append(link.getRef())
-            .append(LINK_REF_SUFFIX)
-            .append(NEWLINE);
+        .append(link.getText())
+        .append(LINK_TEXT_SUFFIX)
+        .append(LINK_REF_PREFIX)
+        .append(link.getRef())
+        .append(LINK_REF_SUFFIX)
+        .append(NEWLINE);
+    sb.append(buildActionContent(link.getActions()));
     return sb.toString();
   }
 
@@ -62,6 +66,13 @@ public class StoryFileWriter {
     StringBuilder sb = new StringBuilder();
     links.forEach(link -> sb.append(buildLinkContent(link)));
     sb.append(NEWLINE);
+    return sb.toString();
+  }
+
+  private static String buildActionContent(Collection<Action> actions) {
+    StringBuilder sb = new StringBuilder(ACTION_PREFIX);
+    actions.forEach(action -> sb.append(action.toString()).append(", "));
+    sb.append(ACTION_SUFFIX).append(NEWLINE);
     return sb.toString();
   }
 
