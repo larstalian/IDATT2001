@@ -15,11 +15,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class StoryFileHandlerTest {
 
+  private static final Path EMPTY_TEST_STORY_PATH = Path.of("src/main/resources/stories/txt/Empty Test Story.txt");
+  private static final Path NO_ACTIONS_TEST_STORY_PATH = Path.of("src/main/resources/stories/txt/No Actions Test Story.txt");
   private Story story;
   private Story loadedStory;
 
@@ -52,6 +55,18 @@ class StoryFileHandlerTest {
     StoryFileWriter.saveStoryToFile(story);
     loadedStory = StoryFileReader.readStoryFromFile(story.getTitle());
   }
+
+  @AfterEach
+  void deleteTemporaryFiles() {
+    try {
+      Files.deleteIfExists(EMPTY_TEST_STORY_PATH);
+      Files.deleteIfExists(NO_ACTIONS_TEST_STORY_PATH);
+    } catch (IOException e) {
+      e.printStackTrace();
+      fail("IOException occurred while deleting temporary files.");
+    }
+  }
+
 
   @Test
   void whenStoryIsLoaded_itShouldBeEqualToWrittenStory() {
