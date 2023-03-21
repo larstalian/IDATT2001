@@ -13,6 +13,7 @@ import edu.ntnu.idatt2001.paths.story.Story;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -21,8 +22,11 @@ import org.junit.jupiter.api.Test;
 
 class StoryFileHandlerTest {
 
-  private static final Path EMPTY_TEST_STORY_PATH = Path.of("src/main/resources/stories/txt/Empty Test Story.txt");
-  private static final Path NO_ACTIONS_TEST_STORY_PATH = Path.of("src/main/resources/stories/txt/No Actions Test Story.txt");
+  private static final Path EMPTY_TEST_STORY_PATH =
+      Paths.get("src", "main", "resources", "stories", "txt", "Empty Test Story.txt");
+  private static final Path NO_ACTIONS_TEST_STORY_PATH =
+      Paths.get("src", "main", "resources", "stories", "txt", "No Actions Test Story.txt");
+
   private Story story;
   private Story loadedStory;
 
@@ -67,7 +71,6 @@ class StoryFileHandlerTest {
     }
   }
 
-
   @Test
   void whenStoryIsLoaded_itShouldBeEqualToWrittenStory() {
     assertThat(loadedStory, equalTo(story));
@@ -80,7 +83,6 @@ class StoryFileHandlerTest {
 
   @Test
   void whenStoryIsSaved_itShouldContainCorrectActions() {
-    System.out.println(loadedStory.getPassage(new Link("Go to the first passage", "Passage1")));
     assertThat(
         loadedStory
             .getPassage(new Link("Go to the first passage", "Passage1"))
@@ -166,8 +168,8 @@ class StoryFileHandlerTest {
   @Test
   void whenInvalidFileIsLoaded_itShouldThrowParseException() {
     String invalidFileTitle = "Invalid Test Story";
-    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
-
+    Path invalidFilePath =
+        Paths.get("src", "main", "resources", "stories", "txt", "InvalidPassageFormatStory.txt");
     try {
       Files.writeString(invalidFilePath, "Invalid file content");
       assertThrows(ParseException.class, () -> StoryFileReader.readStoryFromFile(invalidFileTitle));
