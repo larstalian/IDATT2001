@@ -38,7 +38,7 @@ public class StoryFileReader {
   private static final Path FILE_PATH = Paths.get("src/main/resources/stories/txt/");
 
   private static final String PASSAGE_PATTERN = "^::(.+)$";
-  private static final String LINK_PATTERN = "^\\[(.+)]\\((.+)]\\)$";
+  private static final String LINK_PATTERN = "^\\[(.+)]\\((.+)\\)$";
   private static final String ACTIONS_PATTERN = "^\\{(.+)]}$";
   private static final String ACTION_TYPE_PATTERN = "^([HISG]):";
 
@@ -62,7 +62,7 @@ public class StoryFileReader {
    * @param storyContent The content of the story as a string.
    * @return A Story object representing the story.
    */
-  private static Story parseStoryContent(String storyContent)throws ParseException {
+  private static Story parseStoryContent(String storyContent) throws ParseException {
     String[] lines = storyContent.split(DELIMITER);
     String storyTitle = lines[0];
     Passage openingPassage = createPassage(lines, 2);
@@ -74,7 +74,6 @@ public class StoryFileReader {
         story.addPassage(passage);
       }
     }
-
     return story;
   }
 
