@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class StoryFileWriter {
   private static final String NEWLINE = System.lineSeparator();
@@ -22,7 +23,12 @@ public class StoryFileWriter {
   private static final String ACTION_PREFIX = "{";
   private static final String ACTION_SUFFIX = "}";
 
-  private static Path FILE_PATH = Paths.get(FILEPATH);
+  private static final String SEPARATOR = ",";
+
+  private static final Path FILE_PATH = Paths.get(FILEPATH);
+
+  private StoryFileWriter() {
+  }
 
   public static void saveStoryToFile(Story story) throws IOException {
     String storyContent = buildStoryContent(story);
@@ -30,36 +36,25 @@ public class StoryFileWriter {
   }
 
   private static String buildStoryContent(Story story) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(story.getTitle()).append(NEWLINE).append(NEWLINE);
-    sb.append(buildPassageContent(story.getOpeningPassage()));
-    sb.append(buildLinksContent(story.getOpeningPassage().getLinks()));
+    String openingPassageContent = buildPassageContent(story.getOpeningPassage()) +
+            buildLinksContent(story.getOpeningPassage().getLinks());
 
-    for (Passage passage : story.getPassages()) {
-      sb.append(buildPassageContent(passage));
-      sb.append(buildLinksContent(passage.getLinks()));
-    }
-    return sb.toString();
+    String passagesContent = story.getPassages().stream()
+            .map(passage -> buildPassageContent(passage) + buildLinksContent(passage.getLinks()))
+            .collect(Collectors.joining());
+
+    return String.join(NEWLINE, story.getTitle(), "", openingPassageContent, passagesContent);
   }
 
+
   private static String buildPassageContent(Passage passage) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(PASSAGE_PREFIX).append(passage.getTitle()).append(NEWLINE);
-    sb.append(passage.getContent()).append(NEWLINE);
-    return sb.toString();
+    return PASSAGE_PREFIX + passage.getTitle() + NEWLINE + passage.getContent() + NEWLINE;
   }
 
   private static String buildLinkContent(Link link) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(LINK_TEXT_PREFIX)
-        .append(link.getText())
-        .append(LINK_TEXT_SUFFIX)
-        .append(LINK_REF_PREFIX)
-        .append(link.getRef())
-        .append(LINK_REF_SUFFIX)
-        .append(NEWLINE);
-    sb.append(buildActionContent(link.getActions()));
-    return sb.toString();
+    String linkContent = LINK_TEXT_PREFIX + link.getText() + LINK_TEXT_SUFFIX +
+            LINK_REF_PREFIX + link.getRef() + LINK_REF_SUFFIX + NEWLINE;
+    return linkContent + buildActionContent(link.getActions());
   }
 
   private static String buildLinksContent(Collection<Link> links) {
@@ -70,15 +65,15 @@ public class StoryFileWriter {
   }
 
   private static String buildActionContent(Collection<Action> actions) {
-    StringBuilder sb = new StringBuilder(ACTION_PREFIX);
-    actions.forEach(action -> sb.append(action.toString()).append(", "));
-    sb.append(ACTION_SUFFIX).append(NEWLINE);
-    return sb.toString();
+    return actions.stream()
+        .map(Action::toString)
+        .collect(Collectors.joining(SEPARATOR, ACTION_PREFIX, ACTION_SUFFIX + NEWLINE));
   }
+
 
   private static void writeFile(String filename, String content) throws IOException {
     Files.createDirectories(FILE_PATH);
-    FILE_PATH = FILE_PATH.resolve(filename + FILE_ENDING);
-    Files.write(FILE_PATH, content.getBytes());
+    Path filePath = FILE_PATH.resolve(filename + FILE_ENDING);
+    Files.write(filePath, content.getBytes());
   }
 }
