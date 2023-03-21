@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths.actions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
+import lombok.EqualsAndHashCode;
 
 /**
  * The ScoreAction class represents an action that changes the score value of a player. The amount
@@ -10,6 +11,7 @@ import edu.ntnu.idatt2001.paths.game.Player;
  *
  * @see Action
  */
+@EqualsAndHashCode
 public class ScoreAction implements Action {
 
   @JsonProperty private final int scoreChange;

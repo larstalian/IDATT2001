@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths.actions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.game.Player;
+import lombok.EqualsAndHashCode;
 
 /**
  * The InventoryAction class represents an action that adds an item to the player's inventory. The
@@ -10,6 +11,7 @@ import edu.ntnu.idatt2001.paths.game.Player;
  *
  * @see Action
  */
+@EqualsAndHashCode
 public class InventoryAction implements Action {
 
   @JsonProperty private final String item;
