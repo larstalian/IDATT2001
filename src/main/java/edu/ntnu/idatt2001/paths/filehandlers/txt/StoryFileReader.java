@@ -63,6 +63,11 @@ public class StoryFileReader {
    */
   private static Story parseStoryContent(String storyContent) throws ParseException {
     String[] lines = storyContent.split(DELIMITER);
+
+    if (lines.length < 4) {
+      throw new ParseException("Invalid story format: Not enough lines in the input file", 0);
+    }
+
     String storyTitle = lines[0];
     Passage openingPassage = createPassage(lines, 2);
     Story story = new Story(storyTitle, openingPassage);
