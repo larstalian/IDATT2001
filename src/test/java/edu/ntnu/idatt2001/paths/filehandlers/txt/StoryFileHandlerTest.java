@@ -13,7 +13,6 @@ import edu.ntnu.idatt2001.paths.story.Story;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -23,9 +22,9 @@ import org.junit.jupiter.api.Test;
 class StoryFileHandlerTest {
 
   private static final Path EMPTY_TEST_STORY_PATH =
-      Paths.get("src", "main", "resources", "stories", "txt", "Empty Test Story.txt");
+      Path.of("src/main/resources/stories/txt/Empty Test Story.txt");
   private static final Path NO_ACTIONS_TEST_STORY_PATH =
-      Paths.get("src", "main", "resources", "stories", "txt", "No Actions Test Story.txt");
+      Path.of("src/main/resources/stories/txt/No Actions Test Story.txt");
 
   private Story story;
   private Story loadedStory;
@@ -168,8 +167,8 @@ class StoryFileHandlerTest {
   @Test
   void whenInvalidFileIsLoaded_itShouldThrowParseException() {
     String invalidFileTitle = "Invalid Test Story";
-    Path invalidFilePath =
-        Paths.get("src", "main", "resources", "stories", "txt", "InvalidPassageFormatStory.txt");
+    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
+
     try {
       Files.writeString(invalidFilePath, "Invalid file content");
       assertThrows(ParseException.class, () -> StoryFileReader.readStoryFromFile(invalidFileTitle));
