@@ -32,6 +32,6 @@ public class ScoreAction implements Action {
 
   @Override
   public String toString() {
-    return scoreChange + "points";
+    return "S:" + scoreChange;
   }
 }

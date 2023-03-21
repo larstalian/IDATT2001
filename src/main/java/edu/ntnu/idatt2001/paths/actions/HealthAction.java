@@ -31,6 +31,6 @@ public class HealthAction implements Action {
 
   @Override
   public String toString() {
-    return healthChange + "health";
+    return "H:" + healthChange;
   }
 }

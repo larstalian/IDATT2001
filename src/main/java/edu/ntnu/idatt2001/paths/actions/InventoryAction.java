@@ -31,6 +31,6 @@ public class InventoryAction implements Action {
 
     @Override
     public String toString() {
-    return item;
+    return "I:" + item;
     }
 }
