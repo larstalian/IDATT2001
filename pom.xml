@@ -65,7 +65,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.example.Main</mainClass>
+                    <mainClass>edu.ntnu.idatt2001.paths.view.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>
