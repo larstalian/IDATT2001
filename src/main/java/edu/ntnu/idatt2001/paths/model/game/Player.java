@@ -359,15 +359,15 @@ public class Player {
    *
    * @see Player
    */
-  static class PlayerConstants {
+  public static class PlayerConstants {
 
     public static final int MAX_INVENTORY_SIZE = 10;
-    static final int MAX_NAME_LENGTH = 15;
-    static final int MIN_ITEM_LENGTH = 2;
-    static final int MAX_ITEM_LENGTH = 15;
-    static final int MAX_GOLD = 100000;
-    static final int MAX_HEALTH = 1000;
-    static final int MAX_SCORE = 1000;
-    static final int MIN_NAME_LENGTH = 2;
+    public static final int MAX_NAME_LENGTH = 15;
+    public static final int MIN_ITEM_LENGTH = 2;
+    public static final int MAX_ITEM_LENGTH = 15;
+    public static final int MAX_GOLD = 100000;
+    public static final int MAX_HEALTH = 1000;
+    public static final int MAX_SCORE = 1000;
+    public static final int MIN_NAME_LENGTH = 2;
   }
 }
