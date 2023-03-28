@@ -20,6 +20,7 @@ public class MainMenu implements Builder<Region> {
     results.setCenter(createCenter());
     results.setMinSize(500, 500);
     results.getStyleClass().add("main-menu");
+    configureNewGameButton();
     return results;
   }
 
@@ -45,5 +46,12 @@ public class MainMenu implements Builder<Region> {
     results.getChildren().add(exitButton);
     results.getStyleClass().add("button-vbox");
     return results;
+  }
+  private void configureNewGameButton() {
+    newGameButton.setOnAction(
+        event-> {
+          Region newGameRoot = new NewGame().build();
+          newGameButton.getScene().setRoot(newGameRoot);
+        });
   }
 }
