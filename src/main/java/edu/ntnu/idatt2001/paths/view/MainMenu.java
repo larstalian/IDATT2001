@@ -8,19 +8,24 @@ import javafx.util.Builder;
 
 public class MainMenu implements Builder<Region> {
 
+  private final Button newGameButton = new Button("New Game");
+  private final Button loadGameButton = new Button("Load Game");
+  private final Button storiesButton = new Button("Stories");
+  private final Button exitButton = new Button("Exit");
+
   @Override
   public Region build() {
     BorderPane results = new BorderPane();
     results.setTop(createTop());
     results.setCenter(createCenter());
-    results.setMinSize(500,500);
+    results.setMinSize(500, 500);
     results.getStyleClass().add("main-menu");
     return results;
   }
 
   private Node createTop() {
     VBox results = new VBox();
-    Text title =  new Text("Paths");
+    Text title = new Text("Paths");
     results.getChildren().add(title);
     results.getStyleClass().add("title");
     return results;
@@ -34,11 +39,10 @@ public class MainMenu implements Builder<Region> {
 
   private Node createButtonVBox() {
     VBox results = new VBox();
-    results.getChildren().add(new Button("New Game"));
-    results.getChildren().add(new Button("Load Game"));
-    results.getChildren().add(new Button("Stories"));
-    Text text = new Text("This is a test");
-    results.getChildren().add(new Button(text.getText()));
+    results.getChildren().add(newGameButton);
+    results.getChildren().add(loadGameButton);
+    results.getChildren().add(storiesButton);
+    results.getChildren().add(exitButton);
     results.getStyleClass().add("button-vbox");
     return results;
   }
