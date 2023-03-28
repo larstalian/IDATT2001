@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -18,9 +19,11 @@ public class MainMenu implements Builder<Region> {
     BorderPane results = new BorderPane();
     results.setTop(createTop());
     results.setCenter(createCenter());
-    results.setMinSize(500, 500);
     results.getStyleClass().add("main-menu");
     configureNewGameButton();
+    configureLoadGameButton();
+    configureStoriesButton();
+    configureExitButton();
     return results;
   }
 
@@ -47,11 +50,35 @@ public class MainMenu implements Builder<Region> {
     results.getStyleClass().add("button-vbox");
     return results;
   }
+
   private void configureNewGameButton() {
     newGameButton.setOnAction(
-        event-> {
+        event -> {
           Region newGameRoot = new NewGame().build();
           newGameButton.getScene().setRoot(newGameRoot);
         });
   }
+
+  private void configureLoadGameButton() {
+    loadGameButton.setOnAction(
+        event -> {
+          Region newGameRoot = new LoadGame().build();
+          loadGameButton.getScene().setRoot(newGameRoot);
+        });
+  }
+
+  private void configureStoriesButton() {
+    storiesButton.setOnAction(
+        event -> {
+          Region newGameRoot = new Stories().build();
+          storiesButton.getScene().setRoot(newGameRoot);
+        });
+  }
+
+    private void configureExitButton() {
+        exitButton.setOnAction(
+            event -> {
+           Platform.exit();
+            });
+    }
 }
