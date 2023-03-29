@@ -14,7 +14,7 @@ public class NewGame implements Builder<Region> {
   private final ComboBox<String> storySelect = new ComboBox<>();
   private final Button goBackButton = new Button("Go Back");
 
-  private TextField playerName = new TextField();
+  private final TextField playerName = new TextField();
 
   @Override
   public Region build() {

@@ -46,7 +46,7 @@ public class LoadGame implements Builder<Region> {
     loadButton.setOnAction(
         event -> {
           if (saveSelect.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please enter a valid save file", ButtonType.OK)
+            new Alert(Alert.AlertType.NONE, "Please enter a valid save file", ButtonType.OK)
                 .showAndWait();
           } else {
 
