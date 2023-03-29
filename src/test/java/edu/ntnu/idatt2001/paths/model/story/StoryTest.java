@@ -31,7 +31,7 @@ class StoryTest {
     passage1 = new Passage("Passage 1", "This is passage 1.");
     passage1.addLink(new Link("Go to passage 2", "Passage 2"));
 
-    passage2 = new Passage("Passage 2", "This is passage 2.");
+    passage2 = new Passage("Passage 2", "This is passage 2.", Mood.SPOOKY);
     passages = new ArrayList<>();
   }
 
@@ -50,6 +50,7 @@ class StoryTest {
   @Test
   void testConstructor_ThrowsNullPointerExceptionIfPassageOrTitleIsNull() {
     assertThrows(NullPointerException.class, () -> new Story("Test Story", null));
+    //noinspection DataFlowIssue
     assertThrows(
         NullPointerException.class,
         () -> new Story(null, new Passage("Opening Passage", "Content")));
