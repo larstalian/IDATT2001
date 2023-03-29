@@ -2,11 +2,10 @@ package edu.ntnu.idatt2001.paths.model.story;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.EqualsAndHashCode;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 /**
  * The Passage class represents a section of a story or narrative, with a title, content, and
@@ -38,6 +37,7 @@ public class Passage {
   @JsonProperty private final String title;
   @JsonProperty private final String content;
   @JsonProperty private final List<Link> links;
+  @JsonProperty private final Mood mood;
 
   /**
    * Constructs a new Passage object with the given title and content.
@@ -47,13 +47,25 @@ public class Passage {
    * @throws IllegalArgumentException if the title or content is null
    */
   @JsonCreator
-  public Passage(@JsonProperty("title") String title, @JsonProperty("content") String content) {
+  public Passage(
+      @JsonProperty("title") String title,
+      @JsonProperty("content") String content,
+      @JsonProperty("mood") Mood mood) {
     if (title == null || content == null) {
       throw new IllegalArgumentException("Title and content cannot be null.");
     }
+    this.mood = mood == null ? Mood.NONE : mood;
     this.title = title;
     this.content = content;
     this.links = new ArrayList<>();
+  }
+
+  public Passage(String title, String content) {
+    this(title, content, Mood.NONE);
+  }
+
+  public Mood getMood() {
+    return mood;
   }
 
   /**
