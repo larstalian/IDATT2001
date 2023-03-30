@@ -66,15 +66,15 @@ public class Game implements Builder<Region> {
   private ScrollPane createContentBar() {
     Text contentBarText = new Text();
     contentBarText.textProperty().bind(contentBar);
-
     TextFlow textFlow = new TextFlow(contentBarText);
-    textFlow.getStyleClass().add("text-flow");
-
     ScrollPane scrollPane = new ScrollPane(textFlow);
-    scrollPane.getStyleClass().add("scroll-pane");
+    
     textFlow
         .prefWidthProperty()
         .bind(Bindings.selectDouble(scrollPane.viewportBoundsProperty(), "width"));
+    
+    scrollPane.getStyleClass().add("scroll-pane");
+    textFlow.getStyleClass().add("super-text-flow");
     return scrollPane;
   }
 
