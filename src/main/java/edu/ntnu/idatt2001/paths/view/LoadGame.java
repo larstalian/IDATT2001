@@ -1,15 +1,19 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import static edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler.getGameFiles;
+import static edu.ntnu.idatt2001.paths.view.Game.setCurrentGame;
+import static edu.ntnu.idatt2001.paths.view.Widgets.createAlert;
+
+import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
+import java.io.IOException;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Builder;
+import org.apache.commons.io.FilenameUtils;
 
 public class LoadGame implements Builder<Region> {
 
@@ -22,6 +26,7 @@ public class LoadGame implements Builder<Region> {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("main-menu");
     results.setCenter(createCenter());
+    configureSaveSelect();
     configureLoadButton();
     configureGoBackButton();
     return results;
@@ -45,13 +50,27 @@ public class LoadGame implements Builder<Region> {
   private void configureLoadButton() {
     loadButton.setOnAction(
         event -> {
-          if (saveSelect.getValue() == null) {
-            new Alert(Alert.AlertType.NONE, "Please enter a valid save file", ButtonType.OK)
-                .showAndWait();
-          } else {
+          Alert alert =
+              new Alert(Alert.AlertType.NONE, "Please enter a valid save file", ButtonType.OK);
 
-            Region gameRoot = new Game().build();
-            loadButton.getScene().setRoot(gameRoot);
+          if (saveSelect.getValue() == null) {
+            alert.showAndWait();
+
+          } else {
+            GameFileHandler gameFileHandler = new GameFileHandler();
+
+            try {
+              setCurrentGame(
+                  gameFileHandler.loadGameFromFile(
+                      FilenameUtils.removeExtension(saveSelect.getValue())));
+
+              Region gameRoot = new Game().build();
+              loadButton.getScene().setRoot(gameRoot);
+
+            } catch (IOException e) {
+              alert = createAlert("Error", "Unexpected error:", e.getMessage());
+              alert.show();
+            }
           }
         });
   }
@@ -62,5 +81,14 @@ public class LoadGame implements Builder<Region> {
           Region newGameRoot = new MainMenu().build();
           goBackButton.getScene().setRoot(newGameRoot);
         });
+  }
+
+  private void configureSaveSelect() {
+    try {
+      saveSelect.getItems().addAll(getGameFiles());
+    } catch (IOException e) {
+      Alert alert = createAlert("Error", "Unexpected error:", e.getMessage());
+      alert.show();
+    }
   }
 }
