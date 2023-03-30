@@ -7,13 +7,16 @@ import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.LinkDeserial
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StoryDeserializer;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StorySerializer;
 import edu.ntnu.idatt2001.paths.model.game.Game;
-import edu.ntnu.idatt2001.paths.model.story.Link;import edu.ntnu.idatt2001.paths.model.story.Story;
-
+import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Class for handling saving and reading of Game objects to and from files. The files are stored in
@@ -24,7 +27,7 @@ import java.util.Objects;
  * Jackson's default deserialization cannot deserialize certain properties within these classes.
  *
  * <p>To use this class to write and read games to and from files, create a new instance of this
- * class and use the {@link #saveGameToFile(Game)} and {@link #loadGameFromStyle(String)} methods.
+ * class and use the {@link #saveGameToFile(Game)} and {@link #loadGameFromFile (String)} methods.
  * For example:
  *
  * <pre>{@code
@@ -41,13 +44,12 @@ import java.util.Objects;
  */
 public class GameFileHandler {
 
+  private static final Path filePath = Paths.get("src/main/resources/games");
   private final ObjectMapper objectMapper;
 
-  private final Path filePath;
 
   public GameFileHandler() {
     objectMapper = new ObjectMapper();
-    filePath = Paths.get("src/main/resources/games");
     SimpleModule module = new SimpleModule();
     module.addSerializer(Story.class, new StorySerializer());
     module.addDeserializer(Story.class, new StoryDeserializer());
@@ -55,6 +57,18 @@ public class GameFileHandler {
     module.addDeserializer(Game.class, new GameDeserializer());
     objectMapper.registerModule(module);
   }
+
+  public static List<String> getGameFiles() throws IOException {
+    Files.createDirectories(filePath);
+    try (Stream<Path> pathStream = Files.list(Paths.get("src/main/resources/games"))) {
+      return pathStream
+              .filter(Files::isRegularFile)
+              .map(Path::getFileName)
+              .map(Path::toString)
+              .collect(Collectors.toList());
+    }
+  }
+
   /**
    * Saves the given game to a file with a filename based on the game's story title.
    *
@@ -79,7 +93,7 @@ public class GameFileHandler {
    * @throws IOException if there is an issue reading the game from the file
    * @throws NullPointerException if the filename is null
    */
-  public Game loadGameFromStyle(String filename) throws IOException {
+  public Game loadGameFromFile(String filename) throws IOException {
     Objects.requireNonNull(filename, "Filename cannot be null");
 
     Path gameFilePath = filePath.resolve(filename + ".json");
