@@ -99,4 +99,7 @@
 
 .link-button-selected {
     -fx-underline: true;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
 }

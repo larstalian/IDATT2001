@@ -197,6 +197,9 @@ public class Game implements Builder<Region> {
               Button selectedButton = (Button) links.getChildren().get(selectedIndex.get());
               selectedButton.fire();
             }
+            case SPACE -> {
+              isAnimationSkipped.set(true);
+            }
             default -> {}
           }
           if (previousIndex != selectedIndex.get()) {
