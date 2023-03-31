@@ -97,6 +97,6 @@
     -fx-background-radius: 10;
 }
 
-.link-button:selected {
+.link-button-selected {
     -fx-underline: true;
 }

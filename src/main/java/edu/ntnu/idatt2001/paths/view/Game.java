@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -136,7 +137,7 @@ public class Game implements Builder<Region> {
                 isAnimationSkipped.set(false);
               }
             });
-  
+
     timeline.play();
   }
 
@@ -176,8 +177,37 @@ public class Game implements Builder<Region> {
                 if (newValue != null) {
                   createContentString();
                   root.sceneProperty().removeListener(this);
+                  setupArrowKeysNavigation(newValue);
                 }
               }
             });
+  }
+
+  private void setupArrowKeysNavigation(Scene scene) {
+    AtomicInteger selectedIndex = new AtomicInteger(0);
+    scene.addEventFilter(
+        KeyEvent.KEY_PRESSED,
+        keyEvent -> {
+          int previousIndex = selectedIndex.get();
+          switch (keyEvent.getCode()) {
+            case UP -> selectedIndex.updateAndGet(
+                i -> (i - 1 + links.getChildren().size()) % links.getChildren().size());
+            case DOWN -> selectedIndex.updateAndGet(i -> (i + 1) % links.getChildren().size());
+            case ENTER -> {
+              Button selectedButton = (Button) links.getChildren().get(selectedIndex.get());
+              selectedButton.fire();
+            }
+            default -> {}
+          }
+          if (previousIndex != selectedIndex.get()) {
+            links.getChildren().get(previousIndex).getStyleClass().remove("link-button-selected");
+            links
+                .getChildren()
+                .get(selectedIndex.get())
+                .getStyleClass()
+                .add("link-button-selected");
+          }
+          keyEvent.consume();
+        });
   }
 }
