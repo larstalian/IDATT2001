@@ -33,7 +33,7 @@ public class Game implements Builder<Region> {
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
   private Label skipLabel;
-  private VBox links;
+  private final VBox links = new VBox();
 
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
@@ -120,6 +120,7 @@ public class Game implements Builder<Region> {
               }
               if (isAnimationSkipped.get()) {
                 contentBar.set(currentPassage.getContent());
+                links.setVisible(true);
                 timeline.stop();
               }
             });
@@ -142,11 +143,22 @@ public class Game implements Builder<Region> {
   }
 
   private Node createLinkChoices() {
-    links = new VBox();
     links.setAlignment(Pos.BOTTOM_CENTER);
     links.setPrefHeight(VBox.USE_COMPUTED_SIZE);
     VBox.setMargin(links, new Insets(10, 10, 10, 10));
     links.getStyleClass().add("link-view");
+    updateLinkChoices();
+    AnchorPane anchorPane = new AnchorPane();
+    AnchorPane.setBottomAnchor(links, 0.0);
+    AnchorPane.setLeftAnchor(links, 0.0);
+    AnchorPane.setRightAnchor(links, 0.0);
+    anchorPane.getChildren().add(links);
+
+    return anchorPane;
+  }
+
+  private void updateLinkChoices() {
+    links.getChildren().clear();
     for (Link link : currentPassage.getLinks()) {
       Button button = new Button(link.getText());
       button.setFocusTraversable(true);
@@ -155,16 +167,10 @@ public class Game implements Builder<Region> {
           e -> {
             currentPassage = currentGame.go(link);
             createContentString();
+            updateLinkChoices();
           });
       links.getChildren().add(button);
     }
-    AnchorPane anchorPane = new AnchorPane();
-    AnchorPane.setBottomAnchor(links, 0.0);
-    AnchorPane.setLeftAnchor(links, 0.0);
-    AnchorPane.setRightAnchor(links, 0.0);
-    anchorPane.getChildren().add(links);
-
-    return anchorPane;
   }
 
   private void addSceneListener(BorderPane root) {
@@ -176,6 +182,7 @@ public class Game implements Builder<Region> {
                   ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                 if (newValue != null) {
                   createContentString();
+                  updateLinkChoices();
                   root.sceneProperty().removeListener(this);
                   setupArrowKeysNavigation(newValue);
                 }

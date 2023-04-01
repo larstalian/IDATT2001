@@ -15,13 +15,30 @@
     -fx-min-width: 500px;
     -fx-min-height: 500px;
     -fx-margin: 0px;
+    -fx-background-image: url("/images/main_menu.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: stretch;
+    -fx-background-position: bottom;
+
 }
 
 .title {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
     -fx-alignment: bottom-center;
+    -fx-min-height: 100px;
+    -fx-padding: 10px;
+    -fx-font-family: "Fira Code Retina";
+    -fx-position: relative;
+}
+
+.title > Text {
+    -fx-font-size: 50px;
+    -fx-font-family: "Fira Code Retina";
+    -fx-fill: white;
+    -fx-font-weight: bold;
+    -fx-position: absolute;
+    -fx-bottom: 0;
+    -fx-left: 50%;
+    -fx-translate-x: -50%;
 }
 
 .button-hbox {
@@ -42,7 +59,7 @@
     -fx-padding: 0px;
     -fx-margin: 0px;
     -fx-border-width: 1px 0px 0px 0px;
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-background-insets: 0px;
 }
 
