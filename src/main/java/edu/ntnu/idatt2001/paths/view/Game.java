@@ -2,6 +2,7 @@ package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -30,19 +31,27 @@ public class Game implements Builder<Region> {
 
   private static final StringProperty contentBar = new SimpleStringProperty();
   private static final AtomicBoolean isAnimationSkipped = new AtomicBoolean(false);
+  private static final String IMAGE_PATH = "/images/";
+  private static final String STORIES_PATH = "/stories/";
+  private static final String IMAGE_EXTENSION = ".png";
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
-  private Label skipLabel;
   private final VBox links = new VBox();
+  private Label skipLabel;
+  private BorderPane root;
 
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
   }
 
+  public BorderPane getRoot() {
+    return root;
+  }
+
   @Override
   public Region build() {
     currentPassage = currentGame.begin();
-    BorderPane root = createRoot();
+    root = createRoot();
     addSceneListener(root);
     return root;
   }
@@ -81,8 +90,7 @@ public class Game implements Builder<Region> {
   }
 
   private Node createCenter() {
-    AnchorPane center = new AnchorPane();
-    return center;
+    return new AnchorPane();
   }
 
   private ScrollPane createContentBar() {
@@ -168,6 +176,7 @@ public class Game implements Builder<Region> {
             currentPassage = currentGame.go(link);
             createContentString();
             updateLinkChoices();
+            updateBackground();
           });
       links.getChildren().add(button);
     }
@@ -204,9 +213,7 @@ public class Game implements Builder<Region> {
               Button selectedButton = (Button) links.getChildren().get(selectedIndex.get());
               selectedButton.fire();
             }
-            case SPACE -> {
-              isAnimationSkipped.set(true);
-            }
+            case SPACE -> isAnimationSkipped.set(true);
             default -> {}
           }
           if (previousIndex != selectedIndex.get()) {
@@ -219,5 +226,32 @@ public class Game implements Builder<Region> {
           }
           keyEvent.consume();
         });
+  }
+
+  private void updateBackground() {
+    String backgroundImageUrl;
+    if (hasBackground(currentPassage)) {
+      String path = "/stories/" + currentGame.getStory().getTitle() + "/images/";
+      String fileName = currentPassage.getTitle().toLowerCase() + IMAGE_EXTENSION;
+      backgroundImageUrl =
+          Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
+    } else {
+      String defaultBackground =
+          currentPassage.getMood().toString().toLowerCase() + IMAGE_EXTENSION;
+      backgroundImageUrl =
+          Objects.requireNonNull(getClass().getResource(IMAGE_PATH + defaultBackground))
+              .toExternalForm();
+    }
+    setBackgroundImageUrl(backgroundImageUrl);
+  }
+
+  private void setBackgroundImageUrl(String backgroundImageUrl) {
+    getRoot().setStyle("-fx-background-image: url('" + backgroundImageUrl + "');");
+  }
+
+  private boolean hasBackground(Passage passage) {
+    String path = STORIES_PATH + currentGame.getStory().getTitle() + IMAGE_PATH;
+    String fileName = passage.getTitle() + IMAGE_EXTENSION;
+    return getClass().getResource(path + fileName) != null;
   }
 }
