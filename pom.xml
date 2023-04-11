@@ -52,6 +52,11 @@
             <artifactId>javafx-graphics</artifactId>
             <version>20-ea+9</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>20</version>
+        </dependency>
     </dependencies>
 
     <build>
