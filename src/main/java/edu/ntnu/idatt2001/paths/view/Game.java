@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Builder;
@@ -32,13 +34,16 @@ public class Game implements Builder<Region> {
   private static final StringProperty contentBar = new SimpleStringProperty();
   private static final AtomicBoolean isAnimationSkipped = new AtomicBoolean(false);
   private static final String IMAGE_PATH = "/images/";
+  private static final String SOUND_PATH = "/sound/";
   private static final String STORIES_PATH = "/stories/";
   private static final String IMAGE_EXTENSION = ".png";
+  private static final String SOUND_EXTENSION = ".mp3";
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
   private final VBox links = new VBox();
   private Label skipLabel;
   private BorderPane root;
+  private MediaPlayer mediaPlayer;
 
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
@@ -177,6 +182,7 @@ public class Game implements Builder<Region> {
             createContentString();
             updateLinkChoices();
             updateBackground();
+            updateMusic();
           });
       links.getChildren().add(button);
     }
@@ -253,5 +259,36 @@ public class Game implements Builder<Region> {
     String path = STORIES_PATH + currentGame.getStory().getTitle() + IMAGE_PATH;
     String fileName = passage.getTitle() + IMAGE_EXTENSION;
     return getClass().getResource(path + fileName) != null;
+  }
+
+  private boolean hasMusic(Passage passage) {
+    String path = SOUND_PATH + currentGame.getStory().getTitle() + SOUND_PATH;
+    String fileName = passage.getTitle() + SOUND_EXTENSION;
+    return getClass().getResource(path + fileName) != null;
+  }
+
+  private void updateMusic() {
+    String musicUrl;
+    if (hasMusic(currentPassage)) {
+      String path = SOUND_PATH + currentGame.getStory().getTitle() + "/sound/";
+      String fileName = currentPassage.getTitle().toLowerCase() + SOUND_EXTENSION;
+      musicUrl = Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
+    } else {
+      musicUrl = SOUND_PATH + currentPassage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
+    }
+    playBackgroundMusic(musicUrl);
+  }
+
+  private void playBackgroundMusic(String musicFileUrl) {
+    if (mediaPlayer != null) {
+      mediaPlayer.stop();
+      mediaPlayer.dispose();
+    }
+
+    String musicUrl = Objects.requireNonNull(getClass().getResource(musicFileUrl)).toExternalForm();
+    Media media = new Media(musicUrl);
+    mediaPlayer = new MediaPlayer(media);
+    mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    mediaPlayer.play();
   }
 }
