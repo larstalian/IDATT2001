@@ -54,14 +54,14 @@ class GameFileHandlerTest {
   void saveGameToFile_createsFileWithCorrectContent() throws IOException {
     gameFileHandler.saveGameToFile(testGame);
 
-    Game loadedGame = gameFileHandler.loadGameFromStyle("Test Story");
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
     assertThat(loadedGame, equalTo(testGame));
   }
 
   @Test
   void loadGameFromFile_returnsCorrectGame() throws IOException {
     gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromStyle("Test Story");
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
 
     assertThat(loadedGame, equalTo(testGame));
   }
@@ -69,7 +69,7 @@ class GameFileHandlerTest {
   @Test
   void loadGameFromFile_ContainsAllPassages() throws IOException {
     gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromStyle("Test Story");
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
     assertThat(
         loadedGame.getStory().getPassages().toArray(), equalTo(testStory.getPassages().toArray()));
   }
@@ -77,7 +77,7 @@ class GameFileHandlerTest {
   @Test
   void loadGameFromFile_ContainsAllGoalsType() throws IOException {
     gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromStyle("Test Story");
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
     assertThat(loadedGame.getGoals().toArray().getClass(), equalTo(testGoals.toArray().getClass()));
   }
 }

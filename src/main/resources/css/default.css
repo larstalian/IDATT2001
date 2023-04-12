@@ -1,35 +1,122 @@
-.root{
+.root {
     -fx-alignment: center;
 }
-.button-vbox{
-    -fx-background-color: #f5f5f5;
+
+.button-vbox {
     -fx-padding: 10px;
     -fx-spacing: 10px;
     -fx-alignment: bottom-center;
 }
-.main-menu{
-    -fx-background-color: #f5f5f5;
+
+.main-menu {
     -fx-alignment: center;
-    -fx-padding: 10px;
+    -fx-padding: 0px;
     -fx-spacing: 10px;
     -fx-min-width: 500px;
     -fx-min-height: 500px;
+    -fx-margin: 0px;
+    -fx-background-image: url("/images/main_menu.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: stretch;
+    -fx-background-position: bottom;
+
 }
 
-.title{
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
+.title {
     -fx-alignment: bottom-center;
+    -fx-min-height: 100px;
+    -fx-padding: 10px;
+    -fx-font-family: "Fira Code Retina";
+    -fx-position: relative;
 }
 
-.button-hbox{
-    -fx-background-color: #f5f5f5;
+.title > Text {
+    -fx-font-size: 50px;
+    -fx-font-family: "Fira Code Retina";
+    -fx-fill: white;
+    -fx-font-weight: bold;
+    -fx-position: absolute;
+    -fx-bottom: 0;
+    -fx-left: 50%;
+    -fx-translate-x: -50%;
+}
+
+.button-hbox {
     -fx-padding: 10px;
     -fx-spacing: 10px;
     -fx-alignment: center;
 }
 
-.player-name-field{
+.player-name-field {
     -fx-max-width: 150px;
+}
+
+.content-bar {
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+    -fx-min-height: 100px;
+    -fx-padding: 0px;
+    -fx-margin: 0px;
+    -fx-border-width: 1px 0px 0px 0px;
+    -fx-border-color: white;
+    -fx-background-insets: 0px;
+}
+
+
+.text-flow {
+    -fx-pref-width: 600px;
+    -fx-text-fill: white;
+    -fx-line-spacing: 5px;
+    -fx-max-height: 50px;
+    -fx-background-insets: 0px;
+}
+
+.super-text-flow > Text {
+    -fx-fill: white;
+}
+
+.scroll-pane > .viewport {
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: as_needed;
+    -fx-pannable: true;
+    -fx-max-height: 50px;
+    -fx-background-insets: 0px;
+}
+
+.skip-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 0px;
+    -fx-margin: 0px;
+    -fx-border-width: 1px 0px 0px 0px;
+    -fx-background-insets: 0px;
+}
+
+.link-view {
+    -fx-alignment: center;
+    -fx-padding: 0px;
+    -fx-border-width: 2px;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-spacing: 10px;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-background-radius: 10;
+}
+
+.link-button-selected {
+    -fx-underline: true;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
 }
