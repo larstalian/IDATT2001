@@ -120,7 +120,9 @@ public class NewGame implements Builder<Region> {
     Story loadedStory = null;
     try {
       if (story.endsWith(StoryFileReader.getFileEnding())) {
+        story = story.replace(StoryFileReader.getFileEnding(), "");
         loadedStory = StoryFileReader.readStoryFromFile(story);
+
       } else if (story.endsWith(".json")) {
         story = story.replace(".json", "");
         loadedStory = new StoryFileHandler().loadStoryFromFile(story);
