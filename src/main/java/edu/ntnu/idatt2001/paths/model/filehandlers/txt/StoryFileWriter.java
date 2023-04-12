@@ -1,7 +1,9 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.txt;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
-import edu.ntnu.idatt2001.paths.model.story.Link;import edu.ntnu.idatt2001.paths.model.story.Passage;import edu.ntnu.idatt2001.paths.model.story.Story;
+import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.Passage;
+import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,10 +19,10 @@ import java.util.stream.Collectors;
  * <p>The class offers methods to save a story object to a text file, and to build strings
  * representing the content of story components, such as passages, links, and actions.
  *
- * <p>The static method {@link #saveStoryToFile( Story )} takes a story object and saves it to a text
- * file. The file is created in the specified file path, with the story's title as the filename. The
- * content of the story is formatted using helper methods provided in this class. If any I/O error
- * occurs while saving the story, an IOException is thrown.
+ * <p>The static method {@link #saveStoryToFile( Story )} takes a story object and saves it to a
+ * text file. The file is created in the specified file path, with the story's title as the
+ * filename. The content of the story is formatted using helper methods provided in this class. If
+ * any I/O error occurs while saving the story, an IOException is thrown.
  *
  * <p>The StoryFileWriter class utilizes the {@link Story}, {@link Passage}, {@link Link}, and
  * {@link Action} classes as components to build the content of the story into an editable txt file.
