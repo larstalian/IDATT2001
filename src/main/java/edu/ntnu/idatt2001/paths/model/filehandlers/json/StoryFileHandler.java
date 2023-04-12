@@ -5,8 +5,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.LinkDeserializer;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StoryDeserializer;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StorySerializer;
-import edu.ntnu.idatt2001.paths.model.story.Link;import edu.ntnu.idatt2001.paths.model.story.Story;
-
+import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.Story;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,9 +40,8 @@ import java.util.Objects;
  */
 public class StoryFileHandler {
 
+  private static final Path filePath = Paths.get("src/main/resources/stories/json");
   private final ObjectMapper objectMapper;
-
-  private final Path filePath;
 
   /**
    * Constructs a new StoryFileHandler with default settings. Initializes an ObjectMapper and sets
@@ -54,7 +54,16 @@ public class StoryFileHandler {
     module.addDeserializer(Story.class, new StoryDeserializer());
     module.addDeserializer(Link.class, new LinkDeserializer());
     objectMapper.registerModule(module);
-    filePath = Paths.get("src/main/resources/stories/json");
+  }
+
+  /**
+   * Returns an array of all the saved stories.
+   *
+   * @return an array of all the saved stories
+   */
+  public static String[] getSavedStories() {
+    File folder = new File(filePath.toString());
+    return folder.list();
   }
 
   /**

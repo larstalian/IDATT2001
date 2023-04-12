@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.paths.model.actions.*;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -208,5 +209,14 @@ public class StoryFileReader {
         }
       }
     }
+  }
+
+  public static String[] getSavedStories() {
+    File folder = new File(FILE_PATH.toString());
+    return folder.list();
+  }
+
+  public static String getFileEnding() {
+    return FILE_ENDING;
   }
 }

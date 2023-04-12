@@ -1,7 +1,13 @@
 package edu.ntnu.idatt2001.paths.view;
 
-import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.*;
-
+import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
+import edu.ntnu.idatt2001.paths.model.filehandlers.txt.StoryFileReader;
+import edu.ntnu.idatt2001.paths.model.game.Game;
+import edu.ntnu.idatt2001.paths.model.game.Player;
+import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
+import edu.ntnu.idatt2001.paths.model.goals.ScoreGoal;
+import edu.ntnu.idatt2001.paths.model.story.Story;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -10,46 +16,52 @@ import javafx.util.Builder;
 
 public class NewGame implements Builder<Region> {
 
-  private final Button startNewGameButton = new Button("Start Game");
-  private final ComboBox<String> storySelect = new ComboBox<>();
-  private final Button goBackButton = new Button("Go Back");
+  private final Button startNewGameButton;
+  private final ComboBox<String> storySelect;
+  private final Button goBackButton;
+  private final TextField playerName;
 
-  private final TextField playerName = new TextField();
+  public NewGame() {
+    startNewGameButton = new Button("Start New Game");
+    storySelect = new ComboBox<>();
+    goBackButton = new Button("Go Back");
+    playerName = new TextField();
+  }
 
   @Override
   public Region build() {
-    BorderPane results = new BorderPane();
-    results.getStyleClass().add("main-menu");
-    results.setCenter(createCenter());
+    BorderPane mainLayout = new BorderPane();
+    mainLayout.getStyleClass().add("main-menu");
+    mainLayout.setCenter(createCenter());
     configureGoBackButton();
     configureNewGameButton();
     configureStorySelect();
     configurePlayerName();
-    return results;
+    return mainLayout;
   }
 
   private Node createCenter() {
-    StackPane results = new StackPane();
-    results.getChildren().add(createButtonVBox());
-    return results;
+    StackPane centerLayout = new StackPane();
+    centerLayout.getChildren().add(createButtonVBox());
+    return centerLayout;
   }
 
   private Node createButtonVBox() {
-    VBox results = new VBox();
-    results.getChildren().add(playerName);
-    results.getChildren().add(startNewGameButton);
-    results.getChildren().add(createHBox());
-    results.getChildren().add(goBackButton);
-    results.getStyleClass().add("button-vbox");
-    return results;
+    VBox buttonLayout = new VBox();
+    buttonLayout.getChildren().add(playerName);
+    buttonLayout.getChildren().add(startNewGameButton);
+    buttonLayout.getChildren().add(createHBox());
+    buttonLayout.getChildren().add(goBackButton);
+    buttonLayout.getStyleClass().add("button-vbox");
+    return buttonLayout;
   }
 
   private Node createHBox() {
-    HBox results = new HBox();
-    results.getChildren().add(new Text("Select Story: "));
-    results.getChildren().add(storySelect);
-    results.getStyleClass().add("button-hbox");
-    return results;
+    HBox hboxLayout = new HBox();
+    hboxLayout.getChildren().add(new Text("Select Story: "));
+    hboxLayout.getChildren().add(storySelect);
+    hboxLayout.getStyleClass().add("button-hbox");
+    return hboxLayout;
   }
 
   private void configureNewGameButton() {
@@ -57,15 +69,11 @@ public class NewGame implements Builder<Region> {
         event -> {
           String name = playerName.getText();
           String story = storySelect.getValue();
-          if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH || story == null) {
-            new Alert(
-                    Alert.AlertType.WARNING,
-                    "Please enter a valid name and select a story",
-                    ButtonType.OK)
-                .showAndWait();
+
+          if (isNameValid(name) && story != null) {
+            startNewGame(name, story);
           } else {
-            Region gameRoot = new Game().build();
-            startNewGameButton.getScene().setRoot(gameRoot);
+            showWarningDialog();
           }
         });
   }
@@ -79,13 +87,56 @@ public class NewGame implements Builder<Region> {
   }
 
   private void configureStorySelect() {
-    storySelect.getItems().addAll("Story 1", "Story 2", "Story 3");
-    storySelect.setValue("Story 1");
+    storySelect.getItems().addAll(StoryFileReader.getSavedStories());
+    storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
+    storySelect.selectionModelProperty().get().selectFirst();
   }
 
   private void configurePlayerName() {
     playerName.getStyleClass().add("player-name-field");
     playerName.setPromptText("Enter your name");
     playerName.setFocusTraversable(false);
+  }
+
+  private boolean isNameValid(String name) {
+    int minNameLength = Player.PlayerConstants.MIN_NAME_LENGTH;
+    int maxNameLength = Player.PlayerConstants.MAX_NAME_LENGTH;
+    return name != null && name.length() >= minNameLength && name.length() <= maxNameLength;
+  }
+
+  private void startNewGame(String name, String story) {
+    Story loadedStory = loadStoryFromFile(story);
+    if (loadedStory != null) {
+      Player player = new Player.Builder(name).build();
+      Game currentGame =
+          new Game(player, loadedStory, List.of(new HealthGoal(100), new ScoreGoal(100)));
+      edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
+      Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game().build();
+      startNewGameButton.getScene().setRoot(gameRoot);
+    }
+  }
+
+  private Story loadStoryFromFile(String story) {
+    Story loadedStory = null;
+    try {
+      if (story.endsWith(StoryFileReader.getFileEnding())) {
+        story = story.replace(StoryFileReader.getFileEnding(), "");
+        loadedStory = StoryFileReader.readStoryFromFile(story);
+
+      } else if (story.endsWith(".json")) {
+        story = story.replace(".json", "");
+        loadedStory = new StoryFileHandler().loadStoryFromFile(story);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return loadedStory;
+  }
+
+  private void showWarningDialog() {
+    Alert alert =
+        new Alert(
+            Alert.AlertType.WARNING, "Please enter a valid name and select a story", ButtonType.OK);
+    alert.showAndWait();
   }
 }
