@@ -1,8 +1,9 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
+import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -22,45 +23,94 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Builder;
 import javafx.util.Duration;
 
+/**
+ * The {@code Game} class represents the game view and its UI components. It manages the game flow,
+ * user input, and updating the UI based on the game state.
+ *
+ * <p>This class utilizes JavaFX components to build the user interface and the game logic. It
+ * handles user input via arrow keys, enter, and space-bar for navigation and interaction. It also
+ * animates the text content for each passage and allows users to skip the animation.
+ *
+ * <p>The {@code Game} class contains methods to create UI elements and manage the game flow. For
+ * example, it creates the content bar, link choices, and handles scene changes.
+ *
+ * <p>Usage example:
+ *
+ * <pre>{@code
+ * Game game = new Game();
+ * game.setCurrentGame(chosenGame);
+ * Region gameUI = game.build();
+ * }</pre>
+ */
 public class Game implements Builder<Region> {
 
-  private static final StringProperty contentBar = new SimpleStringProperty();
-  private static final AtomicBoolean isAnimationSkipped = new AtomicBoolean(false);
-  private static final String IMAGE_PATH = "/images/";
-  private static final String SOUND_PATH = "/sound/";
-  private static final String STORIES_PATH = "/stories/";
-  private static final String IMAGE_EXTENSION = ".png";
-  private static final String SOUND_EXTENSION = ".mp3";
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
-  private final VBox links = new VBox();
+  private final StringProperty contentBar;
+  private final AtomicBoolean isAnimationSkipped;
+  private final VBox links;
+  private final SoundHandler soundHandler;
+  private final BackgroundHandler backgroundHandler;
   private Label skipLabel;
   private BorderPane root;
-  private MediaPlayer mediaPlayer;
 
+  /**
+   * Constructs a new {@code Game} instance, initializing the required properties and handlers.
+   *
+   * <p>This constructor initializes the {@link BackgroundHandler}, {@link SoundHandler}, {@code
+   * VBox} for links, {@code StringProperty} for the content bar, and an {@code AtomicBoolean} for
+   * tracking the animation skipping state.
+   */
+  public Game() {
+    backgroundHandler = BackgroundHandler.getInstance();
+    soundHandler = SoundHandler.getInstance();
+    links = new VBox();
+    contentBar = new SimpleStringProperty();
+    isAnimationSkipped = new AtomicBoolean(false);
+  }
+
+  /**
+   * Sets the current game.
+   *
+   * @param chosenGame the chosen game to be set as the current game.
+   */
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
   }
 
+  /**
+   * Returns the root node.
+   *
+   * @return the root node of the game.
+   */
   public BorderPane getRoot() {
     return root;
   }
 
+  /**
+   * Builds the game UI and sets up the game.
+   *
+   * @return a Region containing the game UI.
+   */
   @Override
   public Region build() {
     currentPassage = currentGame.begin();
+    soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     root = createRoot();
     addSceneListener(root);
     return root;
   }
 
+  /**
+   * Creates the root node.
+   *
+   * @return the BorderPane representing the root node.
+   */
   private BorderPane createRoot() {
     BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
@@ -70,12 +120,22 @@ public class Game implements Builder<Region> {
     return root;
   }
 
+  /**
+   * Creates the right side UI element.
+   *
+   * @return a Node representing the right side of the game UI.
+   */
   private Node createRight() {
     StackPane results = new StackPane();
     results.getChildren().add(createLinkChoices());
     return results;
   }
 
+  /**
+   * Creates the bottom UI element.
+   *
+   * @return a Node representing the bottom side of the game UI.
+   */
   private Node createBottom() {
     StackPane bottom = new StackPane();
     ScrollPane contentBarText = createContentBar();
@@ -94,10 +154,20 @@ public class Game implements Builder<Region> {
     return bottom;
   }
 
+  /**
+   * Creates the center UI element.
+   *
+   * @return a Node representing the center of the game UI.
+   */
   private Node createCenter() {
     return new AnchorPane();
   }
 
+  /**
+   * Creates the content bar.
+   *
+   * @return a ScrollPane containing the content bar.
+   */
   private ScrollPane createContentBar() {
     Text contentBarText = new Text();
     contentBarText.textProperty().bind(contentBar);
@@ -114,6 +184,7 @@ public class Game implements Builder<Region> {
     return scrollPane;
   }
 
+  /** Creates and animates the content string of the current passage. */
   private void createContentString() {
     contentBar.set("");
     char[] charArray = currentPassage.getContent().toCharArray();
@@ -155,13 +226,18 @@ public class Game implements Builder<Region> {
     timeline.play();
   }
 
+  /**
+   * Creates the link choices UI element.
+   *
+   * @return a Node containing the link choices.
+   */
   private Node createLinkChoices() {
     links.setAlignment(Pos.BOTTOM_CENTER);
     links.setPrefHeight(VBox.USE_COMPUTED_SIZE);
     VBox.setMargin(links, new Insets(10, 10, 10, 10));
     links.getStyleClass().add("link-view");
     updateLinkChoices();
-    AnchorPane anchorPane = new AnchorPane();
+    final AnchorPane anchorPane = new AnchorPane();
     AnchorPane.setBottomAnchor(links, 0.0);
     AnchorPane.setLeftAnchor(links, 0.0);
     AnchorPane.setRightAnchor(links, 0.0);
@@ -170,6 +246,7 @@ public class Game implements Builder<Region> {
     return anchorPane;
   }
 
+  /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
     for (Link link : currentPassage.getLinks()) {
@@ -181,13 +258,19 @@ public class Game implements Builder<Region> {
             currentPassage = currentGame.go(link);
             createContentString();
             updateLinkChoices();
-            updateBackground();
-            updateMusic();
+            backgroundHandler.updateBackground(
+                root, currentPassage, currentGame.getStory().getTitle());
+            soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
           });
       links.getChildren().add(button);
     }
   }
 
+  /**
+   * Adds a listener to the root node's scene property.
+   *
+   * @param root the BorderPane to add the listener to.
+   */
   private void addSceneListener(BorderPane root) {
     root.sceneProperty()
         .addListener(
@@ -205,6 +288,11 @@ public class Game implements Builder<Region> {
             });
   }
 
+  /**
+   * Sets up arrow key navigation in the scene.
+   *
+   * @param scene the scene to set up arrow key navigation.
+   */
   private void setupArrowKeysNavigation(Scene scene) {
     AtomicInteger selectedIndex = new AtomicInteger(0);
     scene.addEventFilter(
@@ -232,63 +320,5 @@ public class Game implements Builder<Region> {
           }
           keyEvent.consume();
         });
-  }
-
-  private void updateBackground() {
-    String backgroundImageUrl;
-    if (hasBackground(currentPassage)) {
-      String path = "/stories/" + currentGame.getStory().getTitle() + "/images/";
-      String fileName = currentPassage.getTitle().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl =
-          Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
-    } else {
-      String defaultBackground =
-          currentPassage.getMood().toString().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl =
-          Objects.requireNonNull(getClass().getResource(IMAGE_PATH + defaultBackground))
-              .toExternalForm();
-    }
-    setBackgroundImageUrl(backgroundImageUrl);
-  }
-
-  private void setBackgroundImageUrl(String backgroundImageUrl) {
-    getRoot().setStyle("-fx-background-image: url('" + backgroundImageUrl + "');");
-  }
-
-  private boolean hasBackground(Passage passage) {
-    String path = STORIES_PATH + currentGame.getStory().getTitle() + IMAGE_PATH;
-    String fileName = passage.getTitle() + IMAGE_EXTENSION;
-    return getClass().getResource(path + fileName) != null;
-  }
-
-  private boolean hasMusic(Passage passage) {
-    String path = SOUND_PATH + currentGame.getStory().getTitle() + SOUND_PATH;
-    String fileName = passage.getTitle() + SOUND_EXTENSION;
-    return getClass().getResource(path + fileName) != null;
-  }
-
-  private void updateMusic() {
-    String musicUrl;
-    if (hasMusic(currentPassage)) {
-      String path = SOUND_PATH + currentGame.getStory().getTitle() + "/sound/";
-      String fileName = currentPassage.getTitle().toLowerCase() + SOUND_EXTENSION;
-      musicUrl = Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
-    } else {
-      musicUrl = SOUND_PATH + currentPassage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
-    }
-    playBackgroundMusic(musicUrl);
-  }
-
-  private void playBackgroundMusic(String musicFileUrl) {
-    if (mediaPlayer != null) {
-      mediaPlayer.stop();
-      mediaPlayer.dispose();
-    }
-
-    String musicUrl = Objects.requireNonNull(getClass().getResource(musicFileUrl)).toExternalForm();
-    Media media = new Media(musicUrl);
-    mediaPlayer = new MediaPlayer(media);
-    mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-    mediaPlayer.play();
   }
 }
