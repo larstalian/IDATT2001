@@ -28,11 +28,30 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Builder;
 import javafx.util.Duration;
 
+/**
+ * The {@code Game} class represents the game view and its UI components. It manages the game flow,
+ * user input, and updating the UI based on the game state.
+ *
+ * <p>This class utilizes JavaFX components to build the user interface and the game logic. It
+ * handles user input via arrow keys, enter, and space-bar for navigation and interaction. It also
+ * animates the text content for each passage and allows users to skip the animation.
+ *
+ * <p>The {@code Game} class contains methods to create UI elements and manage the game flow. For
+ * example, it creates the content bar, link choices, and handles scene changes.
+ *
+ * <p>Usage example:
+ *
+ * <pre>{@code
+ * Game game = new Game();
+ * game.setCurrentGame(chosenGame);
+ * Region gameUI = game.build();
+ * }</pre>
+ */
 public class Game implements Builder<Region> {
 
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
-  private  final StringProperty contentBar;
+  private final StringProperty contentBar;
   private final AtomicBoolean isAnimationSkipped;
   private final VBox links;
   private final SoundHandler soundHandler;
@@ -40,6 +59,13 @@ public class Game implements Builder<Region> {
   private Label skipLabel;
   private BorderPane root;
 
+  /**
+   * Constructs a new {@code Game} instance, initializing the required properties and handlers.
+   *
+   * <p>This constructor initializes the {@link BackgroundHandler}, {@link SoundHandler}, {@code
+   * VBox} for links, {@code StringProperty} for the content bar, and an {@code AtomicBoolean} for
+   * tracking the animation skipping state.
+   */
   public Game() {
     backgroundHandler = BackgroundHandler.getInstance();
     soundHandler = SoundHandler.getInstance();
@@ -48,14 +74,29 @@ public class Game implements Builder<Region> {
     isAnimationSkipped = new AtomicBoolean(false);
   }
 
+  /**
+   * Sets the current game.
+   *
+   * @param chosenGame the chosen game to be set as the current game.
+   */
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
   }
 
+  /**
+   * Returns the root node.
+   *
+   * @return the root node of the game.
+   */
   public BorderPane getRoot() {
     return root;
   }
 
+  /**
+   * Builds the game UI and sets up the game.
+   *
+   * @return a Region containing the game UI.
+   */
   @Override
   public Region build() {
     currentPassage = currentGame.begin();
@@ -64,6 +105,11 @@ public class Game implements Builder<Region> {
     return root;
   }
 
+  /**
+   * Creates the root node.
+   *
+   * @return the BorderPane representing the root node.
+   */
   private BorderPane createRoot() {
     BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
@@ -73,12 +119,22 @@ public class Game implements Builder<Region> {
     return root;
   }
 
+  /**
+   * Creates the right side UI element.
+   *
+   * @return a Node representing the right side of the game UI.
+   */
   private Node createRight() {
     StackPane results = new StackPane();
     results.getChildren().add(createLinkChoices());
     return results;
   }
 
+  /**
+   * Creates the bottom UI element.
+   *
+   * @return a Node representing the bottom side of the game UI.
+   */
   private Node createBottom() {
     StackPane bottom = new StackPane();
     ScrollPane contentBarText = createContentBar();
@@ -97,10 +153,20 @@ public class Game implements Builder<Region> {
     return bottom;
   }
 
+  /**
+   * Creates the center UI element.
+   *
+   * @return a Node representing the center of the game UI.
+   */
   private Node createCenter() {
     return new AnchorPane();
   }
 
+  /**
+   * Creates the content bar.
+   *
+   * @return a ScrollPane containing the content bar.
+   */
   private ScrollPane createContentBar() {
     Text contentBarText = new Text();
     contentBarText.textProperty().bind(contentBar);
@@ -117,6 +183,7 @@ public class Game implements Builder<Region> {
     return scrollPane;
   }
 
+  /** Creates and animates the content string of the current passage. */
   private void createContentString() {
     contentBar.set("");
     char[] charArray = currentPassage.getContent().toCharArray();
@@ -158,13 +225,18 @@ public class Game implements Builder<Region> {
     timeline.play();
   }
 
+  /**
+   * Creates the link choices UI element.
+   *
+   * @return a Node containing the link choices.
+   */
   private Node createLinkChoices() {
     links.setAlignment(Pos.BOTTOM_CENTER);
     links.setPrefHeight(VBox.USE_COMPUTED_SIZE);
     VBox.setMargin(links, new Insets(10, 10, 10, 10));
     links.getStyleClass().add("link-view");
     updateLinkChoices();
-    AnchorPane anchorPane = new AnchorPane();
+    final AnchorPane anchorPane = new AnchorPane();
     AnchorPane.setBottomAnchor(links, 0.0);
     AnchorPane.setLeftAnchor(links, 0.0);
     AnchorPane.setRightAnchor(links, 0.0);
@@ -173,6 +245,7 @@ public class Game implements Builder<Region> {
     return anchorPane;
   }
 
+  /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
     for (Link link : currentPassage.getLinks()) {
@@ -192,6 +265,11 @@ public class Game implements Builder<Region> {
     }
   }
 
+  /**
+   * Adds a listener to the root node's scene property.
+   *
+   * @param root the BorderPane to add the listener to.
+   */
   private void addSceneListener(BorderPane root) {
     root.sceneProperty()
         .addListener(
@@ -209,6 +287,11 @@ public class Game implements Builder<Region> {
             });
   }
 
+  /**
+   * Sets up arrow key navigation in the scene.
+   *
+   * @param scene the scene to set up arrow key navigation.
+   */
   private void setupArrowKeysNavigation(Scene scene) {
     AtomicInteger selectedIndex = new AtomicInteger(0);
     scene.addEventFilter(
