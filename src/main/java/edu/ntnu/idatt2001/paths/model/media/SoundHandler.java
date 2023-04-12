@@ -11,6 +11,7 @@ public class SoundHandler {
   private static final String SOUND_EXTENSION = ".mp3";
   private static SoundHandler instance;
   private MediaPlayer mediaPlayer;
+  private String currentMusicFile;
 
   private SoundHandler() {}
 
@@ -36,7 +37,10 @@ public class SoundHandler {
     } else {
       musicUrl = SOUND_PATH + passage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
     }
-    playBackgroundMusic(musicUrl);
+    if (!musicUrl.equals(currentMusicFile)) { // check if the music file has changed
+      playBackgroundMusic(musicUrl);
+      currentMusicFile = musicUrl; // update the current music file
+    }
   }
 
   private void playBackgroundMusic(String musicFileUrl) {
@@ -62,15 +66,6 @@ public class SoundHandler {
   }
 
   private boolean isMenuMusicPlaying() {
-    if (mediaPlayer == null) {
-      return false;
-    }
-
-    String currentMusicUrl = mediaPlayer.getMedia().getSource();
-    String menuMusicUrl =
-        Objects.requireNonNull(getClass().getResource(SOUND_PATH + "main_menu" + SOUND_EXTENSION))
-            .toExternalForm();
-
-    return currentMusicUrl.equals(menuMusicUrl) && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING;
+    return mediaPlayer != null; 
   }
 }

@@ -17,9 +17,15 @@ import org.apache.commons.io.FilenameUtils;
 
 public class LoadGame implements Builder<Region> {
 
-  private final ComboBox<String> saveSelect = new ComboBox<>();
-  private final Button loadButton = new Button("Load game");
-  private final Button goBackButton = new Button("Go Back");
+  private final ComboBox<String> saveSelect;
+  private final Button loadButton;
+  private final Button goBackButton;
+
+  public LoadGame() {
+    saveSelect = new ComboBox<>();
+    loadButton = new Button("Load Game");
+    goBackButton = new Button("Go Back");
+  }
 
   @Override
   public Region build() {
