@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,6 +14,11 @@ public class MainMenu implements Builder<Region> {
   private final Button loadGameButton = new Button("Load Game");
   private final Button storiesButton = new Button("Stories");
   private final Button exitButton = new Button("Exit");
+  private final SoundHandler soundHandler;
+
+  MainMenu() {
+    soundHandler = SoundHandler.getInstance();
+  }
 
   @Override
   public Region build() {
@@ -24,6 +30,7 @@ public class MainMenu implements Builder<Region> {
     configureLoadGameButton();
     configureStoriesButton();
     configureExitButton();
+    soundHandler.playMenuMusic();
     return results;
   }
 
