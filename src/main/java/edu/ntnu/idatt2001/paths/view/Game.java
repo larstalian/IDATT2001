@@ -1,8 +1,9 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
+import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -22,8 +23,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Builder;
@@ -31,19 +30,23 @@ import javafx.util.Duration;
 
 public class Game implements Builder<Region> {
 
-  private static final StringProperty contentBar = new SimpleStringProperty();
-  private static final AtomicBoolean isAnimationSkipped = new AtomicBoolean(false);
-  private static final String IMAGE_PATH = "/images/";
-  private static final String SOUND_PATH = "/sound/";
-  private static final String STORIES_PATH = "/stories/";
-  private static final String IMAGE_EXTENSION = ".png";
-  private static final String SOUND_EXTENSION = ".mp3";
   private static Passage currentPassage;
   private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
-  private final VBox links = new VBox();
+  private  final StringProperty contentBar;
+  private final AtomicBoolean isAnimationSkipped;
+  private final VBox links;
+  private final SoundHandler soundHandler;
+  private final BackgroundHandler backgroundHandler;
   private Label skipLabel;
   private BorderPane root;
-  private MediaPlayer mediaPlayer;
+
+  public Game() {
+    backgroundHandler = BackgroundHandler.getInstance();
+    soundHandler = SoundHandler.getInstance();
+    links = new VBox();
+    contentBar = new SimpleStringProperty();
+    isAnimationSkipped = new AtomicBoolean(false);
+  }
 
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
@@ -181,8 +184,9 @@ public class Game implements Builder<Region> {
             currentPassage = currentGame.go(link);
             createContentString();
             updateLinkChoices();
-            updateBackground();
-            updateMusic();
+            backgroundHandler.updateBackground(
+                root, currentPassage, currentGame.getStory().getTitle());
+            soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
           });
       links.getChildren().add(button);
     }
@@ -232,63 +236,5 @@ public class Game implements Builder<Region> {
           }
           keyEvent.consume();
         });
-  }
-
-  private void updateBackground() {
-    String backgroundImageUrl;
-    if (hasBackground(currentPassage)) {
-      String path = "/stories/" + currentGame.getStory().getTitle() + "/images/";
-      String fileName = currentPassage.getTitle().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl =
-          Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
-    } else {
-      String defaultBackground =
-          currentPassage.getMood().toString().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl =
-          Objects.requireNonNull(getClass().getResource(IMAGE_PATH + defaultBackground))
-              .toExternalForm();
-    }
-    setBackgroundImageUrl(backgroundImageUrl);
-  }
-
-  private void setBackgroundImageUrl(String backgroundImageUrl) {
-    getRoot().setStyle("-fx-background-image: url('" + backgroundImageUrl + "');");
-  }
-
-  private boolean hasBackground(Passage passage) {
-    String path = STORIES_PATH + currentGame.getStory().getTitle() + IMAGE_PATH;
-    String fileName = passage.getTitle() + IMAGE_EXTENSION;
-    return getClass().getResource(path + fileName) != null;
-  }
-
-  private boolean hasMusic(Passage passage) {
-    String path = SOUND_PATH + currentGame.getStory().getTitle() + SOUND_PATH;
-    String fileName = passage.getTitle() + SOUND_EXTENSION;
-    return getClass().getResource(path + fileName) != null;
-  }
-
-  private void updateMusic() {
-    String musicUrl;
-    if (hasMusic(currentPassage)) {
-      String path = SOUND_PATH + currentGame.getStory().getTitle() + "/sound/";
-      String fileName = currentPassage.getTitle().toLowerCase() + SOUND_EXTENSION;
-      musicUrl = Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
-    } else {
-      musicUrl = SOUND_PATH + currentPassage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
-    }
-    playBackgroundMusic(musicUrl);
-  }
-
-  private void playBackgroundMusic(String musicFileUrl) {
-    if (mediaPlayer != null) {
-      mediaPlayer.stop();
-      mediaPlayer.dispose();
-    }
-
-    String musicUrl = Objects.requireNonNull(getClass().getResource(musicFileUrl)).toExternalForm();
-    Media media = new Media(musicUrl);
-    mediaPlayer = new MediaPlayer(media);
-    mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-    mediaPlayer.play();
   }
 }
