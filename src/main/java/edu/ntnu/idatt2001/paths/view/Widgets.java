@@ -8,6 +8,14 @@ import javafx.stage.WindowEvent;
 
 public class Widgets {
 
+  /**
+   * Creates an Alert with the given title, header, and content.
+   *
+   * @param title the title for the alert
+   * @param header the header text for the alert
+   * @param content the content text for the alert. If empty, no content will be added.
+   * @return the Alert created with the specified parameters
+   */
   public static Alert createAlert(String title, String header, String content) {
     Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
     alert.setTitle(title);
@@ -21,10 +29,12 @@ public class Widgets {
     }
 
     Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-    alertStage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
-      alert.setResult(ButtonType.CLOSE);
-      alert.close();
-    });
+    alertStage.addEventFilter(
+        WindowEvent.WINDOW_CLOSE_REQUEST,
+        event -> {
+          alert.setResult(ButtonType.CLOSE);
+          alert.close();
+        });
 
     return alert;
   }
