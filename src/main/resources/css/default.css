@@ -120,3 +120,24 @@
     -fx-border-width: 2px;
     -fx-border-radius: 10;
 }
+
+.alert-pane {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 20px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.alert-header {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.alert-content {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}

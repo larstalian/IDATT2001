@@ -1,9 +1,14 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import static edu.ntnu.idatt2001.paths.view.Widgets.*;
+
+import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -18,9 +23,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -117,7 +120,22 @@ public class Game implements Builder<Region> {
     root.setCenter(createCenter());
     root.setBottom(createBottom());
     root.setRight(createRight());
+    root.setTop(createTop());
     return root;
+  }
+
+  /**
+   * Creates the top UI element containing the exit button.
+   *
+   * @return a Node representing the top side of the game UI.
+   */
+  private Node createTop() {
+    HBox top = new HBox();
+    Button exitButton = createExitButton();
+    top.getChildren().add(exitButton);
+    top.setAlignment(Pos.TOP_LEFT);
+    HBox.setMargin(exitButton, new Insets(10, 10, 0, 0));
+    return top;
   }
 
   /**
@@ -320,5 +338,57 @@ public class Game implements Builder<Region> {
           }
           keyEvent.consume();
         });
+  }
+
+  /**
+   * Creates the exit button.
+   *
+   * @return a Button representing the exit button.
+   */
+  private Button createExitButton() {
+    Button exitButton = new Button("Exit");
+    exitButton.getStyleClass().add("exit-button");
+    exitButton.setOnAction(e -> showSaveGameConfirmationDialog());
+    return exitButton;
+  }
+
+  /** Builds and shows the save game confirmation dialog. */
+  private void showSaveGameConfirmationDialog() {
+    String title = "Save Game";
+    String header = "Do you wish to save the game?";
+    String content = "";
+
+    Alert alert = createAlert(title, header, content);
+
+    ButtonType buttonYes = new ButtonType("Yes");
+    ButtonType buttonNo = new ButtonType("No");
+    ButtonType buttonCancel = new ButtonType("Cancel");
+
+    alert.getButtonTypes().setAll(buttonYes, buttonNo, buttonCancel);
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent()) {
+      if (result.get() == buttonYes) {
+        GameFileHandler gameFileHandler = new GameFileHandler();
+
+        try {
+          gameFileHandler.saveGameToFile(currentGame);
+          switchToMainMenu();
+
+        } catch (IOException e) {
+          alert = createAlert("Error", "Error saving game", e.getMessage());
+          alert.showAndWait();
+        }
+      } else if (result.get() == buttonNo) {
+        switchToMainMenu();
+      }
+    }
+  }
+
+  /** Sets the scene to main menu. */
+  private void switchToMainMenu() {
+    MainMenu mainMenu = new MainMenu();
+    Region mainMenuRoot = mainMenu.build();
+    root.getScene().setRoot(mainMenuRoot);
   }
 }
