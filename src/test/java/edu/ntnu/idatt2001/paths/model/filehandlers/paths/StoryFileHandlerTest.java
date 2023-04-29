@@ -29,15 +29,15 @@ class StoryFileHandlerTest {
   private Story story;
   private Story loadedStory;
 
-//  @AfterAll
-//  static void tearDown() {
-//    Path path = Path.of("src/main/resources/stories/paths/Test Story.paths");
-//    try {
-//      Files.delete(path);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-//  }
+  @AfterAll
+  static void tearDown() {
+    Path path = Path.of("src/main/resources/stories/paths/Test Story.paths");
+    try {
+      Files.delete(path);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   @BeforeEach
   void setUp() throws IOException, ParseException {
