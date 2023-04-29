@@ -87,10 +87,15 @@ public class NewGame implements Builder<Region> {
   }
 
   private void configureStorySelect() {
+    try{
     storySelect.getItems().addAll(StoryFileReader.getSavedStories());
     storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
     storySelect.selectionModelProperty().get().selectFirst();
+  } catch (Exception e) {
+     Widgets.createAlert("Error!","Oops!" ,"There are no story files, go to Stories for additional information").showAndWait();
+    }
   }
+
 
   private void configurePlayerName() {
     playerName.getStyleClass().add("player-name-field");
