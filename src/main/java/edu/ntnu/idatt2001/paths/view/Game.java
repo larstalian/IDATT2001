@@ -372,7 +372,7 @@ public class Game implements Builder<Region> {
         GameFileHandler gameFileHandler = new GameFileHandler();
 
         try {
-          gameFileHandler.saveGameToFile(currentGame);
+          gameFileHandler.saveGameToFile(currentGame, currentPassage);
           switchToMainMenu();
 
         } catch (IOException e) {

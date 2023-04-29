@@ -68,7 +68,7 @@ public class LoadGame implements Builder<Region> {
             try {
               setCurrentGame(
                   gameFileHandler.loadGameFromFile(
-                      FilenameUtils.removeExtension(saveSelect.getValue())));
+                      FilenameUtils.removeExtension(saveSelect.getValue())).getGame());
 
               Region gameRoot = new Game().build();
               loadButton.getScene().setRoot(gameRoot);
