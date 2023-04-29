@@ -87,6 +87,15 @@ public class Game implements Builder<Region> {
   }
 
   /**
+   * Sets the current passage
+   *
+   * @param passage the passage to be set as the current passage
+   */
+  public static void setCurrentPassage(Passage passage) {
+    currentPassage = passage;
+  }
+
+  /**
    * Returns the root node.
    *
    * @return the root node of the game.
@@ -372,7 +381,7 @@ public class Game implements Builder<Region> {
         GameFileHandler gameFileHandler = new GameFileHandler();
 
         try {
-          gameFileHandler.saveGameToFile(currentGame);
+          gameFileHandler.saveGameToFile(currentGame, currentPassage);
           switchToMainMenu();
 
         } catch (IOException e) {

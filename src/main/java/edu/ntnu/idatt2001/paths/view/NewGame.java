@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
-import edu.ntnu.idatt2001.paths.model.filehandlers.txt.StoryFileReader;
+import edu.ntnu.idatt2001.paths.model.filehandlers.paths.StoryFileReader;
 import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.game.Player;
 import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;

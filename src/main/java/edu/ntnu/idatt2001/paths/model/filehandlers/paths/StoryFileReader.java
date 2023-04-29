@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.model.filehandlers.txt;
+package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
 import edu.ntnu.idatt2001.paths.model.actions.*;
 import edu.ntnu.idatt2001.paths.model.story.Link;
@@ -35,8 +35,8 @@ import java.util.regex.Pattern;
  */
 public class StoryFileReader {
   private static final String DELIMITER = System.getProperty("line.separator");
-  private static final String FILE_ENDING = ".txt";
-  private static final Path FILE_PATH = Paths.get("src/main/resources/stories/txt/");
+  private static final String FILE_ENDING = ".paths";
+  private static final Path FILE_PATH = Paths.get("src/main/resources/stories/paths/");
   private static final String PASSAGE_PATTERN = "^::(.+)$";
   private static final String LINK_PATTERN = "^\\[(.+)]\\((.+)\\)$";
   private static final String ACTIONS_PATTERN = "^\\{(.+)}$";
