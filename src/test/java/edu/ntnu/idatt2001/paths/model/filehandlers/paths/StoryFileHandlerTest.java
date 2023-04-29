@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.model.filehandlers.txt;
+package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -22,22 +22,22 @@ import org.junit.jupiter.api.Test;
 class StoryFileHandlerTest {
 
   private static final Path EMPTY_TEST_STORY_PATH =
-      Path.of("src/main/resources/stories/txt/Empty Test Story.txt");
+      Path.of("src/main/resources/stories/paths/Empty Test Story.paths");
   private static final Path NO_ACTIONS_TEST_STORY_PATH =
-      Path.of("src/main/resources/stories/txt/No Actions Test Story.txt");
+      Path.of("src/main/resources/stories/paths/No Actions Test Story.paths");
 
   private Story story;
   private Story loadedStory;
 
-  @AfterAll
-  static void tearDown() {
-    Path path = Path.of("src/main/resources/stories/txt/Test Story.txt");
-    try {
-      Files.delete(path);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//  @AfterAll
+//  static void tearDown() {
+//    Path path = Path.of("src/main/resources/stories/paths/Test Story.paths");
+//    try {
+//      Files.delete(path);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 
   @BeforeEach
   void setUp() throws IOException, ParseException {
@@ -112,7 +112,7 @@ class StoryFileHandlerTest {
   @Test
   void whenStoryIsSavedWithNoLinks_itShouldNotThrowException() {
     String invalidFileTitle = "Invalid Test Story";
-    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
+    Path invalidFilePath = Path.of("src/main/resources/stories/paths/" + invalidFileTitle + ".paths");
     Passage openingPassage = new Passage("Empty Story", "This is an empty story.");
     Story emptyStory = new Story(invalidFileTitle, openingPassage);
     try {
@@ -139,7 +139,7 @@ class StoryFileHandlerTest {
   @Test
   void whenStoryIsSavedWithNoActions_itShouldNotThrowException() {
     String invalidFileTitle = "Invalid Test Story";
-    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
+    Path invalidFilePath = Path.of("src/main/resources/stories/paths/" + invalidFileTitle + ".paths");
     Passage openingPassage = new Passage("No Actions Story", "This is a story with no actions.");
     Passage passage1 = new Passage("Passage1", "This is the first passage.");
     Link link1 = new Link("Go to the first passage", "Passage1");
@@ -167,7 +167,7 @@ class StoryFileHandlerTest {
   @Test
   void whenInvalidFileIsLoaded_itShouldThrowParseException() {
     String invalidFileTitle = "Invalid Test Story";
-    Path invalidFilePath = Path.of("src/main/resources/stories/txt/" + invalidFileTitle + ".txt");
+    Path invalidFilePath = Path.of("src/main/resources/stories/paths/" + invalidFileTitle + ".paths");
 
     try {
       Files.writeString(invalidFilePath, "Invalid file content");
@@ -189,7 +189,7 @@ class StoryFileHandlerTest {
   void whenInvalidPassageFormatIsLoaded_itShouldThrowParseException() {
     String invalidPassageContent =
         "Story Title\n\n:Passage1\nThis is the first passage.\nInvalid Link";
-    Path path = Path.of("src/main/resources/stories/txt/InvalidPassageFormatStory.txt");
+    Path path = Path.of("src/main/resources/stories/paths/InvalidPassageFormatStory.paths");
     try {
       Files.createDirectories(path.getParent());
       Files.writeString(path, invalidPassageContent);

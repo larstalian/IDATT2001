@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.model.filehandlers.txt;
+package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.story.Link;
@@ -31,8 +31,8 @@ import java.util.stream.Collectors;
  */
 public class StoryFileWriter {
   private static final String NEWLINE = System.lineSeparator();
-  private static final String FILE_ENDING = ".txt";
-  private static final String FILEPATH = "src/main/resources/stories/txt/";
+  private static final String FILE_ENDING = ".paths";
+  private static final String FILEPATH = "src/main/resources/stories/paths/";
   private static final String PASSAGE_PREFIX = "::";
   private static final String LINK_TEXT_PREFIX = "[";
   private static final String LINK_TEXT_SUFFIX = "]";
