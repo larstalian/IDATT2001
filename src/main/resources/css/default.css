@@ -144,12 +144,17 @@
 
 .story-info-vbox {
     -fx-background-color: rgba(0, 0, 0, 0.9);
-    -fx-padding: 10px;
+    -fx-padding: 20px;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
     -fx-spacing: 5px;
     -fx-alignment: center;
 }
+
+.story-info-HBox{
+    -fx-padding: 40px;
+}
+
 
 .story-info-label {
     -fx-font-family: "Fira Code Retina";
@@ -179,3 +184,13 @@
     -fx-font-size: 14px;
     -fx-text-fill: white;
 }
+
+.dialog-grid {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-spacing: 5px;
+    -fx-alignment: center;
+}
+
