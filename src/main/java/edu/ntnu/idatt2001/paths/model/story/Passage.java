@@ -37,7 +37,7 @@ public class Passage {
   @JsonProperty private final String title;
   @JsonProperty private final String content;
   @JsonProperty private final List<Link> links;
-  @JsonProperty private final Mood mood;
+  @JsonProperty private Mood mood;
 
   /**
    * Constructs a new Passage object with the given title and content.
@@ -135,4 +135,12 @@ public class Passage {
     }
     return sb.toString();
   }
+
+    public void setMood(Mood value) {
+        this.mood = value;
+    }
+
+    public void getMood(Mood value) {
+        this.mood = value;
+    }
 }

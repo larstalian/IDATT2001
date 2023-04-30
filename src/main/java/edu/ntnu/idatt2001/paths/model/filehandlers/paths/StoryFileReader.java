@@ -4,6 +4,8 @@ import edu.ntnu.idatt2001.paths.model.actions.*;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,6 +54,7 @@ public class StoryFileReader {
    * @throws IOException If there is a problem reading the file.
    */
   public static Story readStoryFromFile(String fileName) throws IOException, ParseException {
+    fileName = FilenameUtils.removeExtension(fileName);
     String storyContent = readFile(fileName);
     return parseStoryContent(storyContent);
   }
