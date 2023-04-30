@@ -1,8 +1,10 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
+import edu.ntnu.idatt2001.paths.model.filehandlers.paths.StoryFileReader;
 import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -25,6 +27,7 @@ public class Stories implements Builder<Region> {
     goBackButton  = new Button("Back");
     storySelect = new ChoiceBox<>();
     storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
+    storySelect.getItems().addAll(StoryFileReader.getSavedStories());
     storySelect.getSelectionModel().selectFirst();
     getBrokenLinksButton = new Button("See broken links");
     root = new BorderPane();
@@ -32,8 +35,13 @@ public class Stories implements Builder<Region> {
   }
 
   private void loadInitialStory() {
+    String fileName = storySelect.getValue();
     try {
-      loadedStory = new StoryFileHandler().loadStoryFromFile(storySelect.getValue());
+      if (FilenameUtils.isExtension(fileName, "json")) {
+        loadedStory = new StoryFileHandler().loadStoryFromFile(storySelect.getValue());
+      } else if (FilenameUtils.isExtension(fileName, "paths")){
+        loadedStory = StoryFileReader.readStoryFromFile(fileName);
+      }
     } catch (Exception e) {
       Widgets.createAlert("Error", "Error", "Error loading the story, check for errors in the story file\n" + e.getMessage()).showAndWait();
     }
@@ -60,10 +68,15 @@ public class Stories implements Builder<Region> {
   private void configureStorySelect() {
     storySelect.setOnAction(
             event -> {
+              String fileName = storySelect.getValue();
               try {
-                loadedStory = new StoryFileHandler().loadStoryFromFile(storySelect.getValue());
+                if (FilenameUtils.isExtension(fileName, "json")) {
+                  loadedStory = new StoryFileHandler().loadStoryFromFile(storySelect.getValue());
+                } else if (FilenameUtils.isExtension(fileName, "paths")){
+                  loadedStory = StoryFileReader.readStoryFromFile(fileName);
+                }
                 updateStoryInfo();
-              } catch (IOException e) {
+              } catch (IOException | ParseException e) {
                 Widgets.createAlert("Error", "Error loading the story, check for errors in the story file", "Detailed error message:\n\n" + e.getMessage()).showAndWait();
               }
             });
@@ -82,9 +95,9 @@ public class Stories implements Builder<Region> {
     StackPane results = new StackPane();
     VBox storyInfoVBox = new VBox();
     storyInfoVBox.getStyleClass().add("story-info-vbox");
-    storyInfoVBox.getChildren().add(goBackButton);
     storyInfoVBox.getChildren().add(createStoryInfo());
     results.getChildren().add(storyInfoVBox);
+    storyInfoVBox.getChildren().add(goBackButton);
     return results;
   }
 
