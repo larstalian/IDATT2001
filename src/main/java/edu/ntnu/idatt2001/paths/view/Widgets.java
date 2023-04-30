@@ -17,7 +17,7 @@ public class Widgets {
    * @return the Alert created with the specified parameters
    */
   public static Alert createAlert(String title, String header, String content) {
-    Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
+    Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.CLOSE);
     alert.setTitle(title);
     alert.setHeaderText(header);
 
