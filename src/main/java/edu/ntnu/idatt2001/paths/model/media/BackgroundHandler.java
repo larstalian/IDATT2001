@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
  */
 public class BackgroundHandler {
 
-  private static final String IMAGE_PATH = "/images/";
+  private static final String IMAGE_PATH = "/images/passage-moods/";
   private static final String STORIES_PATH = "/stories/";
   private static final String IMAGE_EXTENSION = ".png";
   private static BackgroundHandler instance;
