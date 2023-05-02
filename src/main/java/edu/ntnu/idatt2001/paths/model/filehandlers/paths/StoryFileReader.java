@@ -12,8 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.ListIterator;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -214,9 +213,9 @@ public class StoryFileReader {
     }
   }
 
-  public static String[] getSavedStories() {
+  public static Collection<String> getSavedStories() {
     File folder = new File(FILE_PATH.toString());
-    return folder.list();
+    return folder.list() == null ? Collections.emptyList() : Arrays.asList(Objects.requireNonNull(folder.list()));
   }
 
   public static String getFileEnding() {

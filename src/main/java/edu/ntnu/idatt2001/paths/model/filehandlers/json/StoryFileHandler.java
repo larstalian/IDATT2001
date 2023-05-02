@@ -46,7 +46,7 @@ import java.util.Objects;
  */
 public class StoryFileHandler {
 
-  private static final Path filePath = Paths.get("src/main/resources/stories/json");
+  private static final Path FILEPATH = Paths.get("src/main/resources/stories/json");
   private static final Path customMediaPath = Paths.get("src/main/resources/stories/");
   private final ObjectMapper objectMapper;
 
@@ -68,9 +68,10 @@ public class StoryFileHandler {
    *
    * @return an array of all the saved stories
    */
-  public static String[] getSavedStories() {
-    File folder = new File(filePath.toString());
-    return folder.list();
+  public static Collection<String> getSavedStories() {
+    File folder = new File(FILEPATH.toString());
+    return folder.list() == null ? Collections.emptyList() : Arrays.asList(Objects.requireNonNull(folder.list()));
+
   }
 
   /**
@@ -131,8 +132,8 @@ public class StoryFileHandler {
     String filename = story.getTitle();
 
     String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(story);
-    Files.createDirectories(filePath);
-    Path storyFilePath = filePath.resolve(filename + ".json");
+    Files.createDirectories(FILEPATH);
+    Path storyFilePath = FILEPATH.resolve(filename + ".json");
     Files.write(storyFilePath, jsonString.getBytes());
   }
 
@@ -147,7 +148,7 @@ public class StoryFileHandler {
     filename = FilenameUtils.removeExtension(filename);
     Objects.requireNonNull(filename, "Filename cannot be null");
 
-    Path storyFilePath = filePath.resolve(filename + ".json");
+    Path storyFilePath = FILEPATH.resolve(filename + ".json");
     String jsonString = new String(Files.readAllBytes(storyFilePath));
     return objectMapper.readValue(jsonString, Story.class);
   }
@@ -158,6 +159,6 @@ public class StoryFileHandler {
    * @return the file path
    */
   public Path getFilePath() {
-    return filePath;
+    return FILEPATH;
   }
 }
