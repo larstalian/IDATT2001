@@ -4,10 +4,11 @@ import static edu.ntnu.idatt2001.paths.view.Widgets.*;
 
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
+import edu.ntnu.idatt2001.paths.model.media.InventoryIconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
-import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +25,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -61,6 +64,7 @@ public class Game implements Builder<Region> {
   private final BackgroundHandler backgroundHandler;
   private Label skipLabel;
   private BorderPane root;
+  private VBox inventory;
 
   /**
    * Constructs a new {@code Game} instance, initializing the required properties and handlers.
@@ -75,6 +79,7 @@ public class Game implements Builder<Region> {
     links = new VBox();
     contentBar = new SimpleStringProperty();
     isAnimationSkipped = new AtomicBoolean(false);
+    inventory = new VBox();
   }
 
   /**
@@ -154,6 +159,7 @@ public class Game implements Builder<Region> {
    */
   private Node createRight() {
     StackPane results = new StackPane();
+    results.getChildren().add(createInventory());
     results.getChildren().add(createLinkChoices());
     return results;
   }
@@ -253,6 +259,39 @@ public class Game implements Builder<Region> {
     timeline.play();
   }
 
+  private Node createInventory() {
+    inventory.setAlignment(Pos.TOP_RIGHT);
+    inventory.setPrefHeight(VBox.USE_COMPUTED_SIZE);
+    VBox.setMargin(inventory, new Insets(10,10,10,10));
+    inventory.getStyleClass().add("inventory-view");
+    updateInventory();
+    final AnchorPane results = new AnchorPane();
+    AnchorPane.setBottomAnchor(results, 0.0);
+    AnchorPane.setLeftAnchor(results,0.0);
+    AnchorPane.setRightAnchor(results,0.0);
+    results.getChildren().add(links);
+    return results;
+  }
+
+  private void updateInventory() {
+    inventory.getChildren().clear();
+    inventory.getChildren().add(new Text("Inventory:"));
+    List<String> playerItems = currentGame.getPlayer().getInventory();
+    playerItems.forEach(System.out::print);
+
+    playerItems.forEach(
+        item -> {
+          Image icon = InventoryIconHandler.getIcon(item);
+          if (icon != null) {
+            inventory.getChildren().add(new ImageView(icon));
+          } else {
+            Text itemText = new Text(item);
+            itemText.getStyleClass().add("inventory-item");
+            inventory.getChildren().add(itemText);
+          }
+        });
+  }
+
   /**
    * Creates the link choices UI element.
    *
@@ -276,21 +315,22 @@ public class Game implements Builder<Region> {
   /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
-    for (Link link : currentPassage.getLinks()) {
+    currentPassage.getLinks().forEach(link -> {
       Button button = new Button(link.getText());
       button.setFocusTraversable(true);
       button.getStyleClass().add("link-button");
       button.setOnAction(
-          e -> {
-            currentPassage = currentGame.go(link);
-            createContentString();
-            updateLinkChoices();
-            backgroundHandler.updateBackground(
-                root, currentPassage, currentGame.getStory().getTitle());
-            soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
-          });
+              e -> {
+                currentPassage = currentGame.go(link);
+                createContentString();
+                updateLinkChoices();
+                updateInventory();
+                backgroundHandler.updateBackground(
+                        root, currentPassage, currentGame.getStory().getTitle());
+                soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+              });
       links.getChildren().add(button);
-    }
+    });
   }
 
   /**
@@ -307,7 +347,6 @@ public class Game implements Builder<Region> {
                   ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                 if (newValue != null) {
                   createContentString();
-                  updateLinkChoices();
                   root.sceneProperty().removeListener(this);
                   setupArrowKeysNavigation(newValue);
                 }
