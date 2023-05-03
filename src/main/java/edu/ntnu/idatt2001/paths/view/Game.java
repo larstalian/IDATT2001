@@ -64,9 +64,9 @@ public class Game implements Builder<Region> {
   private final VBox links;
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
+  private final VBox inventory;
   private Label skipLabel;
   private BorderPane root;
-  private VBox inventory;
 
   /**
    * Constructs a new {@code Game} instance, initializing the required properties and handlers.
@@ -271,7 +271,6 @@ public class Game implements Builder<Region> {
   }
 
   private void updateInventory() {
-    System.out.printf(currentGame.getPlayer().toString());
     inventory.getChildren().clear();
     Label inventoryTitle = new Label("Inventory:");
     inventory.getChildren().add(inventoryTitle);
@@ -279,26 +278,35 @@ public class Game implements Builder<Region> {
     List<String> playerItems = currentGame.getPlayer().getInventory();
 
     playerItems.forEach(
-            item -> {
-              HBox itemContainer = new HBox();
-              itemContainer.setAlignment(Pos.CENTER);
-              Image icon = InventoryIconHandler.getIcon(item);
-              if (icon != null) {
-                itemContainer.getChildren().add(new ImageView(icon));
-              } else {
-                Label itemText = new Label(item);
-                itemText.getStyleClass().add("inventory-view-text");
-                itemContainer.getChildren().add(itemText);
-              }
-              inventory.getChildren().add(itemContainer);
-            });
+        item -> {
+          HBox itemContainer = new HBox();
+          itemContainer.setAlignment(Pos.CENTER);
+          
+          try{
+          Image icon = InventoryIconHandler.getIcon(item);
+          
+          if (icon != null) {
+            ImageView imageView = new ImageView(icon);
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            itemContainer.getChildren().add(imageView);
+            
+          } else {
+            Label itemText = new Label(item);
+            itemText.getStyleClass().add("inventory-view-text");
+            itemContainer.getChildren().add(itemText);
+          }
+          inventory.getChildren().add(itemContainer);
+          }catch (IOException e){
+            Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage()).showAndWait();
+          }
+        });
   }
 
   private void executeActions(Link link) {
     List<Action> actions = link.getActions();
     actions.forEach(action -> action.execute(currentGame.getPlayer()));
   }
-
 
   /**
    * Creates the link choices UI element.
