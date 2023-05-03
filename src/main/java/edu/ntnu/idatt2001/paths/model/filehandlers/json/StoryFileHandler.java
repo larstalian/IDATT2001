@@ -68,9 +68,10 @@ public class StoryFileHandler {
    *
    * @return an array of all the saved stories
    */
-  public static String[] getSavedStories() {
+  public static Collection<String> getSavedStories() {
     File folder = new File(filePath.toString());
-    return folder.list();
+    String[] savedStories = folder.list();
+    return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
 
   /**
@@ -81,7 +82,8 @@ public class StoryFileHandler {
    */
   public static Collection<String> getCustomSoundFiles(String storyName) {
     File soundsFolder = new File(customMediaPath + "/" + storyName + "/sounds");
-    return soundsFolder.list() == null ? Collections.emptyList() : Arrays.asList(Objects.requireNonNull(soundsFolder.list()));
+    String[] soundFiles = soundsFolder.list();
+    return soundFiles == null ? Collections.emptyList() : Arrays.asList(soundFiles);
   }
 
   /**
@@ -93,7 +95,8 @@ public class StoryFileHandler {
   public static Collection<String> getCustomImageFiles(String storyTitle) {
     storyTitle = FilenameUtils.removeExtension(storyTitle);
     File imagesFolder = new File(customMediaPath + "/" + storyTitle + "/images");
-    return imagesFolder.list() == null ? Collections.emptyList() : Arrays.asList(Objects.requireNonNull(imagesFolder.list()));
+    String[] imageFiles = imagesFolder.list();
+    return imageFiles == null ? Collections.emptyList() : Arrays.asList(imageFiles);
   }
 
   /**

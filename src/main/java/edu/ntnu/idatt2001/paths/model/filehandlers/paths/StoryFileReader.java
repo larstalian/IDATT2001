@@ -4,8 +4,6 @@ import edu.ntnu.idatt2001.paths.model.actions.*;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,9 +11,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * The StoryFileReader class provides utility methods for reading stories from text files and
@@ -214,9 +215,10 @@ public class StoryFileReader {
     }
   }
 
-  public static String[] getSavedStories() {
+  public static Collection<String> getSavedStories() {
     File folder = new File(FILE_PATH.toString());
-    return folder.list();
+    String[] savedStories = folder.list();
+    return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
 
   public static String getFileEnding() {
