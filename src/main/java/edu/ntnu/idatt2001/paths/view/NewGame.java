@@ -87,10 +87,12 @@ public class NewGame implements Builder<Region> {
   }
 
   private void configureStorySelect() {
-      storySelect.getItems().addAll(StoryFileReader.getSavedStories());
-      storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
+    storySelect.getItems().addAll(StoryFileReader.getSavedStories());
+    storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
+
     storySelect.selectionModelProperty().get().selectFirst();
   }
+
 
   private void configurePlayerName() {
     playerName.getStyleClass().add("player-name-field");
