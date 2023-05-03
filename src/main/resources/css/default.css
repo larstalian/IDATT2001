@@ -15,7 +15,7 @@
     -fx-min-width: 500px;
     -fx-min-height: 500px;
     -fx-margin: 0px;
-    -fx-background-image: url("/images/main_menu.png");
+    -fx-background-image: url("/images/passage-moods/main_menu.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: stretch;
     -fx-background-position: bottom;
@@ -105,6 +105,7 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-spacing: 10px;
+    -fx-min-width: 80px;
 }
 
 .link-button {
@@ -192,5 +193,38 @@
     -fx-background-radius: 10;
     -fx-spacing: 5px;
     -fx-alignment: center;
+}
+
+.inventory-view-text {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-padding: 2px;
+    -fx-alignment: center;
+}
+
+.inventory-view-title{
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 1px;
+}
+
+.inventory-vbox {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 5px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-spacing: 5px;
+    -fx-alignment: top-center;
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+}
+
+.inventory-vbox > Label {
+    -fx-fill: white;
+    -fx-padding: 1px;
+    -fx-spacing: 5px;
+    -fx-alignment: top-center;
 }
 
