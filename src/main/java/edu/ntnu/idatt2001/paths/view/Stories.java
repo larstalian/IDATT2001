@@ -227,9 +227,14 @@ public class Stories implements Builder<Region> {
   private Node createConvertStoryInfo() {
     VBox results = new VBox();
     String selectedFile = storySelect.getValue();
+    if (selectedFile == null){
+      Widgets.createAlert("Error","There are no stories", 
+              "Please check that the stories are in the correct file path, see the .README for more info.")
+              .showAndWait();
+      return results;
+    }
     if (selectedFile.endsWith(".paths")) {
       results.getChildren().add(createPathsConvertInfo());
-
     }
     if (selectedFile.endsWith(".json")) {
       results.getChildren().add(createJsonConvertInfo());
@@ -318,7 +323,7 @@ public class Stories implements Builder<Region> {
     List<Passage> passagesList = new ArrayList<>(loadedStory.getPassages());
 
     IntStream.range(0, passagesList.size()).forEach(i -> {
-      grid.add(new Label("Passage " + (i + 1) + ": "), 0, i);
+      grid.add(new Label(passagesList.get(i).getTitle()), 0, i);
       ChoiceBox<Mood> choiceBox = new ChoiceBox<>();
       choiceBox.getItems().addAll(Mood.values());
       choiceBox.setValue(Mood.NONE);
