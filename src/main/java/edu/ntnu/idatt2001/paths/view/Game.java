@@ -2,10 +2,12 @@ package edu.ntnu.idatt2001.paths.view;
 
 import static edu.ntnu.idatt2001.paths.view.Widgets.*;
 
+import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
 import edu.ntnu.idatt2001.paths.model.media.InventoryIconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
+import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import java.io.IOException;
 import java.util.List;
@@ -158,11 +160,12 @@ public class Game implements Builder<Region> {
    * @return a Node representing the right side of the game UI.
    */
   private Node createRight() {
-    StackPane results = new StackPane();
-    results.getChildren().add(createInventory());
-    results.getChildren().add(createLinkChoices());
-    return results;
+    BorderPane right = new BorderPane();
+    right.setRight(createInventory());
+    right.setBottom(createLinkChoices());
+    return right;
   }
+
 
   /**
    * Creates the bottom UI element.
@@ -260,37 +263,42 @@ public class Game implements Builder<Region> {
   }
 
   private Node createInventory() {
-    inventory.setAlignment(Pos.TOP_RIGHT);
-    inventory.setPrefHeight(VBox.USE_COMPUTED_SIZE);
-    VBox.setMargin(inventory, new Insets(10,10,10,10));
-    inventory.getStyleClass().add("inventory-view");
+    AnchorPane.setTopAnchor(inventory, 10.0);
+    AnchorPane.setRightAnchor(inventory, 10.0);
+    inventory.getStyleClass().add("inventory-vbox");
     updateInventory();
-    final AnchorPane results = new AnchorPane();
-    AnchorPane.setBottomAnchor(results, 0.0);
-    AnchorPane.setLeftAnchor(results,0.0);
-    AnchorPane.setRightAnchor(results,0.0);
-    results.getChildren().add(links);
-    return results;
+    return inventory;
   }
 
   private void updateInventory() {
+    System.out.printf(currentGame.getPlayer().toString());
     inventory.getChildren().clear();
-    inventory.getChildren().add(new Text("Inventory:"));
+    Label inventoryTitle = new Label("Inventory:");
+    inventory.getChildren().add(inventoryTitle);
+    inventoryTitle.getStyleClass().add("inventory-view-title");
     List<String> playerItems = currentGame.getPlayer().getInventory();
-    playerItems.forEach(System.out::print);
 
     playerItems.forEach(
-        item -> {
-          Image icon = InventoryIconHandler.getIcon(item);
-          if (icon != null) {
-            inventory.getChildren().add(new ImageView(icon));
-          } else {
-            Text itemText = new Text(item);
-            itemText.getStyleClass().add("inventory-item");
-            inventory.getChildren().add(itemText);
-          }
-        });
+            item -> {
+              HBox itemContainer = new HBox();
+              itemContainer.setAlignment(Pos.CENTER);
+              Image icon = InventoryIconHandler.getIcon(item);
+              if (icon != null) {
+                itemContainer.getChildren().add(new ImageView(icon));
+              } else {
+                Label itemText = new Label(item);
+                itemText.getStyleClass().add("inventory-view-text");
+                itemContainer.getChildren().add(itemText);
+              }
+              inventory.getChildren().add(itemContainer);
+            });
   }
+
+  private void executeActions(Link link) {
+    List<Action> actions = link.getActions();
+    actions.forEach(action -> action.execute(currentGame.getPlayer()));
+  }
+
 
   /**
    * Creates the link choices UI element.
@@ -322,6 +330,7 @@ public class Game implements Builder<Region> {
       button.setOnAction(
               e -> {
                 currentPassage = currentGame.go(link);
+                executeActions(link);
                 createContentString();
                 updateLinkChoices();
                 updateInventory();
