@@ -318,7 +318,7 @@ public class Stories implements Builder<Region> {
     List<Passage> passagesList = new ArrayList<>(loadedStory.getPassages());
 
     IntStream.range(0, passagesList.size()).forEach(i -> {
-      grid.add(new Label("Passage " + (i + 1) + ": "), 0, i);
+      grid.add(new Label(passagesList.get(i).getTitle()), 0, i);
       ChoiceBox<Mood> choiceBox = new ChoiceBox<>();
       choiceBox.getItems().addAll(Mood.values());
       choiceBox.setValue(Mood.NONE);
