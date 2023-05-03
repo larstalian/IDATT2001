@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.paths.model.filehandlers.txt;
+package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
 import edu.ntnu.idatt2001.paths.model.actions.*;
 import edu.ntnu.idatt2001.paths.model.story.Link;
@@ -11,9 +11,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * The StoryFileReader class provides utility methods for reading stories from text files and
@@ -35,8 +38,8 @@ import java.util.regex.Pattern;
  */
 public class StoryFileReader {
   private static final String DELIMITER = System.getProperty("line.separator");
-  private static final String FILE_ENDING = ".txt";
-  private static final Path FILE_PATH = Paths.get("src/main/resources/stories/txt/");
+  private static final String FILE_ENDING = ".paths";
+  private static final Path FILE_PATH = Paths.get("src/main/resources/stories/paths/");
   private static final String PASSAGE_PATTERN = "^::(.+)$";
   private static final String LINK_PATTERN = "^\\[(.+)]\\((.+)\\)$";
   private static final String ACTIONS_PATTERN = "^\\{(.+)}$";
@@ -52,6 +55,7 @@ public class StoryFileReader {
    * @throws IOException If there is a problem reading the file.
    */
   public static Story readStoryFromFile(String fileName) throws IOException, ParseException {
+    fileName = FilenameUtils.removeExtension(fileName);
     String storyContent = readFile(fileName);
     return parseStoryContent(storyContent);
   }
@@ -211,9 +215,10 @@ public class StoryFileReader {
     }
   }
 
-  public static String[] getSavedStories() {
+  public static Collection<String> getSavedStories() {
     File folder = new File(FILE_PATH.toString());
-    return folder.list();
+    String[] savedStories = folder.list();
+    return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
 
   public static String getFileEnding() {

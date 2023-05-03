@@ -7,11 +7,17 @@ import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StoryDeseria
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StorySerializer;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Story;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -40,7 +46,8 @@ import java.util.Objects;
  */
 public class StoryFileHandler {
 
-  private static final Path filePath = Paths.get("src/main/resources/stories/json");
+  private static final Path FILEPATH = Paths.get("src/main/resources/stories/json");
+  private static final Path customMediaPath = Paths.get("src/main/resources/stories/");
   private final ObjectMapper objectMapper;
 
   /**
@@ -61,10 +68,60 @@ public class StoryFileHandler {
    *
    * @return an array of all the saved stories
    */
-  public static String[] getSavedStories() {
-    File folder = new File(filePath.toString());
-    return folder.list();
+  public static Collection<String> getSavedStories() {
+    File folder = new File(FILEPATH.toString());
+    String[] savedStories = folder.list();
+    return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
+
+  /**
+   * Retrieves a collection of custom sound files for a given story.
+   *
+   * @param storyName The name of the story for which custom sound files should be retrieved.
+   * @return A collection of file names from the "sounds" folder in the custom media path.
+   */
+  public static Collection<String> getCustomSoundFiles(String storyName) {
+    File soundsFolder = new File(customMediaPath + "/" + storyName + "/sounds");
+    String[] soundFiles = soundsFolder.list();
+    return soundFiles == null ? Collections.emptyList() : Arrays.asList(soundFiles);
+  }
+
+  /**
+   * Retrieves a collection of custom image files for a given story.
+   *
+   * @param storyTitle The name of the story for which custom image files should be retrieved.
+   * @return A collection of file names from the "images" folder in the custom media path.
+   */
+  public static Collection<String> getCustomImageFiles(String storyTitle) {
+    storyTitle = FilenameUtils.removeExtension(storyTitle);
+    File imagesFolder = new File(customMediaPath + "/" + storyTitle + "/images");
+    String[] imageFiles = imagesFolder.list();
+    return imageFiles == null ? Collections.emptyList() : Arrays.asList(imageFiles);
+  }
+
+  /**
+   * Retrieves a collection of custom media files (sounds and images) for a given story that do not match any passage titles.
+   * The method compares file names without their file extensions to the passage titles.
+   *
+   * @param story The story object containing the passages to check against the custom media files.
+   * @return A collection of file names from the "sounds" and "images" folders that do not match any passage titles.
+   */
+  public static Collection<String> getBrokenFiles(Story story) {
+    Collection<String> sounds = getCustomSoundFiles(story.getTitle());
+    Collection<String> images = getCustomImageFiles(story.getTitle());
+    Collection<String> brokenFiles = new ArrayList<>();
+    brokenFiles.addAll(sounds);
+    brokenFiles.addAll(images);
+
+    brokenFiles.removeIf(fileName -> {
+      String fileNameWithoutExtension = FilenameUtils.removeExtension(fileName);
+      return story.getPassages().stream().anyMatch(passage -> passage.getTitle().equals(fileNameWithoutExtension));
+    });
+
+    return brokenFiles;
+  }
+
+
 
   /**
    * Saves the given story to a file with the given filename.
@@ -77,8 +134,8 @@ public class StoryFileHandler {
     String filename = story.getTitle();
 
     String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(story);
-    Files.createDirectories(filePath);
-    Path storyFilePath = filePath.resolve(filename + ".json"); // Add ".json" extension
+    Files.createDirectories(FILEPATH);
+    Path storyFilePath = FILEPATH.resolve(filename + ".json");
     Files.write(storyFilePath, jsonString.getBytes());
   }
 
@@ -90,9 +147,10 @@ public class StoryFileHandler {
    * @throws IOException if there is an issue reading the story from the file
    */
   public Story loadStoryFromFile(String filename) throws IOException {
+    filename = FilenameUtils.removeExtension(filename);
     Objects.requireNonNull(filename, "Filename cannot be null");
 
-    Path storyFilePath = filePath.resolve(filename + ".json"); // Add ".json" extension
+    Path storyFilePath = FILEPATH.resolve(filename + ".json");
     String jsonString = new String(Files.readAllBytes(storyFilePath));
     return objectMapper.readValue(jsonString, Story.class);
   }
@@ -103,6 +161,6 @@ public class StoryFileHandler {
    * @return the file path
    */
   public Path getFilePath() {
-    return filePath;
+    return FILEPATH;
   }
 }

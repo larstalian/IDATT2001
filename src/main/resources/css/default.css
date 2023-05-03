@@ -15,7 +15,7 @@
     -fx-min-width: 500px;
     -fx-min-height: 500px;
     -fx-margin: 0px;
-    -fx-background-image: url("/images/main_menu.png");
+    -fx-background-image: url("/images/passage-moods/main_menu.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: stretch;
     -fx-background-position: bottom;
@@ -105,6 +105,7 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
     -fx-spacing: 10px;
+    -fx-min-width: 80px;
 }
 
 .link-button {
@@ -141,3 +142,89 @@
     -fx-text-fill: white;
     -fx-wrap-text: true;
 }
+
+.story-info-vbox {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-spacing: 5px;
+    -fx-alignment: center;
+}
+
+.story-info-HBox{
+    -fx-padding: 40px;
+}
+
+
+.story-info-label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;;
+}
+
+.story-info-label > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+}
+
+.story-info-top {
+    -fx-border-width: 0px 0px 1px 0px;
+    -fx-border-color: white;
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}
+
+.story-info-top > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.dialog-grid {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 20px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-spacing: 5px;
+    -fx-alignment: center;
+}
+
+.inventory-view-text {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+    -fx-padding: 2px;
+    -fx-alignment: center;
+}
+
+.inventory-view-title{
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 1px;
+}
+
+.inventory-vbox {
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+    -fx-padding: 5px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-spacing: 5px;
+    -fx-alignment: top-center;
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+}
+
+.inventory-vbox > Label {
+    -fx-fill: white;
+    -fx-padding: 1px;
+    -fx-spacing: 5px;
+    -fx-alignment: top-center;
+}
+

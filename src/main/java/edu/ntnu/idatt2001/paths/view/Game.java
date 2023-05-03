@@ -2,12 +2,15 @@ package edu.ntnu.idatt2001.paths.view;
 
 import static edu.ntnu.idatt2001.paths.view.Widgets.*;
 
+import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
+import edu.ntnu.idatt2001.paths.model.media.InventoryIconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +27,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -59,6 +64,7 @@ public class Game implements Builder<Region> {
   private final VBox links;
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
+  private final VBox inventory;
   private Label skipLabel;
   private BorderPane root;
 
@@ -75,6 +81,7 @@ public class Game implements Builder<Region> {
     links = new VBox();
     contentBar = new SimpleStringProperty();
     isAnimationSkipped = new AtomicBoolean(false);
+    inventory = new VBox();
   }
 
   /**
@@ -84,6 +91,15 @@ public class Game implements Builder<Region> {
    */
   public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
     currentGame = chosenGame;
+  }
+
+  /**
+   * Sets the current passage
+   *
+   * @param passage the passage to be set as the current passage
+   */
+  public static void setCurrentPassage(Passage passage) {
+    currentPassage = passage;
   }
 
   /**
@@ -144,10 +160,12 @@ public class Game implements Builder<Region> {
    * @return a Node representing the right side of the game UI.
    */
   private Node createRight() {
-    StackPane results = new StackPane();
-    results.getChildren().add(createLinkChoices());
-    return results;
+    BorderPane right = new BorderPane();
+    right.setRight(createInventory());
+    right.setBottom(createLinkChoices());
+    return right;
   }
+
 
   /**
    * Creates the bottom UI element.
@@ -244,6 +262,52 @@ public class Game implements Builder<Region> {
     timeline.play();
   }
 
+  private Node createInventory() {
+    AnchorPane.setTopAnchor(inventory, 10.0);
+    AnchorPane.setRightAnchor(inventory, 10.0);
+    inventory.getStyleClass().add("inventory-vbox");
+    updateInventory();
+    return inventory;
+  }
+
+  private void updateInventory() {
+    inventory.getChildren().clear();
+    Label inventoryTitle = new Label("Inventory:");
+    inventory.getChildren().add(inventoryTitle);
+    inventoryTitle.getStyleClass().add("inventory-view-title");
+    List<String> playerItems = currentGame.getPlayer().getInventory();
+
+    playerItems.forEach(
+        item -> {
+          HBox itemContainer = new HBox();
+          itemContainer.setAlignment(Pos.CENTER);
+          
+          try{
+          Image icon = InventoryIconHandler.getIcon(item);
+          
+          if (icon != null) {
+            ImageView imageView = new ImageView(icon);
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
+            itemContainer.getChildren().add(imageView);
+            
+          } else {
+            Label itemText = new Label(item);
+            itemText.getStyleClass().add("inventory-view-text");
+            itemContainer.getChildren().add(itemText);
+          }
+          inventory.getChildren().add(itemContainer);
+          }catch (IOException e){
+            Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage()).showAndWait();
+          }
+        });
+  }
+
+  private void executeActions(Link link) {
+    List<Action> actions = link.getActions();
+    actions.forEach(action -> action.execute(currentGame.getPlayer()));
+  }
+
   /**
    * Creates the link choices UI element.
    *
@@ -267,21 +331,23 @@ public class Game implements Builder<Region> {
   /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
-    for (Link link : currentPassage.getLinks()) {
+    currentPassage.getLinks().forEach(link -> {
       Button button = new Button(link.getText());
       button.setFocusTraversable(true);
       button.getStyleClass().add("link-button");
       button.setOnAction(
-          e -> {
-            currentPassage = currentGame.go(link);
-            createContentString();
-            updateLinkChoices();
-            backgroundHandler.updateBackground(
-                root, currentPassage, currentGame.getStory().getTitle());
-            soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
-          });
+              e -> {
+                currentPassage = currentGame.go(link);
+                executeActions(link);
+                createContentString();
+                updateLinkChoices();
+                updateInventory();
+                backgroundHandler.updateBackground(
+                        root, currentPassage, currentGame.getStory().getTitle());
+                soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+              });
       links.getChildren().add(button);
-    }
+    });
   }
 
   /**
@@ -298,7 +364,6 @@ public class Game implements Builder<Region> {
                   ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                 if (newValue != null) {
                   createContentString();
-                  updateLinkChoices();
                   root.sceneProperty().removeListener(this);
                   setupArrowKeysNavigation(newValue);
                 }
@@ -372,7 +437,7 @@ public class Game implements Builder<Region> {
         GameFileHandler gameFileHandler = new GameFileHandler();
 
         try {
-          gameFileHandler.saveGameToFile(currentGame);
+          gameFileHandler.saveGameToFile(currentGame, currentPassage);
           switchToMainMenu();
 
         } catch (IOException e) {
