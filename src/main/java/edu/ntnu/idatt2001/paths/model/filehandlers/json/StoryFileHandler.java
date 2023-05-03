@@ -69,7 +69,7 @@ public class StoryFileHandler {
    * @return an array of all the saved stories
    */
   public static Collection<String> getSavedStories() {
-    File folder = new File(filePath.toString());
+    File folder = new File(FILEPATH.toString());
     String[] savedStories = folder.list();
     return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
