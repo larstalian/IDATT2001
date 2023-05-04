@@ -113,6 +113,7 @@ public class NewGame implements Builder<Region> {
       Game currentGame =
           new Game(player, loadedStory, List.of(new HealthGoal(100), new ScoreGoal(100)));
       edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
+      edu.ntnu.idatt2001.paths.view.Game.setCurrentPassage(currentGame.begin());
       Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game().build();
       startNewGameButton.getScene().setRoot(gameRoot);
     }

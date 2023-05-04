@@ -74,6 +74,7 @@ public class LoadGame implements Builder<Region> {
 
               setCurrentGame(gameData.getGame());
               setCurrentPassage(gameData.getPassage());
+              System.out.printf(gameData.getPassage().getTitle());
 
               Region gameRoot = new Game().build();
               loadButton.getScene().setRoot(gameRoot);
