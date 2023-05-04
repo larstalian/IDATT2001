@@ -228,3 +228,16 @@
     -fx-alignment: top-center;
 }
 
+.health-bar {
+    -fx-padding: 5px;
+    -fx-accent: derive(-fx-control-inner-background, -20%);
+}
+
+.health-bar .bar {
+    -fx-background-color: red;
+    -fx-min-height: 10px;
+}
+
+.health-bar .track {
+    -fx-background-color: rgba(89, 23, 23, 0.32);
+}
