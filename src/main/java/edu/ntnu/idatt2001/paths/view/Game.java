@@ -18,8 +18,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -65,6 +64,7 @@ public class Game implements Builder<Region> {
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
   private final VBox inventory;
+  private ProgressBar healthBar;
   private Label skipLabel;
   private BorderPane root;
 
@@ -148,11 +148,12 @@ public class Game implements Builder<Region> {
    * @return a Node representing the top side of the game UI.
    */
   private Node createTop() {
-    HBox top = new HBox();
+    BorderPane top = new BorderPane();
     Button exitButton = createExitButton();
-    top.getChildren().add(exitButton);
-    top.setAlignment(Pos.TOP_LEFT);
-    HBox.setMargin(exitButton, new Insets(10, 10, 0, 0));
+    top.setLeft(exitButton);
+    top.setRight(createHealthBar());
+    exitButton.setAlignment(Pos.TOP_LEFT);
+    BorderPane.setMargin(exitButton, new Insets(10, 10, 0, 0));
     return top;
   }
 
@@ -264,6 +265,19 @@ public class Game implements Builder<Region> {
     timeline.play();
   }
 
+  private ProgressBar createHealthBar() {
+    healthBar = new ProgressBar();
+    healthBar.setMaxWidth(Double.MAX_VALUE);
+    healthBar.getStyleClass().add("health-bar");
+    updatePlayerHealth();
+    return healthBar;
+  }
+
+  private void updatePlayerHealth(){
+    double health = currentGame.getPlayer().getHealth();
+    healthBar.setProgress(health / 100);
+  }
+
   private Node createInventory() {
     AnchorPane.setTopAnchor(inventory, 10.0);
     AnchorPane.setRightAnchor(inventory, 10.0);
@@ -333,23 +347,27 @@ public class Game implements Builder<Region> {
   /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
-    currentPassage.getLinks().forEach(link -> {
-      Button button = new Button(link.getText());
-      button.setFocusTraversable(true);
-      button.getStyleClass().add("link-button");
-      button.setOnAction(
-              e -> {
-                currentPassage = currentGame.go(link);
-                executeActions(link);
-                createContentString();
-                updateLinkChoices();
-                updateInventory();
-                backgroundHandler.updateBackground(
+    currentPassage
+        .getLinks()
+        .forEach(
+            link -> {
+              Button button = new Button(link.getText());
+              button.setFocusTraversable(true);
+              button.getStyleClass().add("link-button");
+              button.setOnAction(
+                  e -> {
+                    currentPassage = currentGame.go(link);
+                    executeActions(link);
+                    createContentString();
+                    updateLinkChoices();
+                    updatePlayerHealth();
+                    updateInventory();
+                    backgroundHandler.updateBackground(
                         root, currentPassage, currentGame.getStory().getTitle());
-                soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
-              });
-      links.getChildren().add(button);
-    });
+                    soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+                  });
+              links.getChildren().add(button);
+            });
   }
 
   /**

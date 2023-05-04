@@ -109,7 +109,7 @@ public class NewGame implements Builder<Region> {
   private void startNewGame(String name, String story) {
     Story loadedStory = loadStoryFromFile(story);
     if (loadedStory != null) {
-      Player player = new Player.Builder(name).build();
+      Player player = new Player.Builder(name).health(100).build();
       Game currentGame =
           new Game(player, loadedStory, List.of(new HealthGoal(100), new ScoreGoal(100)));
       edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
