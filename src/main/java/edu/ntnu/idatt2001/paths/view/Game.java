@@ -118,10 +118,12 @@ public class Game implements Builder<Region> {
    */
   @Override
   public Region build() {
-    currentPassage = currentGame.begin();
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     root = createRoot();
     addSceneListener(root);
+    backgroundHandler.updateBackground(
+            root, currentPassage, currentGame.getStory().getTitle());
+    soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     return root;
   }
 
