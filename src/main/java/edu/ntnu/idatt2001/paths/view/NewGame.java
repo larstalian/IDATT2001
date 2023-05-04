@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
-import edu.ntnu.idatt2001.paths.model.filehandlers.txt.StoryFileReader;
+import edu.ntnu.idatt2001.paths.model.filehandlers.paths.StoryFileReader;
 import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.game.Player;
 import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
@@ -89,8 +89,10 @@ public class NewGame implements Builder<Region> {
   private void configureStorySelect() {
     storySelect.getItems().addAll(StoryFileReader.getSavedStories());
     storySelect.getItems().addAll(StoryFileHandler.getSavedStories());
+
     storySelect.selectionModelProperty().get().selectFirst();
   }
+
 
   private void configurePlayerName() {
     playerName.getStyleClass().add("player-name-field");
@@ -107,10 +109,11 @@ public class NewGame implements Builder<Region> {
   private void startNewGame(String name, String story) {
     Story loadedStory = loadStoryFromFile(story);
     if (loadedStory != null) {
-      Player player = new Player.Builder(name).build();
+      Player player = new Player.Builder(name).health(100).build();
       Game currentGame =
           new Game(player, loadedStory, List.of(new HealthGoal(100), new ScoreGoal(100)));
       edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
+      edu.ntnu.idatt2001.paths.view.Game.setCurrentPassage(currentGame.begin());
       Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game().build();
       startNewGameButton.getScene().setRoot(gameRoot);
     }

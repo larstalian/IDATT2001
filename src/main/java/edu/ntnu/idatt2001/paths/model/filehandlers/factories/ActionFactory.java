@@ -20,19 +20,22 @@ public class ActionFactory {
    */
   public static Action createAction(String actionName, String actionValue) {
     switch (actionName) {
-      case "goldChange":
+      case "goldChange" -> {
         int gold = Integer.parseInt(actionValue);
         return new GoldAction(gold);
-      case "healthChange":
+      }
+      case "healthChange" -> {
         int health = Integer.parseInt(actionValue);
         return new HealthAction(health);
-      case "inventoryChange":
+      }
+      case "item" -> {
         return new InventoryAction(actionValue);
-      case "scoreChange":
+      }
+      case "scoreChange" -> {
         int points = Integer.parseInt(actionValue);
         return new ScoreAction(points);
-      default:
-        throw new IllegalArgumentException("Unrecognized action name: " + actionName);
+      }
+      default -> throw new IllegalArgumentException("Unrecognized action name: " + actionName);
     }
   }
 }

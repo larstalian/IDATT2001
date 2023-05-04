@@ -26,6 +26,8 @@ class GameFileHandlerTest {
   private Story testStory;
   private List<Goal> testGoals;
 
+  private Passage passage;
+
   @AfterAll
   static void cleanUp() {
     try {
@@ -39,6 +41,7 @@ class GameFileHandlerTest {
   void setUp() throws IOException {
     gameFileHandler = new GameFileHandler();
     Passage openingPassage = new Passage("Home", "You are at home.");
+    passage = new Passage("test", "test");
     testStory = new Story("Test Story", openingPassage);
     testStory.addPassage(new Passage("Forest", "You are in a forest."));
     testStory.addPassage(new Passage("Cave", "You are in a cave."));
@@ -48,36 +51,55 @@ class GameFileHandlerTest {
     gameFileHandler = new GameFileHandler();
     Files.createDirectories(gameFileHandler.getFilePath());
     savedGamePath = gameFileHandler.getFilePath().resolve(testGame.getStory().getTitle() + ".json");
+
   }
 
   @Test
   void saveGameToFile_createsFileWithCorrectContent() throws IOException {
-    gameFileHandler.saveGameToFile(testGame);
+    gameFileHandler.saveGameToFile(testGame, passage);
 
-    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story").getGame();
     assertThat(loadedGame, equalTo(testGame));
   }
 
   @Test
   void loadGameFromFile_returnsCorrectGame() throws IOException {
-    gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
+    gameFileHandler.saveGameToFile(testGame, passage);
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story").getGame();
 
     assertThat(loadedGame, equalTo(testGame));
   }
 
   @Test
   void loadGameFromFile_ContainsAllPassages() throws IOException {
-    gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
+    gameFileHandler.saveGameToFile(testGame, passage);
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story").getGame();
     assertThat(
         loadedGame.getStory().getPassages().toArray(), equalTo(testStory.getPassages().toArray()));
   }
 
   @Test
   void loadGameFromFile_ContainsAllGoalsType() throws IOException {
-    gameFileHandler.saveGameToFile(testGame);
-    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story");
+    gameFileHandler.saveGameToFile(testGame, passage);
+    Game loadedGame = gameFileHandler.loadGameFromFile("Test Story").getGame();
     assertThat(loadedGame.getGoals().toArray().getClass(), equalTo(testGoals.toArray().getClass()));
+  }
+
+  @Test
+  void loadGameFromFile_returnsCorrectPassage() throws IOException {
+    gameFileHandler.saveGameToFile(testGame, passage);
+    Passage loadedPassage = gameFileHandler.loadGameFromFile("Test Story").getPassage();
+
+    assertThat(loadedPassage, equalTo(passage));
+  }
+
+  @Test
+  void loadGameFromFile_returnsCorrectGameData() throws IOException {
+    gameFileHandler.saveGameToFile(testGame, passage);
+    GameData loadedGameData = gameFileHandler.loadGameFromFile("Test Story");
+
+    GameData expectedGameData = new GameData(testGame, passage);
+    assertThat(loadedGameData.getGame(), equalTo(expectedGameData.getGame()));
+    assertThat(loadedGameData.getPassage(), equalTo(expectedGameData.getPassage()));
   }
 }

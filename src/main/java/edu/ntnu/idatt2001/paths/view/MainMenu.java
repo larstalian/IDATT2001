@@ -77,8 +77,13 @@ public class MainMenu implements Builder<Region> {
   private void configureStoriesButton() {
     storiesButton.setOnAction(
         event -> {
-          Region newGameRoot = new Stories().build();
-          storiesButton.getScene().setRoot(newGameRoot);
+          try {
+            Region newGameRoot = new Stories().build();
+            storiesButton.getScene().setRoot(newGameRoot);
+          } catch (NullPointerException e) {
+            e.printStackTrace();
+//            Widgets.createAlert("Error", "There are no stories", "Are you sure the stories are saved in the correct folder?").showAndWait();
+          }
         });
   }
 
