@@ -474,6 +474,7 @@ public class Game implements Builder<Region> {
   private void switchToMainMenu() {
     MainMenu mainMenu = new MainMenu();
     Region mainMenuRoot = mainMenu.build();
+    SoundHandler.getInstance().playMenuMusic();
     root.getScene().setRoot(mainMenuRoot);
   }
 }

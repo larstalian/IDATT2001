@@ -82,15 +82,19 @@ public class MainMenu implements Builder<Region> {
             storiesButton.getScene().setRoot(newGameRoot);
           } catch (NullPointerException e) {
             e.printStackTrace();
-//            Widgets.createAlert("Error", "There are no stories", "Are you sure the stories are saved in the correct folder?").showAndWait();
+            Widgets.createAlert(
+                    "Error",
+                    "There are no stories",
+                    "Are you sure the stories are saved in the correct folder?")
+                .showAndWait();
           }
         });
   }
 
-    private void configureExitButton() {
-        exitButton.setOnAction(
-            event -> {
-           Platform.exit();
-            });
-    }
+  private void configureExitButton() {
+    exitButton.setOnAction(
+        event -> {
+          Platform.exit();
+        });
+  }
 }

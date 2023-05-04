@@ -93,20 +93,7 @@ public class SoundHandler {
    * doing anything.
    */
   public void playMenuMusic() {
-    if (isMenuMusicPlaying()) {
-      return;
-    }
-
     String menuMusicUrl = SOUND_PATH + "main_menu" + SOUND_EXTENSION;
     playBackgroundMusic(menuMusicUrl);
-  }
-
-  /**
-   * Checks if the menu music is currently playing.
-   *
-   * @return {@code true} if the menu music is playing, {@code false} otherwise.
-   */
-  private boolean isMenuMusicPlaying() {
-    return mediaPlayer != null;
   }
 }
