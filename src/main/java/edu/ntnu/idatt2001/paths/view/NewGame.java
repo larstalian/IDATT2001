@@ -4,9 +4,10 @@ import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.model.filehandlers.paths.StoryFileReader;
 import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.game.Player;
-import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
+import edu.ntnu.idatt2001.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.paths.model.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.model.story.Story;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -20,12 +21,16 @@ public class NewGame implements Builder<Region> {
   private final ComboBox<String> storySelect;
   private final Button goBackButton;
   private final TextField playerName;
+  private final Button customizeGameOptionsButton;
+  private final CustomizeGameOptionsPopup customizeGameOptionsPopup;
 
   public NewGame() {
     startNewGameButton = new Button("Start New Game");
     storySelect = new ComboBox<>();
     goBackButton = new Button("Go Back");
     playerName = new TextField();
+    customizeGameOptionsButton = new Button("Customize Game Options");
+    customizeGameOptionsPopup = new CustomizeGameOptionsPopup();
   }
 
   @Override
@@ -37,6 +42,7 @@ public class NewGame implements Builder<Region> {
     configureNewGameButton();
     configureStorySelect();
     configurePlayerName();
+    configureCustomizeGameOptionsButton();
     return mainLayout;
   }
 
@@ -51,6 +57,7 @@ public class NewGame implements Builder<Region> {
     buttonLayout.getChildren().add(playerName);
     buttonLayout.getChildren().add(startNewGameButton);
     buttonLayout.getChildren().add(createHBox());
+    buttonLayout.getChildren().add(customizeGameOptionsButton);
     buttonLayout.getChildren().add(goBackButton);
     buttonLayout.getStyleClass().add("button-vbox");
     return buttonLayout;
@@ -78,6 +85,10 @@ public class NewGame implements Builder<Region> {
         });
   }
 
+  private void configureCustomizeGameOptionsButton() {
+    customizeGameOptionsButton.setOnAction(event -> customizeGameOptionsPopup.show());
+  }
+
   private void configureGoBackButton() {
     goBackButton.setOnAction(
         event -> {
@@ -93,7 +104,6 @@ public class NewGame implements Builder<Region> {
     storySelect.selectionModelProperty().get().selectFirst();
   }
 
-
   private void configurePlayerName() {
     playerName.getStyleClass().add("player-name-field");
     playerName.setPromptText("Enter your name");
@@ -108,15 +118,35 @@ public class NewGame implements Builder<Region> {
 
   private void startNewGame(String name, String story) {
     Story loadedStory = loadStoryFromFile(story);
+    Player player;
+    List<Goal> goals;
+
     if (loadedStory != null) {
-      Player player = new Player.Builder(name).health(100).build();
-      Game currentGame =
-          new Game(player, loadedStory, List.of(new HealthGoal(100), new ScoreGoal(100)));
+      if (customizeGameOptionsPopup.isModified()) {
+        player =
+            new Player.Builder(name)
+                .health(customizeGameOptionsPopup.getStartingHealth())
+                .gold(customizeGameOptionsPopup.getStartingGold())
+                .score(customizeGameOptionsPopup.getStartingScore())
+                .inventory(customizeGameOptionsPopup.getStartingInventory())
+                .build();
+
+        goals = customizeGameOptionsPopup.getGoals();
+      } else {
+        player = new Player.Builder(name).health(100).build();
+        goals = new ArrayList<>(List.of(new ScoreGoal(0)));
+      }
+
+      Game currentGame = new Game(player, loadedStory, goals);
       edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
       edu.ntnu.idatt2001.paths.view.Game.setCurrentPassage(currentGame.begin());
       Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game().build();
       startNewGameButton.getScene().setRoot(gameRoot);
     }
+  }
+
+  private List<Goal> loadCustomGoals() {
+    return customizeGameOptionsPopup.getGoals();
   }
 
   private Story loadStoryFromFile(String story) {
