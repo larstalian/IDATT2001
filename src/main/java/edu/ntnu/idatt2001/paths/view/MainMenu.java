@@ -93,8 +93,6 @@ public class MainMenu implements Builder<Region> {
 
   private void configureExitButton() {
     exitButton.setOnAction(
-        event -> {
-          Platform.exit();
-        });
+        event -> Platform.exit());
   }
 }
