@@ -5,7 +5,7 @@ import static edu.ntnu.idatt2001.paths.view.Widgets.*;
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
-import edu.ntnu.idatt2001.paths.model.media.InventoryIconHandler;
+import edu.ntnu.idatt2001.paths.model.media.IconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
@@ -61,6 +61,7 @@ public class Game implements Builder<Region> {
   private final StringProperty contentBar;
   private final AtomicBoolean isAnimationSkipped;
   private final VBox links;
+  private final Label goldLabel;
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
   private final VBox inventory;
@@ -82,6 +83,7 @@ public class Game implements Builder<Region> {
     contentBar = new SimpleStringProperty();
     isAnimationSkipped = new AtomicBoolean(false);
     inventory = new VBox();
+    goldLabel = new Label();
   }
 
   /**
@@ -121,8 +123,7 @@ public class Game implements Builder<Region> {
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     root = createRoot();
     addSceneListener(root);
-    backgroundHandler.updateBackground(
-            root, currentPassage, currentGame.getStory().getTitle());
+    backgroundHandler.updateBackground(root, currentPassage, currentGame.getStory().getTitle());
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     return root;
   }
@@ -151,10 +152,72 @@ public class Game implements Builder<Region> {
     BorderPane top = new BorderPane();
     Button exitButton = createExitButton();
     top.setLeft(exitButton);
+    top.setCenter(createTopCenter());
     top.setRight(createHealthBar());
     exitButton.setAlignment(Pos.TOP_LEFT);
     BorderPane.setMargin(exitButton, new Insets(10, 10, 0, 0));
     return top;
+  }
+
+  /**
+   * Creates the top center UI element containing the gold information.
+   *
+   * @return a Node representing the top center side of the game UI.
+   */
+  private Node createTopCenter() {
+    HBox results = new HBox();
+    results.getChildren().add(createGoldInfo());
+    results.getStyleClass().add("top-info");
+    return results;
+  }
+
+  /**
+   * Creates the gold information UI element containing the gold icon and gold label.
+   *
+   * @return a Node representing the gold information UI element.
+   */
+  private Node createGoldInfo() {
+    HBox results = new HBox();
+    results.getChildren().add(createGoldIcon());
+    goldLabel.getStyleClass().add("gold-label");
+    results.getChildren().add(goldLabel);
+    updateGoldLabel();
+    return results;
+  }
+
+  /**
+   * Updates the gold label with the current gold value of the player.
+   */
+  private void updateGoldLabel() {
+   goldLabel.setText(String.valueOf(currentGame.getPlayer().getGold()));
+  }
+
+  /**
+   * Creates the gold icon UI element. It loads the gold icon image and creates an ImageView.
+   * If the image cannot be loaded, it falls back to using a text label.
+   *
+   * @return a Node representing the gold icon UI element.
+   */
+  private Node createGoldIcon() {
+    HBox imageContainer = new HBox();
+    Image goldIcon = null;
+    
+    try {
+      goldIcon = IconHandler.getIcon("gold-coin");
+    } catch (IOException e) {
+      Widgets.createAlert("Error", "Error loading gold icon", e.getMessage()).showAndWait();
+    }
+
+    if (goldIcon != null) {
+      ImageView imageView = new ImageView(goldIcon);
+      imageView.setFitHeight(20);
+      imageView.setFitWidth(20);
+      imageContainer.getChildren().add(imageView);
+      return imageContainer;
+    }
+    
+    imageContainer.getChildren().add(new Label("Gold: "));
+    return imageContainer;
   }
 
   /**
@@ -168,7 +231,6 @@ public class Game implements Builder<Region> {
     right.setBottom(createLinkChoices());
     return right;
   }
-
 
   /**
    * Creates the bottom UI element.
@@ -273,7 +335,7 @@ public class Game implements Builder<Region> {
     return healthBar;
   }
 
-  private void updatePlayerHealth(){
+  private void updatePlayerHealth() {
     double health = currentGame.getPlayer().getHealth();
     healthBar.setProgress(health / 100);
   }
@@ -297,24 +359,26 @@ public class Game implements Builder<Region> {
         item -> {
           HBox itemContainer = new HBox();
           itemContainer.setAlignment(Pos.CENTER);
-          
-          try{
-          Image icon = InventoryIconHandler.getIcon(item);
-          
-          if (icon != null) {
-            ImageView imageView = new ImageView(icon);
-            imageView.setFitHeight(40);
-            imageView.setFitWidth(40);
-            itemContainer.getChildren().add(imageView);
+
+          try {
+            Image icon = IconHandler.getInventoryIcon(item);
+
+            if (icon != null) {
+              ImageView imageView = new ImageView(icon);
+              imageView.setFitHeight(40);
+              imageView.setFitWidth(40);
+              itemContainer.getChildren().add(imageView);
+
+            } else {
+              Label itemText = new Label(item);
+              itemText.getStyleClass().add("inventory-view-text");
+              itemContainer.getChildren().add(itemText);
+            }
+            inventory.getChildren().add(itemContainer);
             
-          } else {
-            Label itemText = new Label(item);
-            itemText.getStyleClass().add("inventory-view-text");
-            itemContainer.getChildren().add(itemText);
-          }
-          inventory.getChildren().add(itemContainer);
-          }catch (IOException e){
-            Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage()).showAndWait();
+          } catch (IOException e) {
+            Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage())
+                .showAndWait();
           }
         });
   }
@@ -362,6 +426,7 @@ public class Game implements Builder<Region> {
                     updateLinkChoices();
                     updatePlayerHealth();
                     updateInventory();
+                    updateGoldLabel();
                     backgroundHandler.updateBackground(
                         root, currentPassage, currentGame.getStory().getTitle());
                     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
