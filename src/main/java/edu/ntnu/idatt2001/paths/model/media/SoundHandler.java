@@ -65,7 +65,7 @@ public class SoundHandler {
       musicUrl = SOUND_PATH + passage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
     }
     if (!musicUrl.equals(currentMusicFile)) {
-      playBackgroundMusic(musicUrl);
+      playMusicUrl(musicUrl);
       currentMusicFile = musicUrl; 
     }
   }
@@ -75,7 +75,7 @@ public class SoundHandler {
    *
    * @param musicFileUrl the URL of the background music.
    */
-  private void playBackgroundMusic(String musicFileUrl) {
+  private void playMusicUrl(String musicFileUrl) {
     if (mediaPlayer != null) {
       mediaPlayer.stop();
       mediaPlayer.dispose();
@@ -95,6 +95,11 @@ public class SoundHandler {
    */
   public void playMenuMusic() {
     String menuMusicUrl = SOUND_PATH + "main_menu" + SOUND_EXTENSION;
-    playBackgroundMusic(menuMusicUrl);
+    playMusicUrl(menuMusicUrl);
+  }
+
+  public void playSound(String string) {
+    String musicUrl = SOUND_PATH + string + SOUND_EXTENSION;
+    playMusicUrl(musicUrl);
   }
 }
