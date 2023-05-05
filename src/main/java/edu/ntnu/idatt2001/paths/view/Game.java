@@ -68,10 +68,11 @@ public class Game implements Builder<Region> {
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
   private final VBox inventory;
+  private final Player initialPlayer;
   private ProgressBar healthBar;
   private Label skipLabel;
   private BorderPane root;
-  private final Player initialPlayer; 
+  private VBox centerInfo;
 
   /**
    * Constructs a new {@code Game} instance, initializing the required properties and handlers.
@@ -80,7 +81,7 @@ public class Game implements Builder<Region> {
    * VBox} for links, {@code StringProperty} for the content bar, and an {@code AtomicBoolean} for
    * tracking the animation skipping state.
    */
-  public Game(GameData chosenGame){
+  public Game(GameData chosenGame) {
     backgroundHandler = BackgroundHandler.getInstance();
     soundHandler = SoundHandler.getInstance();
     links = new VBox();
@@ -90,10 +91,10 @@ public class Game implements Builder<Region> {
     goldLabel = new Label();
     scoreLabel = new Label();
     currentGame = chosenGame.getGame();
+    currentPassage = chosenGame.getPassage();
     initialPlayer = new Player.Builder(currentGame.getPlayer()).build();
-    currentPassage = currentGame.getStory().getOpeningPassage();
   }
-  
+
   /**
    * Returns the root node.
    *
@@ -263,7 +264,8 @@ public class Game implements Builder<Region> {
    * @return a Node representing the center of the game UI.
    */
   private Node createCenter() {
-    return new AnchorPane();
+    centerInfo = new VBox();
+    return centerInfo;
   }
 
   /**
@@ -340,6 +342,30 @@ public class Game implements Builder<Region> {
   private void updatePlayerHealth() {
     double health = currentGame.getPlayer().getHealth();
     healthBar.setProgress(health / 100);
+    if (health <= 0) {
+      onPlayerDeath();
+    }
+  }
+
+  private void onPlayerDeath() {
+    centerInfo.getChildren().add(createDeathScreen());
+    soundHandler.playSound("death");
+    links.getChildren().clear();
+  }
+
+  private Node createDeathScreen() {
+    centerInfo.getStyleClass().add("death-screen");
+    centerInfo.getChildren().add(new Label("YOU ARE DEAD"));
+
+    Button deathExitButton = new Button("Exit to Main Menu");
+    deathExitButton.setOnAction(event -> switchToMainMenu());
+    Button deathRestartButton = new Button("Restart Game");
+    deathRestartButton.setOnAction(event -> restartGame());
+
+    HBox deathButtons = new HBox();
+    deathButtons.getChildren().addAll(deathExitButton, deathRestartButton);
+    deathButtons.getStyleClass().add("death-screen");
+    return deathButtons;
   }
 
   private Node createInventory() {
@@ -425,14 +451,15 @@ public class Game implements Builder<Region> {
                     currentPassage = currentGame.go(link);
                     executeActions(link);
                     createContentString();
-                    updateLinkChoices();
-                    updatePlayerHealth();
                     updateInventory();
                     updateGoldLabel();
                     updateScoreLabel();
-                    backgroundHandler.updateBackground(
-                        root, currentPassage, currentGame.getStory().getTitle());
+                    updateLinkChoices();
                     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+                    backgroundHandler.updateBackground(
+                            root, currentPassage, currentGame.getStory().getTitle());
+
+                    updatePlayerHealth();
                   });
               links.getChildren().add(button);
             });
@@ -511,14 +538,14 @@ public class Game implements Builder<Region> {
     String header = "Are you sure you want to exit?";
     String content = "";
 
-    Alert alert = createAlert(title, header, content);
+    Alert alert = Widgets.createAlert(title, header, content);
 
     ButtonType saveButton = new ButtonType("Save game and exit");
-    ButtonType buttonNo = new ButtonType("Dont save and exit");
+    ButtonType buttonNo = new ButtonType("Exit without saving");
     ButtonType buttonRestart = new ButtonType("Restart Game");
     ButtonType buttonCancel = new ButtonType("Cancel");
 
-    alert.getButtonTypes().setAll(saveButton, buttonNo, buttonRestart,buttonCancel);
+    alert.getButtonTypes().setAll(saveButton, buttonNo, buttonRestart, buttonCancel);
 
     Optional<ButtonType> result = alert.showAndWait();
     if (result.isPresent()) {
@@ -535,10 +562,9 @@ public class Game implements Builder<Region> {
         }
       } else if (result.get() == buttonNo) {
         switchToMainMenu();
+      } else if (result.get() == buttonRestart) {
+        restartGame();
       }
-        else if (result.get() == buttonRestart){
-          restartGame();
-        }
     }
   }
 
@@ -551,7 +577,9 @@ public class Game implements Builder<Region> {
   }
 
   private void restartGame() {
-    edu.ntnu.idatt2001.paths.model.game.Game game = new edu.ntnu.idatt2001.paths.model.game.Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
+    edu.ntnu.idatt2001.paths.model.game.Game game =
+        new edu.ntnu.idatt2001.paths.model.game.Game(
+            initialPlayer, currentGame.getStory(), currentGame.getGoals());
     GameData gameData = new GameData(game, game.getStory().getOpeningPassage());
     Region gameRoot = new Game(gameData).build();
     this.getRoot().getScene().setRoot(gameRoot);

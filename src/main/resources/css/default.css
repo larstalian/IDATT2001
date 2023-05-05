@@ -271,3 +271,20 @@
     -fx-text-fill: white;
     -fx-padding: 1px;
 }
+
+.death-screen {
+    -fx-padding: 20px;
+    -fx-spacing: 5px;
+    -fx-alignment: center;
+}
+
+.death-screen > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 30px;
+    -fx-text-fill: red;
+    -fx-padding: 1px;
+}
+
+.death-screen > Button {
+    -fx-alignment: center;
+}
