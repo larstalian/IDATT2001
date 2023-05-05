@@ -324,26 +324,28 @@ public class Stories implements Builder<Region> {
     List<ChoiceBox<Mood>> moodComboBoxes = new ArrayList<>();
     List<ChoiceBox<String>> singleVisitComboBox = new ArrayList<>();
     List<Passage> passagesList = new ArrayList<>(loadedStory.getPassages());
+    passagesList.add(0, loadedStory.getOpeningPassage());
     grid.add(new Label("Passage"), 0, 0);
     grid.add(new Label("Mood"), 1, 0);
     grid.add(new Label("Single Visit"), 2, 0);
 
-    IntStream.range(1, passagesList.size())
-        .forEach(
-            i -> {
-              grid.add(new Label(passagesList.get(i).getTitle()), 0, i);
-              ChoiceBox<Mood> moodChoiceBox = new ChoiceBox<>();
-              moodChoiceBox.getItems().addAll(Mood.values());
-              moodChoiceBox.setValue(Mood.NONE);
-              moodComboBoxes.add(moodChoiceBox);
-              grid.add(moodChoiceBox, 1, i);
+    IntStream.range(0, passagesList.size())
+            .forEach(
+                    i -> {
+                      int rowIndex = i + 1;
+                      grid.add(new Label(passagesList.get(i).getTitle()), 0, rowIndex);
+                      ChoiceBox<Mood> moodChoiceBox = new ChoiceBox<>();
+                      moodChoiceBox.getItems().addAll(Mood.values());
+                      moodChoiceBox.setValue(Mood.NONE);
+                      moodComboBoxes.add(moodChoiceBox);
+                      grid.add(moodChoiceBox, 1, rowIndex);
 
-              ChoiceBox<String> singleVisitChoiceBox = new ChoiceBox<>();
-              singleVisitChoiceBox.getItems().addAll("Yes", "No");
-              singleVisitChoiceBox.setValue("No");
-              singleVisitComboBox.add(singleVisitChoiceBox);
-              grid.add(singleVisitChoiceBox, 2, i);
-            });
+                      ChoiceBox<String> singleVisitChoiceBox = new ChoiceBox<>();
+                      singleVisitChoiceBox.getItems().addAll("Yes", "No");
+                      singleVisitChoiceBox.setValue("No");
+                      singleVisitComboBox.add(singleVisitChoiceBox);
+                      grid.add(singleVisitChoiceBox, 2, rowIndex);
+                    });
 
     dialog.getDialogPane().setContent(grid);
     dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);

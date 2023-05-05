@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.EqualsAndHashCode;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
 import static edu.ntnu.idatt2001.paths.model.story.Story.StoryConstants.MAX_TITLE_LENGTH;
 import static edu.ntnu.idatt2001.paths.model.story.Story.StoryConstants.MIN_TITLE_LENGTH;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.*;
+import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 
 /**
  * The Story class represents a story, or branching composed of interconnected passages.
@@ -51,7 +50,7 @@ public class Story {
     }
     this.title = title;
     this.openingPassage = Objects.requireNonNull(openingPassage, "Opening passage cannot be null");
-    this.passages = new HashMap<>();
+    this.passages = new LinkedHashMap<>();
   }
 
   /**
@@ -106,7 +105,7 @@ public class Story {
    * @return a collection of all the passages in the story
    */
   public Collection<Passage> getPassages() {
-    return passages.values();
+    return new LinkedHashSet<>(passages.values());
   }
 
   /**

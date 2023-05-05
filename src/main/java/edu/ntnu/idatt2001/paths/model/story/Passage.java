@@ -63,7 +63,6 @@ public class Passage {
     this.singleVisitOnly = singleVisitOnly;
   }
 
-
   /**
    * Constructs a new Passage object with the given title and content.
    *
@@ -109,9 +108,9 @@ public class Passage {
     return mood;
   }
 
-    public void setMood(Mood value) {
-        this.mood = value;
-    }
+  public void setMood(Mood value) {
+    this.mood = value;
+  }
 
   /**
    * Returns the title of the passage.
@@ -180,8 +179,4 @@ public class Passage {
     }
     return sb.toString();
   }
-
-    public void getMood(Mood value) {
-        this.mood = value;
-    }
 }
