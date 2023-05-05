@@ -473,6 +473,11 @@ public class Game implements Builder<Region> {
       return false;
     }
 
+    Passage openingPassage = currentGame.getStory().getOpeningPassage();
+    if (link.getRef().equals(openingPassage.getTitle())) {
+      return true;
+    }
+
     Passage linkedPassage = currentGame.getStory().getPassage(link);
     boolean isVisited =
         visitedPassages.stream().anyMatch(vp -> vp.getTitle().equals(link.getRef()));
@@ -499,7 +504,13 @@ public class Game implements Builder<Region> {
    * @param link the link that was clicked.
    */
   private void handleLinkButtonClick(Link link) {
-    currentPassage = currentGame.go(link);
+    
+    if (link.getRef().equals(currentGame.getStory().getOpeningPassage().getTitle())) {
+      currentPassage = currentGame.getStory().getOpeningPassage();
+    } else {
+      currentPassage = currentGame.go(link);
+    }
+    
     visitedPassages.add(currentPassage);
     executeActions(link);
     createContentString();
@@ -510,7 +521,7 @@ public class Game implements Builder<Region> {
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     backgroundHandler.updateBackground(root, currentPassage, currentGame.getStory().getTitle());
     updatePlayerHealth();
-    
+
     if (currentPassage.getLinks().size() == 0) {
       onGameFinish();
     }
@@ -640,12 +651,9 @@ public class Game implements Builder<Region> {
     VBox vBox = new VBox();
     vBox.getStyleClass().add("game-finish");
 
-    vBox.getChildren().addAll(
-            new Label("The end"),
-            new Label("One of them, at least..."),
-            createGoals()
-    );
-    
+    vBox.getChildren()
+        .addAll(new Label("The end"), new Label("One of them, at least..."), createGoals());
+
     Button restartButton = new Button("Restart Game");
     restartButton.setOnAction(e -> restartGame());
     vBox.getChildren().add(restartButton);
@@ -691,5 +699,4 @@ public class Game implements Builder<Region> {
     String statusText = goal.isFulfilled(currentGame.getPlayer()) ? "Completed" : "Not completed";
     return new Label(statusText);
   }
-
 }
