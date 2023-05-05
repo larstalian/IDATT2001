@@ -349,6 +349,8 @@ public class Game implements Builder<Region> {
 
   private void onPlayerDeath() {
     centerInfo.getChildren().add(createDeathScreen());
+    soundHandler.playSound("death");
+    links.getChildren().clear();
   }
 
   private Node createDeathScreen() {
@@ -449,14 +451,15 @@ public class Game implements Builder<Region> {
                     currentPassage = currentGame.go(link);
                     executeActions(link);
                     createContentString();
-                    updateLinkChoices();
-                    updatePlayerHealth();
                     updateInventory();
                     updateGoldLabel();
                     updateScoreLabel();
-                    backgroundHandler.updateBackground(
-                        root, currentPassage, currentGame.getStory().getTitle());
+                    updateLinkChoices();
                     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+                    backgroundHandler.updateBackground(
+                            root, currentPassage, currentGame.getStory().getTitle());
+
+                    updatePlayerHealth();
                   });
               links.getChildren().add(button);
             });
