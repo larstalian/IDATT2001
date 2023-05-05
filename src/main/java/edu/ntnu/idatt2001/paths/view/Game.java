@@ -62,6 +62,7 @@ public class Game implements Builder<Region> {
   private final AtomicBoolean isAnimationSkipped;
   private final VBox links;
   private final Label goldLabel;
+  private final Label scoreLabel;
   private final SoundHandler soundHandler;
   private final BackgroundHandler backgroundHandler;
   private final VBox inventory;
@@ -84,6 +85,7 @@ public class Game implements Builder<Region> {
     isAnimationSkipped = new AtomicBoolean(false);
     inventory = new VBox();
     goldLabel = new Label();
+    scoreLabel = new Label();
   }
 
   /**
@@ -167,8 +169,22 @@ public class Game implements Builder<Region> {
   private Node createTopCenter() {
     HBox results = new HBox();
     results.getChildren().add(createGoldInfo());
+    results.getChildren().add(createScoreInfo());
     results.getStyleClass().add("top-info");
     return results;
+  }
+
+  private Node createScoreInfo() {
+    HBox results = new HBox();
+    results.getChildren().add(new Label("Score: "));
+    results.getStyleClass().add("score-info");
+    results.getChildren().add(scoreLabel);
+    updateScoreLabel();
+    return results;
+  }
+
+  private void updateScoreLabel() {
+    scoreLabel.setText(String.valueOf(currentGame.getPlayer().getScore()));
   }
 
   /**
@@ -427,6 +443,7 @@ public class Game implements Builder<Region> {
                     updatePlayerHealth();
                     updateInventory();
                     updateGoldLabel();
+                    updateScoreLabel();
                     backgroundHandler.updateBackground(
                         root, currentPassage, currentGame.getStory().getTitle());
                     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());

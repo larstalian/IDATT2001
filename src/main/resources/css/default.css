@@ -258,11 +258,16 @@
 }
 
 .top-info{
-    -fx-font-family: "Fira Code Retina";
-    -fx-font-size: 14px;
-    -fx-text-fill: white;
-    -fx-padding: 3px;
+    -fx-padding: 5px;
     -fx-alignment: center;
     -fx-background-color: rgba(0, 0, 0, 0.9);
     -fx-background-radius: 10;
+    -fx-spacing: 40px;
+}
+
+.score-info > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 1px;
 }
