@@ -1,0 +1,79 @@
+The Forbidden Forest
+
+::Opening Passage
+You find yourself in a small village on the edge of a mysterious forest.
+[Explore the village](Village)
+{}
+[Enter the forest](Forest)
+{}
+
+
+::Village
+You are in the center of the village, where villagers are busy with their daily chores.
+[Talk to the healer](Healer)
+{}
+[Visit the blacksmith](Blacksmith)
+{}
+[Return to the edge of the forest](Opening Passage)
+{}
+
+::Forest
+You are now in the Forbidden Forest, with dense trees and an eerie silence.
+[Search for a treasure chest](Chest)
+{}
+[Encounter a wolf](Wolf)
+{H:-50}
+[Return to the village](Village)
+{}
+
+::Healer
+The healer offers to restore your health for 20 gold.
+[Accept healing](Healed)
+{H:20,G:-20}
+[Decline healing and return to the village](Village)
+{}
+
+::Blacksmith
+The blacksmith offers you a powerful weapon for 30 gold.
+[Buy the weapon](WeaponBought)
+{I:Weapon,G:-30}
+[Decline and return to the village](Village)
+{}
+
+::Chest
+You find a hidden treasure chest.
+[Open the treasure chest](ChestOpened)
+{I:Treasure,G:50}
+[Leave the treasure chest and return to the forest](Forest)
+{}
+
+::Wolf
+You encounter a ferocious wolf, its eyes glowing in the shadows.
+[Fight the wolf](FightOutcome)
+{H:-20,S:10}
+[Flee back to the forest](Forest)
+{}
+
+::Healed
+The healer restores your health. You feel rejuvenated and ready for adventure.
+[Return to the village](Village)
+{}
+
+::WeaponBought
+You've bought the powerful weapon. You feel more confident in your abilities.
+[Return to the village](Village)
+{}
+
+::ChestOpened
+You've opened the treasure chest and claimed the gold inside!
+[Return to the forest](Forest)
+{}
+
+::FightOutcome
+After a fierce battle, you defeat the wolf and continue your journey.
+[Return to the forest](Forest)
+{}
+
+::PlayerDeath
+Your health has reached zero. Your adventure ends here as you succumb to your injuries.
+
