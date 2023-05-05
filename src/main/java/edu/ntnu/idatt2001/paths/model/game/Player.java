@@ -1,16 +1,15 @@
 package edu.ntnu.idatt2001.paths.model.game;
 
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.*;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import lombok.EqualsAndHashCode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.*;
+import lombok.EqualsAndHashCode;
 
 /**
  * The Player class represents a player in a game. A player has a name, health, score, gold, and an
@@ -255,10 +254,55 @@ public class Player {
     private int score;
     private int gold;
 
+    /**
+     * Constructs a new Builder object with the specified name for the Player object to be created.
+     * This constructor initializes an empty inventory and sets the default values for health,
+     * score, and gold. Use the provided Builder methods to set custom values for these attributes
+     * before building the Player object.
+     *
+     * <p>Example usage:
+     *
+     * <pre>{@code
+     * Player player = new Player.Builder("PlayerName")
+     *                  .health(100)
+     *                  .score(50)
+     *                  .gold(250)
+     *                  .inventory("Sword", "Shield")
+     *                  .build();
+     * }</pre>
+     *
+     * @param name the name of the Player object to be created
+     * @see Player
+     */
     @JsonCreator
     public Builder(@JsonProperty("name") String name) {
       this.name = name;
       inventory = new ArrayList<>();
+    }
+
+    /**
+     * Constructs a new Builder object by copying the properties of the given Player object. This
+     * constructor is used to create a new Player object based on an existing one, allowing further
+     * customization of the new object using the Builder's methods.
+     *
+     * <p>Example usage:
+     *
+     * <pre>{@code
+     * Player existingPlayer = ... // Get an existing player
+     * Player modifiedPlayer = new Player.Builder(existingPlayer)
+     *                         .health(120)
+     *                         .build();
+     * }</pre>
+     *
+     * @param player the Player object whose properties should be copied to the new Builder instance
+     * @see Player
+     */
+    public Builder(Player player) {
+      this.name = player.name;
+      this.health = player.health;
+      this.score = player.score;
+      this.gold = player.gold;
+      this.inventory = new ArrayList<>(player.inventory);
     }
 
     /**
