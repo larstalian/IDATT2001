@@ -3,7 +3,9 @@ package edu.ntnu.idatt2001.paths.view;
 import static edu.ntnu.idatt2001.paths.view.Widgets.*;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
+import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
+import edu.ntnu.idatt2001.paths.model.game.Player;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
 import edu.ntnu.idatt2001.paths.model.media.IconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
@@ -57,7 +59,7 @@ import javafx.util.Duration;
 public class Game implements Builder<Region> {
 
   private static Passage currentPassage;
-  private static edu.ntnu.idatt2001.paths.model.game.Game currentGame;
+  private final edu.ntnu.idatt2001.paths.model.game.Game currentGame;
   private final StringProperty contentBar;
   private final AtomicBoolean isAnimationSkipped;
   private final VBox links;
@@ -69,6 +71,7 @@ public class Game implements Builder<Region> {
   private ProgressBar healthBar;
   private Label skipLabel;
   private BorderPane root;
+  private final Player initialPlayer; 
 
   /**
    * Constructs a new {@code Game} instance, initializing the required properties and handlers.
@@ -77,7 +80,7 @@ public class Game implements Builder<Region> {
    * VBox} for links, {@code StringProperty} for the content bar, and an {@code AtomicBoolean} for
    * tracking the animation skipping state.
    */
-  public Game() {
+  public Game(GameData chosenGame){
     backgroundHandler = BackgroundHandler.getInstance();
     soundHandler = SoundHandler.getInstance();
     links = new VBox();
@@ -86,26 +89,11 @@ public class Game implements Builder<Region> {
     inventory = new VBox();
     goldLabel = new Label();
     scoreLabel = new Label();
+    currentGame = chosenGame.getGame();
+    initialPlayer = new Player.Builder(currentGame.getPlayer()).build();
+    currentPassage = currentGame.getStory().getOpeningPassage();
   }
-
-  /**
-   * Sets the current game.
-   *
-   * @param chosenGame the chosen game to be set as the current game.
-   */
-  public static void setCurrentGame(edu.ntnu.idatt2001.paths.model.game.Game chosenGame) {
-    currentGame = chosenGame;
-  }
-
-  /**
-   * Sets the current passage
-   *
-   * @param passage the passage to be set as the current passage
-   */
-  public static void setCurrentPassage(Passage passage) {
-    currentPassage = passage;
-  }
-
+  
   /**
    * Returns the root node.
    *
@@ -201,23 +189,21 @@ public class Game implements Builder<Region> {
     return results;
   }
 
-  /**
-   * Updates the gold label with the current gold value of the player.
-   */
+  /** Updates the gold label with the current gold value of the player. */
   private void updateGoldLabel() {
-   goldLabel.setText(String.valueOf(currentGame.getPlayer().getGold()));
+    goldLabel.setText(String.valueOf(currentGame.getPlayer().getGold()));
   }
 
   /**
-   * Creates the gold icon UI element. It loads the gold icon image and creates an ImageView.
-   * If the image cannot be loaded, it falls back to using a text label.
+   * Creates the gold icon UI element. It loads the gold icon image and creates an ImageView. If the
+   * image cannot be loaded, it falls back to using a text label.
    *
    * @return a Node representing the gold icon UI element.
    */
   private Node createGoldIcon() {
     HBox imageContainer = new HBox();
     Image goldIcon = null;
-    
+
     try {
       goldIcon = IconHandler.getIcon("gold-coin");
     } catch (IOException e) {
@@ -231,7 +217,7 @@ public class Game implements Builder<Region> {
       imageContainer.getChildren().add(imageView);
       return imageContainer;
     }
-    
+
     imageContainer.getChildren().add(new Label("Gold: "));
     return imageContainer;
   }
@@ -391,7 +377,7 @@ public class Game implements Builder<Region> {
               itemContainer.getChildren().add(itemText);
             }
             inventory.getChildren().add(itemContainer);
-            
+
           } catch (IOException e) {
             Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage())
                 .showAndWait();
@@ -521,21 +507,22 @@ public class Game implements Builder<Region> {
 
   /** Builds and shows the save game confirmation dialog. */
   private void showSaveGameConfirmationDialog() {
-    String title = "Save Game";
-    String header = "Do you wish to save the game?";
+    String title = "Wait!";
+    String header = "Are you sure you want to exit?";
     String content = "";
 
     Alert alert = createAlert(title, header, content);
 
-    ButtonType buttonYes = new ButtonType("Yes");
-    ButtonType buttonNo = new ButtonType("No");
+    ButtonType saveButton = new ButtonType("Save game and exit");
+    ButtonType buttonNo = new ButtonType("Dont save and exit");
+    ButtonType buttonRestart = new ButtonType("Restart Game");
     ButtonType buttonCancel = new ButtonType("Cancel");
 
-    alert.getButtonTypes().setAll(buttonYes, buttonNo, buttonCancel);
+    alert.getButtonTypes().setAll(saveButton, buttonNo, buttonRestart,buttonCancel);
 
     Optional<ButtonType> result = alert.showAndWait();
     if (result.isPresent()) {
-      if (result.get() == buttonYes) {
+      if (result.get() == saveButton) {
         GameFileHandler gameFileHandler = new GameFileHandler();
 
         try {
@@ -549,6 +536,9 @@ public class Game implements Builder<Region> {
       } else if (result.get() == buttonNo) {
         switchToMainMenu();
       }
+        else if (result.get() == buttonRestart){
+          restartGame();
+        }
     }
   }
 
@@ -558,5 +548,12 @@ public class Game implements Builder<Region> {
     Region mainMenuRoot = mainMenu.build();
     SoundHandler.getInstance().playMenuMusic();
     root.getScene().setRoot(mainMenuRoot);
+  }
+
+  private void restartGame() {
+    edu.ntnu.idatt2001.paths.model.game.Game game = new edu.ntnu.idatt2001.paths.model.game.Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
+    GameData gameData = new GameData(game, game.getStory().getOpeningPassage());
+    Region gameRoot = new Game(gameData).build();
+    this.getRoot().getScene().setRoot(gameRoot);
   }
 }

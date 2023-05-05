@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.model.filehandlers.paths.StoryFileReader;
 import edu.ntnu.idatt2001.paths.model.game.Game;
@@ -45,6 +46,7 @@ public class NewGame implements Builder<Region> {
     configureCustomizeGameOptionsButton();
     return mainLayout;
   }
+
 
   private Node createCenter() {
     StackPane centerLayout = new StackPane();
@@ -138,15 +140,11 @@ public class NewGame implements Builder<Region> {
       }
 
       Game currentGame = new Game(player, loadedStory, goals);
-      edu.ntnu.idatt2001.paths.view.Game.setCurrentGame(currentGame);
-      edu.ntnu.idatt2001.paths.view.Game.setCurrentPassage(currentGame.begin());
-      Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game().build();
+      GameData gameData = new GameData(currentGame, currentGame.getStory().getOpeningPassage());
+
+      Region gameRoot = new edu.ntnu.idatt2001.paths.view.Game(gameData).build();
       startNewGameButton.getScene().setRoot(gameRoot);
     }
-  }
-
-  private List<Goal> loadCustomGoals() {
-    return customizeGameOptionsPopup.getGoals();
   }
 
   private Story loadStoryFromFile(String story) {
