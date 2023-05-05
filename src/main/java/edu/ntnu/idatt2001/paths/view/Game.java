@@ -12,8 +12,7 @@ import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -69,6 +68,7 @@ public class Game implements Builder<Region> {
   private final BackgroundHandler backgroundHandler;
   private final VBox inventory;
   private final Player initialPlayer;
+  private final List<Passage> visitedPassages;
   private ProgressBar healthBar;
   private Label skipLabel;
   private BorderPane root;
@@ -93,6 +93,8 @@ public class Game implements Builder<Region> {
     currentGame = chosenGame.getGame();
     currentPassage = chosenGame.getPassage();
     initialPlayer = new Player.Builder(currentGame.getPlayer()).build();
+    visitedPassages = new ArrayList<>();
+    visitedPassages.addAll(chosenGame.getVisitedPassages());
   }
 
   /**
@@ -439,30 +441,74 @@ public class Game implements Builder<Region> {
   /** Updates the link choices UI element. */
   private void updateLinkChoices() {
     links.getChildren().clear();
-    currentPassage
-        .getLinks()
-        .forEach(
-            link -> {
-              Button button = new Button(link.getText());
-              button.setFocusTraversable(true);
-              button.getStyleClass().add("link-button");
-              button.setOnAction(
-                  e -> {
-                    currentPassage = currentGame.go(link);
-                    executeActions(link);
-                    createContentString();
-                    updateInventory();
-                    updateGoldLabel();
-                    updateScoreLabel();
-                    updateLinkChoices();
-                    soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
-                    backgroundHandler.updateBackground(
-                            root, currentPassage, currentGame.getStory().getTitle());
 
-                    updatePlayerHealth();
-                  });
-              links.getChildren().add(button);
-            });
+    List<Link> availableLinks = getAvailableLinks();
+
+    availableLinks.forEach(link -> links.getChildren().add(createLinkButton(link)));
+  }
+
+  /**
+   * Retrieves the list of available links for the current passage.
+   *
+   * @return the list of available links.
+   */
+  private List<Link> getAvailableLinks() {
+    Set<Link> brokenLinks = new HashSet<>(currentGame.getStory().getBrokenLinks());
+
+    return currentPassage.getLinks().stream()
+        .filter(link -> isValidLink(link, brokenLinks))
+        .toList();
+  }
+
+  /**
+   * Determines if a link is valid based on broken links and single-visit passages.
+   *
+   * @param link the link to be checked.
+   * @param brokenLinks the set of broken links.
+   * @return true if the link is valid, false otherwise.
+   */
+  private boolean isValidLink(Link link, Set<Link> brokenLinks) {
+    if (brokenLinks.contains(link)) {
+      return false;
+    }
+
+    Passage linkedPassage = currentGame.getStory().getPassage(link);
+    boolean isVisited =
+        visitedPassages.stream().anyMatch(vp -> vp.getTitle().equals(link.getRef()));
+    return !isVisited || !linkedPassage.isSingleVisitOnly();
+  }
+
+  /**
+   * Creates a button for a given link.
+   *
+   * @param link the link for which the button is to be created.
+   * @return the created button.
+   */
+  private Button createLinkButton(Link link) {
+    Button button = new Button(link.getText());
+    button.setFocusTraversable(true);
+    button.getStyleClass().add("link-button");
+    button.setOnAction(e -> handleLinkButtonClick(link));
+    return button;
+  }
+
+  /**
+   * Handles the click event for a link button.
+   *
+   * @param link the link that was clicked.
+   */
+  private void handleLinkButtonClick(Link link) {
+    currentPassage = currentGame.go(link);
+    visitedPassages.add(currentPassage);
+    executeActions(link);
+    createContentString();
+    updateInventory();
+    updateGoldLabel();
+    updateScoreLabel();
+    updateLinkChoices();
+    soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
+    backgroundHandler.updateBackground(root, currentPassage, currentGame.getStory().getTitle());
+    updatePlayerHealth();
   }
 
   /**
@@ -553,7 +599,7 @@ public class Game implements Builder<Region> {
         GameFileHandler gameFileHandler = new GameFileHandler();
 
         try {
-          gameFileHandler.saveGameToFile(currentGame, currentPassage);
+          gameFileHandler.saveGameToFile(currentGame, currentPassage, visitedPassages);
           switchToMainMenu();
 
         } catch (IOException e) {
@@ -580,7 +626,7 @@ public class Game implements Builder<Region> {
     edu.ntnu.idatt2001.paths.model.game.Game game =
         new edu.ntnu.idatt2001.paths.model.game.Game(
             initialPlayer, currentGame.getStory(), currentGame.getGoals());
-    GameData gameData = new GameData(game, game.getStory().getOpeningPassage());
+    GameData gameData = new GameData(game, game.getStory().getOpeningPassage(), visitedPassages);
     Region gameRoot = new Game(gameData).build();
     this.getRoot().getScene().setRoot(gameRoot);
   }
