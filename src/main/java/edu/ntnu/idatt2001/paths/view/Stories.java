@@ -227,10 +227,12 @@ public class Stories implements Builder<Region> {
   private Node createConvertStoryInfo() {
     VBox results = new VBox();
     String selectedFile = storySelect.getValue();
-    if (selectedFile == null){
-      Widgets.createAlert("Error","There are no stories", 
+    if (selectedFile == null) {
+      Widgets.createAlert(
+              "Error",
+              "There are no stories",
               "Please check that the stories are in the correct file path, see the .README for more info.")
-              .showAndWait();
+          .showAndWait();
       return results;
     }
     if (selectedFile.endsWith(".paths")) {
@@ -286,7 +288,7 @@ public class Stories implements Builder<Region> {
     convertToJsonButton.setOnAction(
         event -> {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-          alert.setHeaderText("Do you wish to add mood enums to the story?");
+          alert.setHeaderText("Do you wish to add additional features to the story?");
 
           ButtonType yesButton = new ButtonType("Yes", ButtonData.YES);
           ButtonType noButton = new ButtonType("No", ButtonData.NO);
@@ -294,7 +296,7 @@ public class Stories implements Builder<Region> {
 
           Optional<ButtonType> result = alert.showAndWait();
           if (result.isPresent() && result.get() == yesButton) {
-            addEnums();
+            createValues();
           }
           try {
             StoryFileHandler storyFileHandler = new StoryFileHandler();
@@ -310,26 +312,38 @@ public class Stories implements Builder<Region> {
         });
   }
 
-
-  private void addEnums() {
+  private void createValues() {
     Dialog<ButtonType> dialog = new Dialog<>();
-    dialog.setTitle("Add Mood Enums");
-    dialog.setHeaderText("Select a Mood Enum for each passage:");
+    dialog.setTitle("Edit passages");
+    dialog.setHeaderText("Select moods and define if the \npassage is single visit only.");
 
     GridPane grid = new GridPane();
     grid.getStyleClass().add("dialog-grid");
+    grid.setHgap(5);
 
     List<ChoiceBox<Mood>> moodComboBoxes = new ArrayList<>();
+    List<ChoiceBox<String>> singleVisitComboBox = new ArrayList<>();
     List<Passage> passagesList = new ArrayList<>(loadedStory.getPassages());
+    grid.add(new Label("Passage"), 0, 0);
+    grid.add(new Label("Mood"), 1, 0);
+    grid.add(new Label("Single Visit"), 2, 0);
 
-    IntStream.range(0, passagesList.size()).forEach(i -> {
-      grid.add(new Label(passagesList.get(i).getTitle()), 0, i);
-      ChoiceBox<Mood> choiceBox = new ChoiceBox<>();
-      choiceBox.getItems().addAll(Mood.values());
-      choiceBox.setValue(Mood.NONE);
-      moodComboBoxes.add(choiceBox);
-      grid.add(choiceBox, 1, i);
-    });
+    IntStream.range(1, passagesList.size())
+        .forEach(
+            i -> {
+              grid.add(new Label(passagesList.get(i).getTitle()), 0, i);
+              ChoiceBox<Mood> moodChoiceBox = new ChoiceBox<>();
+              moodChoiceBox.getItems().addAll(Mood.values());
+              moodChoiceBox.setValue(Mood.NONE);
+              moodComboBoxes.add(moodChoiceBox);
+              grid.add(moodChoiceBox, 1, i);
+
+              ChoiceBox<String> singleVisitChoiceBox = new ChoiceBox<>();
+              singleVisitChoiceBox.getItems().addAll("Yes", "No");
+              singleVisitChoiceBox.setValue("No");
+              singleVisitComboBox.add(singleVisitChoiceBox);
+              grid.add(singleVisitChoiceBox, 2, i);
+            });
 
     dialog.getDialogPane().setContent(grid);
     dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -337,36 +351,42 @@ public class Stories implements Builder<Region> {
     Optional<ButtonType> result = dialog.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       for (int i = 0; i < moodComboBoxes.size(); i++) {
-        ChoiceBox<Mood> choiceBox = moodComboBoxes.get(i);
+        ChoiceBox<Mood> moodChoiceBox = moodComboBoxes.get(i);
         Passage passage = passagesList.get(i);
-        passage.setMood(choiceBox.getValue());
+        passage.setMood(moodChoiceBox.getValue());
+
+        ChoiceBox<String> singleVisitChoiceBox = singleVisitComboBox.get(i);
+        passage.setSingleVisitOnly(singleVisitChoiceBox.getValue().equals("Yes"));
       }
     }
   }
 
-
-
   private void configureConvertToPathsButton() {
-    convertToPathsButton.setOnAction(event -> {
-      Alert alert = convertWarning();
-      Optional<ButtonType> result = alert.showAndWait();
-      if (result.isPresent() && result.get() == ButtonType.OK) {
-        try {
-          StoryFileWriter.saveStoryToFile(loadedStory);
-          Widgets.createAlert("Success", "Story converted", "Story converted successfully and can be now found in the paths directory").showAndWait();
-        } catch (IOException e) {
-          Widgets.createAlert("Error", "Error converting story", e.getMessage()).showAndWait();
-        }
-      }
-    });
+    convertToPathsButton.setOnAction(
+        event -> {
+          Alert alert = convertWarning();
+          Optional<ButtonType> result = alert.showAndWait();
+          if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+              StoryFileWriter.saveStoryToFile(loadedStory);
+              Widgets.createAlert(
+                      "Success",
+                      "Story converted",
+                      "Story converted successfully and can be now found in the paths directory")
+                  .showAndWait();
+            } catch (IOException e) {
+              Widgets.createAlert("Error", "Error converting story", e.getMessage()).showAndWait();
+            }
+          }
+        });
   }
 
-
   private Alert convertWarning() {
-   Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Warning");
     alert.setHeaderText("Wait!");
-    alert.setContentText("Additional features, other than custom images and sound will be deleted and must be re-added when converting back to Json");
+    alert.setContentText(
+        "Additional features, other than custom images and sound will be deleted and must be re-added when converting back to Json");
     return alert;
   }
 }

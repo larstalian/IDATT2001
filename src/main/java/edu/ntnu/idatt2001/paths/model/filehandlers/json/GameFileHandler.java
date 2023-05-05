@@ -1,6 +1,5 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.json;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.GameDeserializer;
@@ -15,9 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,8 +31,8 @@ import java.util.stream.Stream;
  * Jackson's default deserialization cannot deserialize certain properties within these classes.
  *
  * <p>To use this class to write and read games to and from files, create a new instance of this
- * class and use the {@link #saveGameToFile(Game, Passage)} and {@link #loadGameFromFile (String)}
- * methods. For example:
+ * class and use the {@link #saveGameToFile(Game, Passage, List)} and {@link #loadGameFromFile
+ * (String)} methods. For example:
  *
  * <pre>{@code
  * GameFileHandler gameFileHandler = new GameFileHandler();
@@ -78,18 +76,33 @@ public class GameFileHandler {
    * Saves the given game to a file with a filename based on the game's story title.
    *
    * @param game the game to be saved
+   * @param passage the passage the player is currently at
+   * @param visitedPassages the passages the player has visited
    * @throws IOException if there is an issue writing the game to the file
    * @throws NullPointerException if the game is null
    */
-  public void saveGameToFile(Game game, Passage passage) throws IOException {
+  public void saveGameToFile(Game game, Passage passage, List<Passage> visitedPassages)
+      throws IOException {
     Objects.requireNonNull(game, "Game cannot be null");
     String fileName = game.getStory().getTitle();
 
-    GameData gameData = new GameData(game, passage);
+    GameData gameData = new GameData(game, passage, visitedPassages);
     String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameData);
 
     Path gameFilePath = filePath.resolve(fileName + ".json");
     Files.write(gameFilePath, jsonString.getBytes());
+  }
+
+  /**
+   * Saves the given game to a file with a filename based on the game's story title.
+   *
+   * @param game the game to be saved
+   * @param passage the passage the player is currently at
+   * @throws IOException if there is an issue writing the game to the file
+   * @throws NullPointerException if the game is null
+   */
+  public void saveGameToFile(Game game, Passage passage) throws IOException {
+    this.saveGameToFile(game, passage, new ArrayList<>());
   }
 
   /**

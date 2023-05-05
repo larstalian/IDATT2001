@@ -63,6 +63,13 @@ public class GameDeserializer extends JsonDeserializer<GameData> {
     Game game = new Game(player, story, goals);
     Passage passage = jsonParser.getCodec().treeToValue(gameDataNode.get("passage"), Passage.class);
 
-    return new GameData(game, passage);
+    JsonNode visitedPassagesNode = gameDataNode.get("visitedPassages");
+    List<Passage> visitedPassages = new ArrayList<>();
+    for (JsonNode passageNode : visitedPassagesNode) {
+      Passage visitedPassage = jsonParser.getCodec().treeToValue(passageNode, Passage.class);
+      visitedPassages.add(visitedPassage);
+    }
+
+    return new GameData(game, passage, visitedPassages);
   }
 }

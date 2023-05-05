@@ -38,6 +38,7 @@ public class Passage {
   @JsonProperty private final String content;
   @JsonProperty private final List<Link> links;
   @JsonProperty private Mood mood;
+  @JsonProperty private boolean singleVisitOnly;
 
   /**
    * Constructs a new Passage object with the given title and content.
@@ -50,7 +51,8 @@ public class Passage {
   public Passage(
       @JsonProperty("title") String title,
       @JsonProperty("content") String content,
-      @JsonProperty("mood") Mood mood) {
+      @JsonProperty("mood") Mood mood,
+      @JsonProperty("singleVisitOnly") boolean singleVisitOnly) {
     if (title == null || content == null) {
       throw new IllegalArgumentException("Title and content cannot be null.");
     }
@@ -58,15 +60,58 @@ public class Passage {
     this.title = title;
     this.content = content;
     this.links = new ArrayList<>();
+    this.singleVisitOnly = singleVisitOnly;
   }
 
+
+  /**
+   * Constructs a new Passage object with the given title and content.
+   *
+   * @param title the title of the passage
+   * @param content the content of the passage
+   * @throws IllegalArgumentException if the title or content is null
+   */
   public Passage(String title, String content) {
-    this(title, content, Mood.NONE);
+    this(title, content, Mood.NONE, false);
+  }
+
+  /**
+   * Constructs a new Passage object with the given title, content, and mood.
+   *
+   * @param title the title of the passage
+   * @param content the content of the passage
+   * @param mood the mood associated with the passage
+   * @throws IllegalArgumentException if the title or content is null
+   */
+  public Passage(String title, String content, Mood mood) {
+    this(title, content, mood, false);
+  }
+
+  /**
+   * Checks if the passage is meant for single visit only.
+   *
+   * @return {@code true} if the passage is meant for single visit only, {@code false} otherwise
+   */
+  public boolean isSingleVisitOnly() {
+    return singleVisitOnly;
+  }
+
+  /**
+   * Sets the single visit only status for the passage.
+   *
+   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit only
+   */
+  public void setSingleVisitOnly(boolean singleVisitOnly) {
+    this.singleVisitOnly = singleVisitOnly;
   }
 
   public Mood getMood() {
     return mood;
   }
+
+    public void setMood(Mood value) {
+        this.mood = value;
+    }
 
   /**
    * Returns the title of the passage.
@@ -135,10 +180,6 @@ public class Passage {
     }
     return sb.toString();
   }
-
-    public void setMood(Mood value) {
-        this.mood = value;
-    }
 
     public void getMood(Mood value) {
         this.mood = value;
