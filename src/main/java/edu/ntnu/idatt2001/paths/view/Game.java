@@ -6,6 +6,7 @@ import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.game.Player;
+import edu.ntnu.idatt2001.paths.model.goals.*;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
 import edu.ntnu.idatt2001.paths.model.media.IconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
@@ -509,6 +510,10 @@ public class Game implements Builder<Region> {
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     backgroundHandler.updateBackground(root, currentPassage, currentGame.getStory().getTitle());
     updatePlayerHealth();
+    
+    if (currentPassage.getLinks().size() == 0) {
+      onGameFinish();
+    }
   }
 
   /**
@@ -630,4 +635,61 @@ public class Game implements Builder<Region> {
     Region gameRoot = new Game(gameData).build();
     this.getRoot().getScene().setRoot(gameRoot);
   }
+
+  private void onGameFinish() {
+    VBox vBox = new VBox();
+    vBox.getStyleClass().add("game-finish");
+
+    vBox.getChildren().addAll(
+            new Label("The end"),
+            new Label("One of them, at least..."),
+            createGoals()
+    );
+    
+    Button restartButton = new Button("Restart Game");
+    restartButton.setOnAction(e -> restartGame());
+    vBox.getChildren().add(restartButton);
+
+    centerInfo.getChildren().add(vBox);
+    centerInfo.setAlignment(Pos.CENTER);
+  }
+
+  private Node createGoals() {
+    GridPane gridPane = new GridPane();
+    gridPane.setAlignment(Pos.CENTER);
+    gridPane.setHgap(10);
+    gridPane.setVgap(10);
+
+    gridPane.add(new Label("Goals"), 0, 0);
+    gridPane.add(new Label("Status"), 1, 0);
+
+    int rowIndex = 1;
+    for (Goal goal : currentGame.getGoals()) {
+      String goalLabel = null;
+      if (goal instanceof GoldGoal) {
+        goalLabel = "Gold";
+      } else if (goal instanceof ScoreGoal) {
+        goalLabel = "Score";
+      } else if (goal instanceof HealthGoal) {
+        goalLabel = "Health";
+      } else if (goal instanceof InventoryGoal) {
+        goalLabel = "Inventory";
+      }
+
+      if (goalLabel != null) {
+        gridPane.add(new Label(goalLabel), 0, rowIndex);
+        gridPane.add(createGoalStatusLabel(goal), 1, rowIndex);
+        rowIndex++;
+      }
+    }
+
+    gridPane.getStyleClass().add("goal-labels");
+    return gridPane;
+  }
+
+  private Label createGoalStatusLabel(Goal goal) {
+    String statusText = goal.isFulfilled(currentGame.getPlayer()) ? "Completed" : "Not completed";
+    return new Label(statusText);
+  }
+
 }

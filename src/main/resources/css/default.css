@@ -287,3 +287,25 @@
 .death-screen > Button {
     -fx-alignment: center;
 }
+
+.game-finish {
+    -fx-padding: 20px;
+    -fx-spacing: 8px;
+    -fx-alignment: center;
+    -fx-background-color: black;
+    -fx-background-radius: 10;
+}
+
+.game-finish > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 30px;
+    -fx-text-fill: green;
+    -fx-padding: 1px;
+}
+
+.goal-labels > Label {
+    -fx-font-family: "Fira Code Retina";
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 1px;
+}
