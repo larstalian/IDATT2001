@@ -156,7 +156,8 @@ public class Story {
   public Collection<Link> getBrokenLinks() {
     return passages.values().stream()
         .flatMap(passage -> passage.getLinks().stream())
-        .filter(link -> !passages.containsKey(link))
+        .filter(
+            link -> !passages.containsKey(link) && !link.getRef().equals(openingPassage.getTitle()))
         .collect(Collectors.toSet());
   }
 
