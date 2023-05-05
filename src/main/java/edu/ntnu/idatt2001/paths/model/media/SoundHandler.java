@@ -64,9 +64,9 @@ public class SoundHandler {
     } else {
       musicUrl = SOUND_PATH + passage.getMood().toString().toLowerCase() + SOUND_EXTENSION;
     }
-    if (!musicUrl.equals(currentMusicFile)) { // check if the music file has changed
+    if (!musicUrl.equals(currentMusicFile)) {
       playBackgroundMusic(musicUrl);
-      currentMusicFile = musicUrl; // update the current music file
+      currentMusicFile = musicUrl; 
     }
   }
 
@@ -86,6 +86,7 @@ public class SoundHandler {
     mediaPlayer = new MediaPlayer(media);
     mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     mediaPlayer.play();
+    currentMusicFile = musicFileUrl;
   }
 
   /**
