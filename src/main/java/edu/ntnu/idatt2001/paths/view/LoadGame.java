@@ -1,8 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import static edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler.getGameFiles;
-import static edu.ntnu.idatt2001.paths.view.Game.setCurrentGame;
-import static edu.ntnu.idatt2001.paths.view.Game.setCurrentPassage;
 import static edu.ntnu.idatt2001.paths.view.Widgets.createAlert;
 
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
@@ -72,11 +70,7 @@ public class LoadGame implements Builder<Region> {
                   gameFileHandler.loadGameFromFile(
                       FilenameUtils.removeExtension(saveSelect.getValue()));
 
-              setCurrentGame(gameData.getGame());
-              setCurrentPassage(gameData.getPassage());
-              System.out.printf(gameData.getPassage().getTitle());
-
-              Region gameRoot = new Game().build();
+              Region gameRoot = new Game(gameData).build();
               loadButton.getScene().setRoot(gameRoot);
 
             } catch (IOException e) {
