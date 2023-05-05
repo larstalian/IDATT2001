@@ -7,8 +7,6 @@ import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StoryDeseria
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers.StorySerializer;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Story;
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * Class for handling saving and reading of Story objects to and from files. The files are stored in
@@ -100,11 +99,13 @@ public class StoryFileHandler {
   }
 
   /**
-   * Retrieves a collection of custom media files (sounds and images) for a given story that do not match any passage titles.
-   * The method compares file names without their file extensions to the passage titles.
+   * Retrieves a collection of custom media files (sounds and images) for a given story that do not
+   * match any passage titles. The method compares file names without their file extensions to the
+   * passage titles.
    *
    * @param story The story object containing the passages to check against the custom media files.
-   * @return A collection of file names from the "sounds" and "images" folders that do not match any passage titles.
+   * @return A collection of file names from the "sounds" and "images" folders that do not match any
+   *     passage titles.
    */
   public static Collection<String> getBrokenFiles(Story story) {
     Collection<String> sounds = getCustomSoundFiles(story.getTitle());
@@ -113,15 +114,15 @@ public class StoryFileHandler {
     brokenFiles.addAll(sounds);
     brokenFiles.addAll(images);
 
-    brokenFiles.removeIf(fileName -> {
-      String fileNameWithoutExtension = FilenameUtils.removeExtension(fileName);
-      return story.getPassages().stream().anyMatch(passage -> passage.getTitle().equals(fileNameWithoutExtension));
-    });
+    brokenFiles.removeIf(
+        fileName -> {
+          String fileNameWithoutExtension = FilenameUtils.removeExtension(fileName);
+          return story.getPassages().stream()
+              .anyMatch(passage -> passage.getTitle().equals(fileNameWithoutExtension));
+        });
 
     return brokenFiles;
   }
-
-
 
   /**
    * Saves the given story to a file with the given filename.

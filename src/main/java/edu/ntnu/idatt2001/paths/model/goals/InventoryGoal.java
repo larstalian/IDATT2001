@@ -3,7 +3,6 @@ package edu.ntnu.idatt2001.paths.model.goals;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.model.game.Player;
-
 import java.util.HashSet;
 import java.util.List;
 

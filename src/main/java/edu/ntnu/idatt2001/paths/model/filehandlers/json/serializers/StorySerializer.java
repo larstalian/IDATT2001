@@ -3,8 +3,8 @@ package edu.ntnu.idatt2001.paths.model.filehandlers.json.serializers;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import edu.ntnu.idatt2001.paths.model.story.Passage;import edu.ntnu.idatt2001.paths.model.story.Story;
-
+import edu.ntnu.idatt2001.paths.model.story.Passage;
+import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
 
 /**
@@ -15,9 +15,9 @@ import java.io.IOException;
  *
  * <p>When de-serializing use the {@link StoryDeserializer} class.
  *
- * <p>To use this serializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}.
- * Register it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module
- * to the ObjectMapper. For example:
+ * <p>To use this serializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}. Register
+ * it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module to the
+ * ObjectMapper. For example:
  *
  * <pre>{@code
  * ObjectMapper objectMapper = new ObjectMapper();

@@ -215,12 +215,22 @@ public class StoryFileReader {
     }
   }
 
+  /**
+   * Returns a collection of the names of the stories saved in the stories folder.
+   *
+   * @return A collection of the names of the stories saved in the stories folder.
+   */
   public static Collection<String> getSavedStories() {
     File folder = new File(FILE_PATH.toString());
     String[] savedStories = folder.list();
     return savedStories == null ? Collections.emptyList() : Arrays.asList(savedStories);
   }
 
+  /**
+   * Returns the file ending used for story files.
+   *
+   * @return The file ending used for story files.
+   */
   public static String getFileEnding() {
     return FILE_ENDING;
   }

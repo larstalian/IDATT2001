@@ -3,11 +3,12 @@ package edu.ntnu.idatt2001.paths.model.game;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.model.goals.Goal;
-import edu.ntnu.idatt2001.paths.model.story.Link;import edu.ntnu.idatt2001.paths.model.story.Passage;import edu.ntnu.idatt2001.paths.model.story.Story;
-import lombok.EqualsAndHashCode;
-
+import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.Passage;
+import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 /**
  * The Game class represents a game. It contains a player, a story, and a list of goals. The Game
@@ -40,7 +41,9 @@ public class Game {
    */
   @JsonCreator
   public Game(
-      @JsonProperty("player") Player player, @JsonProperty("story") Story story, @JsonProperty("goals") List<Goal> goals) {
+      @JsonProperty("player") Player player,
+      @JsonProperty("story") Story story,
+      @JsonProperty("goals") List<Goal> goals) {
     this.player = Objects.requireNonNull(player, "Player cannot be null");
     this.story = Objects.requireNonNull(story, "Story cannot be null");
     this.goals = Objects.requireNonNull(goals, "Goals cannot be null");

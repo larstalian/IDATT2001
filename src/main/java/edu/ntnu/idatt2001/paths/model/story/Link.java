@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
+import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.*;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.model.actions.Action;
-import lombok.EqualsAndHashCode;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.*;
+import lombok.EqualsAndHashCode;
 
 /**
  * The Link class represents a hyperlink or a doorway from one passage to another, with an

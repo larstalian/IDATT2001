@@ -51,6 +51,10 @@ public class GameFileHandler {
   private static final Path filePath = Paths.get("src/main/resources/games");
   private final ObjectMapper objectMapper;
 
+  /**
+   * Class constructor that initializes the ObjectMapper for JSON serialization and deserialization.
+   * It also registers custom serializers and deserializers for certain classes.
+   */
   public GameFileHandler() {
     objectMapper = new ObjectMapper();
     SimpleModule module = new SimpleModule();
@@ -61,6 +65,12 @@ public class GameFileHandler {
     objectMapper.registerModule(module);
   }
 
+  /**
+   * Retrieves a list of all game files saved in the "src/main/resources/games" directory.
+   *
+   * @return a list of all game file names, as strings
+   * @throws IOException if there is an issue listing the files in the directory
+   */
   public static List<String> getGameFiles() throws IOException {
     Files.createDirectories(filePath);
     try (Stream<Path> pathStream = Files.list(Paths.get("src/main/resources/games"))) {
@@ -73,7 +83,8 @@ public class GameFileHandler {
   }
 
   /**
-   * Saves the given game to a file with a filename based on the game's story title.
+   * Saves the given game to a file with a filename based on the game's story title, and the
+   * list of visited passages as well.
    *
    * @param game the game to be saved
    * @param passage the passage the player is currently at
@@ -94,7 +105,8 @@ public class GameFileHandler {
   }
 
   /**
-   * Saves the given game to a file with a filename based on the game's story title.
+   * Saves the given game to a file with a filename based on the game's story title, without
+   * specifying visited passages.
    *
    * @param game the game to be saved
    * @param passage the passage the player is currently at

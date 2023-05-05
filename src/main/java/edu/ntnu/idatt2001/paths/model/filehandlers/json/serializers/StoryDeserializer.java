@@ -5,23 +5,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import edu.ntnu.idatt2001.paths.model.story.Passage;import edu.ntnu.idatt2001.paths.model.story.Story;
-
+import edu.ntnu.idatt2001.paths.model.story.Passage;
+import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
  * A custom deserializer for the {@link Story} class, using the Jackson library. This class is
- * responsible for deserializing JSON node to a {@link Story} object. The custom
- * deserialization is necessary due to the passage map in the {@link Story} being of type {@code
- * Map<Link, Passage>}.
+ * responsible for deserializing JSON node to a {@link Story} object. The custom deserialization is
+ * necessary due to the passage map in the {@link Story} being of type {@code Map<Link, Passage>}.
  *
  * <p>When serializing use the {@link StorySerializer} class.
  *
- * <p>To use the deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}.
- * Register it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module
- * to the ObjectMapper. For example:
+ * <p>To use the deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}. Register
+ * it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module to the
+ * ObjectMapper. For example:
  *
  * <pre>{@code
  * ObjectMapper objectMapper = new ObjectMapper();
@@ -65,6 +64,7 @@ public class StoryDeserializer extends JsonDeserializer<Story> {
     }
     return story;
   }
+
   /**
    * Creates a Passage object from the given JSON node.
    *
