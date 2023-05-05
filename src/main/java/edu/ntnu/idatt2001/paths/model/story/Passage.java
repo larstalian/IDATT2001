@@ -63,6 +63,7 @@ public class Passage {
     this.singleVisitOnly = singleVisitOnly;
   }
 
+
   /**
    * Constructs a new Passage object with the given title and content.
    *
@@ -86,9 +87,31 @@ public class Passage {
     this(title, content, mood, false);
   }
 
+  /**
+   * Checks if the passage is meant for single visit only.
+   *
+   * @return {@code true} if the passage is meant for single visit only, {@code false} otherwise
+   */
+  public boolean isSingleVisitOnly() {
+    return singleVisitOnly;
+  }
+
+  /**
+   * Sets the single visit only status for the passage.
+   *
+   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit only
+   */
+  public void setSingleVisitOnly(boolean singleVisitOnly) {
+    this.singleVisitOnly = singleVisitOnly;
+  }
+
   public Mood getMood() {
     return mood;
   }
+
+    public void setMood(Mood value) {
+        this.mood = value;
+    }
 
   /**
    * Returns the title of the passage.
@@ -157,10 +180,6 @@ public class Passage {
     }
     return sb.toString();
   }
-
-    public void setMood(Mood value) {
-        this.mood = value;
-    }
 
     public void getMood(Mood value) {
         this.mood = value;
