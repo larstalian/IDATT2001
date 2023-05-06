@@ -81,6 +81,10 @@ public class StoryFileHandler {
    */
   public static Collection<String> getCustomSoundFiles(String storyName) {
     File soundsFolder = new File(customMediaPath + "/" + storyName + "/sounds");
+    try {
+      Files.createDirectories(customMediaPath.resolve(storyName).resolve("sounds"));
+    } catch (IOException ignored) {
+    }
     String[] soundFiles = soundsFolder.list();
     return soundFiles == null ? Collections.emptyList() : Arrays.asList(soundFiles);
   }
@@ -93,6 +97,10 @@ public class StoryFileHandler {
    */
   public static Collection<String> getCustomImageFiles(String storyTitle) {
     storyTitle = FilenameUtils.removeExtension(storyTitle);
+    try {
+      Files.createDirectories(customMediaPath.resolve(storyTitle).resolve("images"));
+    } catch (IOException ignored) {
+    }
     File imagesFolder = new File(customMediaPath + "/" + storyTitle + "/images");
     String[] imageFiles = imagesFolder.list();
     return imageFiles == null ? Collections.emptyList() : Arrays.asList(imageFiles);
