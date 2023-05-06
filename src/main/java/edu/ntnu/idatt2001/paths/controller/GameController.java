@@ -1,14 +1,15 @@
 package edu.ntnu.idatt2001.paths.controller;
 
+import static edu.ntnu.idatt2001.paths.model.media.IconHandler.*;
 import static edu.ntnu.idatt2001.paths.view.util.Widgets.createAlert;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
+import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.game.Player;
 import edu.ntnu.idatt2001.paths.model.goals.*;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
-import edu.ntnu.idatt2001.paths.model.media.IconHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
@@ -35,21 +36,33 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+/**
+ * The GameController class is responsible for managing the game logic, updating the game view,
+ * handling user interactions, and maintaining the state of the game. It controls the flow of the
+ * game, updating the player's inventory, health, gold, and score as the player navigates through
+ * the passages. It also manages the sound and background settings and handles saving and exiting
+ * the game.
+ *
+ * @see GameView
+ * @see Game
+ */
 public class GameController {
 
   private static Passage currentPassage;
-
   private final SoundHandler soundHandler;
-
   private final BackgroundHandler backgroundHandler;
-
   private final List<Passage> visitedPassages;
-
-  private final edu.ntnu.idatt2001.paths.model.game.Game currentGame;
+  private final Game currentGame;
   private final GameView gameView;
   private final Player initialPlayer;
   private final AtomicBoolean isAnimationSkipped;
 
+  /**
+   * Creates a new GameController object, initializes the game view, player, sound, and background
+   * handlers, and sets up the initial state of the game.
+   *
+   * @param gameData The game data containing the game model, current passage, and visited passages.
+   */
   public GameController(GameData gameData) {
     currentGame = gameData.getGame();
     currentPassage = gameData.getPassage();
@@ -71,28 +84,29 @@ public class GameController {
     updateGoldLabel();
     configureRestartGameButton();
     configureDeathExitButton();
-
+    configureGoldIcon();
+    configureSkipLabel();
     isAnimationSkipped = new AtomicBoolean(false);
   }
 
+  /** Configures the behavior of the content bar scroll pane to skip the animation when clicked. */
   private void configureContentBarScrollPane() {
-    gameView
-        .getContentbarScrollPane()
-        .setOnMouseClicked(
-            event -> isAnimationSkipped.set(true));
+    gameView.getContentbarScrollPane().setOnMouseClicked(event -> isAnimationSkipped.set(true));
   }
 
+  /** Updates the score label to the new value. */
   private void updateScoreLabel() {
     gameView.getScoreLabel().setText(String.valueOf(currentGame.getPlayer().getScore()));
   }
 
+  /** Updates the gold label to the new value. */
   private void updateGoldLabel() {
     gameView.getGoldLabel().setText(String.valueOf(currentGame.getPlayer().getGold()));
   }
 
   /** Creates and animates the content string of the current passage. */
   private void animateContentBar() {
-    gameView.setContentBar("");
+    gameView.getContentBar().set("");
     char[] charArray = currentPassage.getContent().toCharArray();
     AtomicInteger index = new AtomicInteger(0);
 
@@ -105,12 +119,13 @@ public class GameController {
             Duration.millis(30),
             event -> {
               if (index.get() < charArray.length) {
-                gameView.setContentBar(
-                    gameView.contentBarProperty().getValue() + charArray[index.get()]);
+                gameView
+                    .getContentBar()
+                    .set(gameView.getContentBar().getValue() + charArray[index.get()]);
                 index.incrementAndGet();
               }
               if (isAnimationSkipped.get()) {
-                gameView.setContentBar(currentPassage.getContent());
+                gameView.getContentBar().set(currentPassage.getContent());
                 gameView.getLinks().setVisible(true);
                 timeline.stop();
               }
@@ -133,6 +148,7 @@ public class GameController {
     timeline.play();
   }
 
+  /** Updates the link choices based on the current passage. */
   private void updateLinkChoices() {
     gameView.getLinks().getChildren().clear();
 
@@ -158,6 +174,11 @@ public class GameController {
         .toList();
   }
 
+  /**
+   * Configures the behavior of the link button, which navigates to the next passage when clicked.
+   *
+   * @param link The link object that represents the link in the game's story.
+   */
   private void configureLinkButton(Link link) {
     gameView
         .getLinks()
@@ -165,10 +186,15 @@ public class GameController {
         .forEach(
             node -> {
               if (node instanceof Button button) {
-                button.setOnAction(
-                    event -> handleLinkButtonClick(link));
+                button.setFocusTraversable(true);
+                button.setOnAction(event -> handleLinkButtonClick(link));
               }
             });
+  }
+
+  /** Configures the skip label. It is set to visible when clalled */
+  private void configureSkipLabel() {
+    gameView.getSkipLabel().setVisible(false);
   }
 
   /**
@@ -194,6 +220,11 @@ public class GameController {
     return !isVisited || !linkedPassage.isSingleVisitOnly();
   }
 
+  /**
+   * Handles a button click. All relevant variables in view are updated.
+   *
+   * @param link the link that was clicked.
+   */
   private void handleLinkButtonClick(Link link) {
 
     if (link.getRef().equals(currentGame.getStory().getOpeningPassage().getTitle())) {
@@ -209,6 +240,7 @@ public class GameController {
     updateGoldLabel();
     updateScoreLabel();
     updateLinkChoices();
+
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
     backgroundHandler.updateBackground(
         getRoot(), currentPassage, currentGame.getStory().getTitle());
@@ -223,6 +255,11 @@ public class GameController {
     gameView.getExitButton().setOnAction(e -> showSaveGameConfirmationDialog());
   }
 
+  /**
+   * Retrieves the root region of the game view.
+   *
+   * @return the root region of the game view.
+   */
   public Region getRoot() {
     return gameView.getRoot();
   }
@@ -271,38 +308,45 @@ public class GameController {
     gameView.getRoot().getScene().setRoot(mainMenuRoot);
   }
 
+  /** Restarts the game by resetting the game state and the game view. */
   private void restartGame() {
-    edu.ntnu.idatt2001.paths.model.game.Game game =
-        new edu.ntnu.idatt2001.paths.model.game.Game(
-            initialPlayer, currentGame.getStory(), currentGame.getGoals());
+    Game game = new Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
     GameData gameData = new GameData(game, game.getStory().getOpeningPassage(), visitedPassages);
     Region gameRoot = new GameController(gameData).getRoot();
     gameView.getRoot().getScene().setRoot(gameRoot);
   }
 
+  /** Handles the event when the game is finished, displaying the game's end screen and goals. */
   private void onGameFinish() {
-    VBox vBox = new VBox();
-    vBox.getStyleClass().add("game-finish");
+    VBox results = new VBox();
+    results.getStyleClass().add("game-finish");
 
-    vBox.getChildren()
+    results.getChildren()
         .addAll(new Label("The end"), new Label("One of them, at least..."), createGoalsScreen());
 
     Button restartButton = new Button("Restart Game");
     restartButton.setOnAction(e -> restartGame());
-    vBox.getChildren().add(restartButton);
+    results.getChildren().add(restartButton);
 
-    gameView.getCenterInfo().getChildren().add(vBox);
+    gameView.getCenterInfo().getChildren().add(results);
     gameView.getCenterInfo().setAlignment(Pos.CENTER);
   }
 
+  /** Configures the restart game button to restart the game when clicked. */
   private void configureRestartGameButton() {
     gameView.getDeathRestartButton().setOnAction(e -> restartGame());
   }
 
+  /** Sets the scene to main menu. */
   private void configureDeathExitButton() {
     gameView.getDeathExitButton().setOnAction(e -> switchToMainMenu());
   }
 
+  /**
+   * Creates a GridPane containing the goals and their statuses in the game.
+   *
+   * @return a GridPane with the goal information.
+   */
   private Node createGoalsScreen() {
     GridPane gridPane = new GridPane();
     gridPane.setAlignment(Pos.CENTER);
@@ -336,11 +380,22 @@ public class GameController {
     return gridPane;
   }
 
+  /**
+   * Creates a label with the status of the given goal.
+   *
+   * @param goal the goal to create a label for.
+   * @return a label with the status of the given goal.
+   */
   private Label createGoalStatusLabel(Goal goal) {
     String statusText = goal.isFulfilled(currentGame.getPlayer()) ? "Completed" : "Not completed";
     return new Label(statusText);
   }
 
+  /**
+   * Updates the inventory section of the game view based on the player's inventory. If there is an
+   * image located in the inventory-icons folder with the same name as the item, that image will be
+   * used. Otherwise, the item name will be displayed as text.
+   */
   private void updateInventory() {
     gameView.getInventory().getChildren().clear();
     Label inventoryTitle = new Label("Inventory:");
@@ -354,7 +409,7 @@ public class GameController {
           itemContainer.setAlignment(Pos.CENTER);
 
           try {
-            Image icon = IconHandler.getInventoryIcon(item);
+            Image icon = getInventoryIcon(item);
 
             if (icon != null) {
               ImageView imageView = new ImageView(icon);
@@ -375,12 +430,18 @@ public class GameController {
           }
         });
   }
-
+  
+  /**
+   * Executes a list of actions based on the link clicked by the player.
+   *
+   * @param link The link object that represents the link in the game's story.
+   */
   private void executeActions(Link link) {
     List<Action> actions = link.getActions();
     actions.forEach(action -> action.execute(currentGame.getPlayer()));
   }
 
+  /** Updates the player's health and handles the event of the player's death. */
   private void updatePlayerHealth() {
     double health = currentGame.getPlayer().getHealth();
     gameView.getHealthBar().setProgress(health / 100);
@@ -388,10 +449,23 @@ public class GameController {
       onPlayerDeath();
     }
   }
-
+  
+  /**
+   * Handles the event when the player dies, displaying the death screen and playing the death
+   * sound.
+   */
   private void onPlayerDeath() {
     gameView.getCenterInfo().getChildren().add(gameView.createDeathScreen());
     soundHandler.playSound("death");
     gameView.getLinks().getChildren().clear();
+  }
+
+  /** Configures the gold icon in the game view. */
+  private void configureGoldIcon() {
+    try {
+      gameView.setGoldIcon(getIcon("gold"));
+    } catch (IOException e) {
+      Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage()).showAndWait();
+    }
   }
 }

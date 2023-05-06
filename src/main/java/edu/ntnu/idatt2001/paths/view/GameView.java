@@ -1,9 +1,8 @@
 package edu.ntnu.idatt2001.paths.view;
 
-import edu.ntnu.idatt2001.paths.model.media.IconHandler;
+import edu.ntnu.idatt2001.paths.controller.GameController;
+import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.story.Link;
-import edu.ntnu.idatt2001.paths.view.util.Widgets;
-import java.io.IOException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,23 +19,41 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * The GameView class is responsible for creating and maintaining the graphical user interface (GUI)
+ * elements of the game. It sets up the game layout and includes components for displaying the
+ * player's health, gold, score, inventory, and available actions. The interactions and
+ * configurations of these components are handled by the GameViewController class.
+ *
+ * @see GameController
+ * @see Game
+ */
 public class GameView {
 
-  private final StringProperty contentBar;
-  private final VBox links;
-  private final Label goldLabel;
-  private final Label scoreLabel;
-  private final VBox inventory;
-  private final ProgressBar healthBar;
-  private final BorderPane root;
-  private final Button exitButton;
-  private Label skipLabel;
-  private VBox centerInfo;
-  private ScrollPane contentbarScrollPane;
-  private Button deathExitButton;
-  private Button deathRestartButton;
+  @lombok.Getter private final VBox links;
+  @lombok.Getter private final Label goldLabel;
+  @lombok.Getter private final Label scoreLabel;
+  @lombok.Getter private final VBox inventory;
+  @lombok.Getter private final ProgressBar healthBar;
+  @lombok.Getter private final BorderPane root;
+  @lombok.Getter private final Button exitButton;
+  @lombok.Getter private final Label skipLabel;
+  @lombok.Getter private final VBox centerInfo;
+  @lombok.Getter private StringProperty contentBar;
+  @lombok.Getter private ScrollPane contentbarScrollPane;
+  @lombok.Getter private Button deathExitButton;
+  @lombok.Getter private Button deathRestartButton;
+  @lombok.Setter private Image goldIcon;
 
+  /**
+   * Creates a new GameView object.
+   *
+   * <p>The constructor initializes the instance variables and calls the createRoot() method to
+   * create the root node.
+   */
   public GameView() {
+    centerInfo = new VBox();
+    skipLabel = new Label("click to skip");
     links = new VBox();
     contentBar = new SimpleStringProperty();
     inventory = new VBox();
@@ -44,15 +61,9 @@ public class GameView {
     scoreLabel = new Label();
     deathExitButton = new Button("Exit");
     deathRestartButton = new Button("Restart");
-
     healthBar = new ProgressBar();
     exitButton = new Button("Exit");
-
     root = createRoot();
-  }
-
-  public BorderPane getRoot() {
-    return root;
   }
 
   /**
@@ -86,42 +97,6 @@ public class GameView {
     return top;
   }
 
-  public void setContentBar(String contentBar) {
-    this.contentBar.set(contentBar);
-  }
-
-  public StringProperty contentBarProperty() {
-    return contentBar;
-  }
-
-  public VBox getLinks() {
-    return links;
-  }
-
-  public Label getGoldLabel() {
-    return goldLabel;
-  }
-
-  public Label getScoreLabel() {
-    return scoreLabel;
-  }
-
-  public VBox getInventory() {
-    return inventory;
-  }
-
-  public ProgressBar getHealthBar() {
-    return healthBar;
-  }
-
-  public Label getSkipLabel() {
-    return skipLabel;
-  }
-
-  public VBox getCenterInfo() {
-    return centerInfo;
-  }
-
   /**
    * Creates the top center UI element containing the gold information.
    *
@@ -150,31 +125,15 @@ public class GameView {
    */
   private Node createGoldInfo() {
     HBox results = new HBox();
-    results.getChildren().add(createGoldIcon());
+    results.getChildren().add(createGoldIconContainer());
     goldLabel.getStyleClass().add("gold-label");
     results.getChildren().add(goldLabel);
     return results;
   }
 
-  private Node createGoldIcon() {
+  private Node createGoldIconContainer() {
     HBox imageContainer = new HBox();
-    Image goldIcon = null;
-
-    try {
-      goldIcon = IconHandler.getIcon("gold-coin");
-    } catch (IOException e) {
-      Widgets.createAlert("Error", "Error loading gold icon", e.getMessage()).showAndWait();
-    }
-
-    if (goldIcon != null) {
-      ImageView imageView = new ImageView(goldIcon);
-      imageView.setFitHeight(20);
-      imageView.setFitWidth(20);
-      imageContainer.getChildren().add(imageView);
-      return imageContainer;
-    }
-
-    imageContainer.getChildren().add(new Label("Gold: "));
+    imageContainer.getChildren().add(new ImageView(goldIcon));
     return imageContainer;
   }
 
@@ -202,9 +161,7 @@ public class GameView {
     bottom.getChildren().add(contentBarText);
     StackPane.setAlignment(contentBarText, Pos.BOTTOM_CENTER);
 
-    skipLabel = new Label("(click to skip)");
     skipLabel.getStyleClass().add("skip-label");
-    skipLabel.setVisible(false);
 
     bottom.getChildren().add(skipLabel);
     StackPane.setAlignment(skipLabel, Pos.BOTTOM_RIGHT);
@@ -219,12 +176,7 @@ public class GameView {
    * @return a Node representing the center of the game UI.
    */
   private Node createCenter() {
-    centerInfo = new VBox();
     return centerInfo;
-  }
-
-  public ScrollPane getContentbarScrollPane() {
-    return contentbarScrollPane;
   }
 
   /**
@@ -247,16 +199,22 @@ public class GameView {
     return contentbarScrollPane;
   }
 
+  /**
+   * Creates the health bar.
+   *
+   * @return a ProgressBar representing the health bar.
+   */
   private ProgressBar createHealthBar() {
     healthBar.setMaxWidth(Double.MAX_VALUE);
     healthBar.getStyleClass().add("health-bar");
     return healthBar;
   }
 
-  public Button getDeathExitButton() {
-    return deathExitButton;
-  }
-
+  /**
+   * Creates the death screen.
+   *
+   * @return a Node representing the death screen
+   */
   public Node createDeathScreen() {
     centerInfo.getStyleClass().add("death-screen");
     centerInfo.getChildren().add(new Label("YOU ARE DEAD"));
@@ -268,10 +226,6 @@ public class GameView {
     deathButtons.getChildren().addAll(deathExitButton, deathRestartButton);
     deathButtons.getStyleClass().add("death-screen");
     return deathButtons;
-  }
-
-  public Button getDeathRestartButton() {
-    return deathRestartButton;
   }
 
   private Node createInventory() {
@@ -296,7 +250,6 @@ public class GameView {
     AnchorPane.setLeftAnchor(links, 0.0);
     AnchorPane.setRightAnchor(links, 0.0);
     anchorPane.getChildren().add(links);
-
     return anchorPane;
   }
 
@@ -308,13 +261,8 @@ public class GameView {
    */
   public Button createLinkButton(Link link) {
     Button button = new Button(link.getText());
-    button.setFocusTraversable(true);
     button.getStyleClass().add("link-button");
     return button;
-  }
-
-  public Button getExitButton() {
-    return exitButton;
   }
 
   /**
