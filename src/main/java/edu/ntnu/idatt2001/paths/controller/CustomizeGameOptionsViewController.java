@@ -7,12 +7,12 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
-public class CustomizeGameOptionsController {
+public class CustomizeGameOptionsViewController {
 
   private final CustomizeGameOptionsView customizeGameOptionsView;
   private boolean isModified;
 
-  public CustomizeGameOptionsController() {
+  public CustomizeGameOptionsViewController() {
     customizeGameOptionsView = new CustomizeGameOptionsView();
     isModified = false;
   }

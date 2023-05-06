@@ -20,12 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.apache.commons.io.FilenameUtils;
 
-public class StoriesController {
+public class StoriesViewController {
 
   private final StoriesView storiesView;
   private Story loadedStory;
 
-  public StoriesController() {
+  public StoriesViewController() {
     storiesView = new StoriesView();
     configureBackButton();
     configureStorySelect();
@@ -298,7 +298,7 @@ public class StoriesController {
         .getGoBackButton()
         .setOnAction(
             event -> {
-              Region mainMenuRoot = new MainMenuController().getRoot();
+              Region mainMenuRoot = new MainMenuViewController().getRoot();
               storiesView.getGoBackButton().getScene().setRoot(mainMenuRoot);
             });
   }

@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
-import edu.ntnu.idatt2001.paths.controller.GameController;
+import edu.ntnu.idatt2001.paths.controller.GameViewController;
 import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import javafx.beans.binding.Bindings;
@@ -25,7 +25,7 @@ import javafx.scene.text.TextFlow;
  * player's health, gold, score, inventory, and available actions. The interactions and
  * configurations of these components are handled by the GameViewController class.
  *
- * @see GameController
+ * @see GameViewController
  * @see Game
  */
 public class GameView {

@@ -6,10 +6,10 @@ import edu.ntnu.idatt2001.paths.view.util.Widgets;
 import javafx.application.Platform;
 import javafx.scene.layout.Region;
 
-public class MainMenuController {
+public class MainMenuViewController {
   private final MainMenuView mainMenuView;
 
-  public MainMenuController() {
+  public MainMenuViewController() {
     mainMenuView = new MainMenuView();
     configureNewGameButton();
     configureLoadGameButton();
@@ -27,8 +27,8 @@ public class MainMenuController {
         .getNewGameButton()
         .setOnAction(
             event -> {
-              NewGameController newGameController = new NewGameController();
-              Region newGameRoot = newGameController.getRoot();
+              NewGameViewController newGameViewController = new NewGameViewController();
+              Region newGameRoot = newGameViewController.getRoot();
               mainMenuView.getNewGameButton().getScene().setRoot(newGameRoot);
             });
   }
@@ -38,7 +38,7 @@ public class MainMenuController {
         .getLoadGameButton()
         .setOnAction(
             event -> {
-              Region newGameRoot = new LoadGameController().getRoot();
+              Region newGameRoot = new LoadGameViewController().getRoot();
               mainMenuView.getLoadGameButton().getScene().setRoot(newGameRoot);
             });
   }
@@ -49,7 +49,7 @@ public class MainMenuController {
         .setOnAction(
             event -> {
               try {
-                Region newGameRoot = new StoriesController().getRoot();
+                Region newGameRoot = new StoriesViewController().getRoot();
                 mainMenuView.getStoriesButton().getScene().setRoot(newGameRoot);
               } catch (NullPointerException e) {
                 e.printStackTrace();

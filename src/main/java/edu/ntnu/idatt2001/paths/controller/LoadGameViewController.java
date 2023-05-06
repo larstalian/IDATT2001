@@ -11,11 +11,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 import org.apache.commons.io.FilenameUtils;
 
-public class LoadGameController {
+public class LoadGameViewController {
 
   private final LoadGameView loadGameView;
 
-  public LoadGameController() {
+  public LoadGameViewController() {
     loadGameView = new LoadGameView();
     configureLoadButton();
     configureGoBackButton();
@@ -45,7 +45,7 @@ public class LoadGameController {
                       gameFileHandler.loadGameFromFile(
                           FilenameUtils.removeExtension(loadGameView.getSaveSelect().getValue()));
 
-                  Region gameRoot = new GameController(gameData).getRoot();
+                  Region gameRoot = new GameViewController(gameData).getRoot();
                   loadGameView.getLoadButton().getScene().setRoot(gameRoot);
 
                 } catch (IOException e) {
@@ -61,7 +61,7 @@ public class LoadGameController {
         .getGoBackButton()
         .setOnAction(
             event -> {
-              Region newGameRoot = new MainMenuController().getRoot();
+              Region newGameRoot = new MainMenuViewController().getRoot();
               loadGameView.getLoadButton().getScene().setRoot(newGameRoot);
             });
   }

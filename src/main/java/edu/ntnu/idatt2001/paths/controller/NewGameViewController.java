@@ -15,14 +15,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 
-public class NewGameController {
+public class NewGameViewController {
 
   private final NewGameView newGameView;
-  private final CustomizeGameOptionsController customizeGameOptionsController;
+  private final CustomizeGameOptionsViewController customizeGameOptionsViewController;
 
-  public NewGameController() {
+  public NewGameViewController() {
     newGameView = new NewGameView();
-    customizeGameOptionsController = new CustomizeGameOptionsController();
+    customizeGameOptionsViewController = new CustomizeGameOptionsViewController();
     configureGoBackButton();
     configureNewGameButton();
     configureStorySelect();
@@ -52,7 +52,7 @@ public class NewGameController {
   private void configureCustomizeGameOptionsButton() {
     newGameView
         .getCustomizeGameOptionsButton()
-        .setOnAction(event -> customizeGameOptionsController.show());
+        .setOnAction(event -> customizeGameOptionsViewController.show());
   }
 
   private void configureGoBackButton() {
@@ -60,7 +60,7 @@ public class NewGameController {
         .getGoBackButton()
         .setOnAction(
             event -> {
-              Region mainMenuRoot = new MainMenuController().getRoot();
+              Region mainMenuRoot = new MainMenuViewController().getRoot();
               newGameView.getGoBackButton().getScene().setRoot(mainMenuRoot);
             });
   }
@@ -89,16 +89,16 @@ public class NewGameController {
     List<Goal> goals;
 
     if (loadedStory != null) {
-      if (customizeGameOptionsController.isModified()) {
+      if (customizeGameOptionsViewController.isModified()) {
         player =
             new Player.Builder(name)
-                .health(customizeGameOptionsController.getStartingHealth())
-                .gold(customizeGameOptionsController.getStartingGold())
-                .score(customizeGameOptionsController.getStartingScore())
-                .inventory(customizeGameOptionsController.getStartingInventory())
+                .health(customizeGameOptionsViewController.getStartingHealth())
+                .gold(customizeGameOptionsViewController.getStartingGold())
+                .score(customizeGameOptionsViewController.getStartingScore())
+                .inventory(customizeGameOptionsViewController.getStartingInventory())
                 .build();
 
-        goals = customizeGameOptionsController.getGoals();
+        goals = customizeGameOptionsViewController.getGoals();
       } else {
         player = new Player.Builder(name).health(100).build();
         goals = new ArrayList<>(List.of(new ScoreGoal(0)));
@@ -107,7 +107,7 @@ public class NewGameController {
       Game currentGame = new Game(player, loadedStory, goals);
       GameData gameData = new GameData(currentGame, currentGame.getStory().getOpeningPassage());
 
-      Region gameRoot = new GameController(gameData).getRoot();
+      Region gameRoot = new GameViewController(gameData).getRoot();
       newGameView.getStartNewGameButton().getScene().setRoot(gameRoot);
     }
   }

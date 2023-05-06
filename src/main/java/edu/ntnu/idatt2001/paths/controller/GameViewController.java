@@ -46,7 +46,7 @@ import javafx.util.Duration;
  * @see GameView
  * @see Game
  */
-public class GameController {
+public class GameViewController {
 
   private static Passage currentPassage;
   private final SoundHandler soundHandler;
@@ -63,7 +63,7 @@ public class GameController {
    *
    * @param gameData The game data containing the game model, current passage, and visited passages.
    */
-  public GameController(GameData gameData) {
+  public GameViewController(GameData gameData) {
     currentGame = gameData.getGame();
     currentPassage = gameData.getPassage();
     gameView = new GameView();
@@ -302,8 +302,8 @@ public class GameController {
 
   /** Sets the scene to main menu. */
   private void switchToMainMenu() {
-    MainMenuController mainMenuController = new MainMenuController();
-    Region mainMenuRoot = mainMenuController.getRoot();
+    MainMenuViewController mainMenuViewController = new MainMenuViewController();
+    Region mainMenuRoot = mainMenuViewController.getRoot();
     SoundHandler.getInstance().playMenuMusic();
     gameView.getRoot().getScene().setRoot(mainMenuRoot);
   }
@@ -312,7 +312,7 @@ public class GameController {
   private void restartGame() {
     Game game = new Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
     GameData gameData = new GameData(game, game.getStory().getOpeningPassage(), visitedPassages);
-    Region gameRoot = new GameController(gameData).getRoot();
+    Region gameRoot = new GameViewController(gameData).getRoot();
     gameView.getRoot().getScene().setRoot(gameRoot);
   }
 
