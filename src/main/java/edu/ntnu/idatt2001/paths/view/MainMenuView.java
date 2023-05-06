@@ -8,11 +8,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MainMenuView {
-  private final Button newGameButton = new Button("New Game");
-  private final Button loadGameButton = new Button("Load Game");
-  private final Button storiesButton = new Button("Stories");
-  private final Button exitButton = new Button("Exit");
-  private final BorderPane root;
+  @lombok.Getter private final Button newGameButton = new Button("New Game");
+  @lombok.Getter private final Button loadGameButton = new Button("Load Game");
+  @lombok.Getter private final Button storiesButton = new Button("Stories");
+  @lombok.Getter private final Button exitButton = new Button("Exit");
+  @lombok.Getter private final BorderPane root;
 
   public MainMenuView() {
     root = new BorderPane();
@@ -43,25 +43,5 @@ public class MainMenuView {
     results.getChildren().add(exitButton);
     results.getStyleClass().add("button-vbox");
     return results;
-  }
-
-  public BorderPane getRoot() {
-    return root;
-  }
-
-  public Button getNewGameButton() {
-    return newGameButton;
-  }
-
-  public Button getLoadGameButton() {
-    return loadGameButton;
-  }
-
-  public Button getStoriesButton() {
-    return storiesButton;
-  }
-
-  public Button getExitButton() {
-    return exitButton;
   }
 }

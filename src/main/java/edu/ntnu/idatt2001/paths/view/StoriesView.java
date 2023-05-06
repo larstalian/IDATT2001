@@ -7,20 +7,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class StoriesView {
-  private final Button goBackButton;
-  private final Button getBrokenLinksButton;
-  private final ChoiceBox<String> storySelect;
-  private final BorderPane root;
-  private final Button convertToJsonButton;
-  private final Button convertToPathsButton;
-  private final Label validStoryLabel;
-  private final Label storyFileInfoLabel;
-  private final Label numberOfPassagesLabel;
-  private final Label brokenLinksLabel;
-  private final Label customImagesLabel;
-  private final Label customSoundsLabel;
-  private final Label brokenFilesLabel;
-  private final Label convertInfoLabel;
+
+  @lombok.Getter private final Button goBackButton;
+  @lombok.Getter private final Button getBrokenLinksButton;
+  @lombok.Getter private final ChoiceBox<String> storySelect;
+  @lombok.Getter private final BorderPane root;
+  @lombok.Getter private final Button convertToJsonButton;
+  @lombok.Getter private final Button convertToPathsButton;
+  @lombok.Getter private final Label validStoryLabel;
+  @lombok.Getter private final Label storyFileInfoLabel;
+  @lombok.Getter private final Label numberOfPassagesLabel;
+  @lombok.Getter private final Label brokenLinksLabel;
+  @lombok.Getter private final Label customImagesLabel;
+  @lombok.Getter private final Label customSoundsLabel;
+  @lombok.Getter private final Label brokenFilesLabel;
+  @lombok.Getter private final Label convertInfoLabel;
 
   public StoriesView() {
     goBackButton = new Button("Back");
@@ -43,14 +44,6 @@ public class StoriesView {
     root.getStyleClass().add("main-menu");
     root.setTop(createTop());
     root.setCenter(createCenter());
-  }
-
-  public Label getConvertInfoLabel() {
-    return convertInfoLabel;
-  }
-
-  public BorderPane getRoot() {
-    return root;
   }
 
   private Node createTop() {
@@ -98,54 +91,6 @@ public class StoriesView {
     results.getChildren().add(brokenFilesLabel);
 
     return results;
-  }
-
-  public Button getGoBackButton() {
-    return goBackButton;
-  }
-
-  public Button getGetBrokenLinksButton() {
-    return getBrokenLinksButton;
-  }
-
-  public ChoiceBox<String> getStorySelect() {
-    return storySelect;
-  }
-
-  public Button getConvertToJsonButton() {
-    return convertToJsonButton;
-  }
-
-  public Button getConvertToPathsButton() {
-    return convertToPathsButton;
-  }
-
-  public Label getValidStoryLabel() {
-    return validStoryLabel;
-  }
-
-  public Label getStoryFileInfoLabel() {
-    return storyFileInfoLabel;
-  }
-
-  public Label getNumberOfPassagesLabel() {
-    return numberOfPassagesLabel;
-  }
-
-  public Label getBrokenLinksLabel() {
-    return brokenLinksLabel;
-  }
-
-  public Label getCustomImagesLabel() {
-    return customImagesLabel;
-  }
-
-  public Label getCustomSoundsLabel() {
-    return customSoundsLabel;
-  }
-
-  public Label getBrokenFilesLabel() {
-    return brokenFilesLabel;
   }
 
   private Node createNumberOfBrokenLinksInfo() {

@@ -7,14 +7,14 @@ import javafx.scene.layout.HBox;
 
 public class CustomizeGameOptionsView {
 
-  private final TextField healthGoal;
-  private final TextField scoreGoal;
-  private final TextField goldGoal;
-  private final TextField inventoryGoal;
-  private final TextField startingHealth;
-  private final TextField startingScore;
-  private final TextField startingGold;
-  private final TextField startingInventory;
+  @lombok.Getter private final TextField healthGoal;
+  @lombok.Getter private final TextField scoreGoal;
+  @lombok.Getter private final TextField goldGoal;
+  @lombok.Getter private final TextField inventoryGoal;
+  @lombok.Getter private final TextField startingHealth;
+  @lombok.Getter private final TextField startingScore;
+  @lombok.Getter private final TextField startingGold;
+  @lombok.Getter private final TextField startingInventory;
 
   public CustomizeGameOptionsView() {
     healthGoal = new TextField();
@@ -25,38 +25,6 @@ public class CustomizeGameOptionsView {
     startingScore = new TextField();
     startingGold = new TextField();
     startingInventory = new TextField();
-  }
-
-  public TextField getHealthGoal() {
-    return healthGoal;
-  }
-
-  public TextField getScoreGoal() {
-    return scoreGoal;
-  }
-
-  public TextField getGoldGoal() {
-    return goldGoal;
-  }
-
-  public TextField getInventoryGoal() {
-    return inventoryGoal;
-  }
-
-  public TextField getStartingHealth() {
-    return startingHealth;
-  }
-
-  public TextField getStartingScore() {
-    return startingScore;
-  }
-
-  public TextField getStartingGold() {
-    return startingGold;
-  }
-
-  public TextField getStartingInventory() {
-    return startingInventory;
   }
 
   public Dialog<Void> createDialog() {

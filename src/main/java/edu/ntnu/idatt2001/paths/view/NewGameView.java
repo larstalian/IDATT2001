@@ -7,12 +7,12 @@ import javafx.scene.text.Text;
 
 public class NewGameView {
 
-  private final BorderPane mainLayout;
-  private final Button startNewGameButton;
-  private final ComboBox<String> storySelect;
-  private final Button goBackButton;
-  private final TextField playerName;
-  private final Button customizeGameOptionsButton;
+  @lombok.Getter private final BorderPane mainLayout;
+  @lombok.Getter private final Button startNewGameButton;
+  @lombok.Getter private final ComboBox<String> storySelect;
+  @lombok.Getter private final Button goBackButton;
+  @lombok.Getter private final TextField playerName;
+  @lombok.Getter private final Button customizeGameOptionsButton;
 
   public NewGameView() {
     startNewGameButton = new Button("Start New Game");
@@ -24,30 +24,6 @@ public class NewGameView {
     mainLayout = new BorderPane();
     mainLayout.getStyleClass().add("main-menu");
     mainLayout.setCenter(createCenter());
-  }
-
-  public Region getRoot() {
-    return mainLayout;
-  }
-
-  public Button getStartNewGameButton() {
-    return startNewGameButton;
-  }
-
-  public ComboBox<String> getStorySelect() {
-    return storySelect;
-  }
-
-  public Button getGoBackButton() {
-    return goBackButton;
-  }
-
-  public TextField getPlayerName() {
-    return playerName;
-  }
-
-  public Button getCustomizeGameOptionsButton() {
-    return customizeGameOptionsButton;
   }
 
   private Node createCenter() {
