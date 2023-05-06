@@ -17,10 +17,10 @@ public class LoadGameView {
     saveSelect = new ComboBox<>();
     loadButton = new Button("Load Game");
     goBackButton = new Button("Go Back");
-    root = build();
+    root = createRoot();
   }
 
-  private BorderPane build() {
+  private BorderPane createRoot() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("main-menu");
     results.setCenter(createCenter());

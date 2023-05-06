@@ -8,17 +8,26 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MainMenuView {
-  @lombok.Getter private final Button newGameButton = new Button("New Game");
-  @lombok.Getter private final Button loadGameButton = new Button("Load Game");
-  @lombok.Getter private final Button storiesButton = new Button("Stories");
-  @lombok.Getter private final Button exitButton = new Button("Exit");
+  @lombok.Getter private final Button newGameButton;
+  @lombok.Getter private final Button loadGameButton;
+  @lombok.Getter private final Button storiesButton;
+  @lombok.Getter private final Button exitButton;
   @lombok.Getter private final BorderPane root;
 
   public MainMenuView() {
-    root = new BorderPane();
+    newGameButton = new Button("New Game");
+    loadGameButton = new Button("Load Game");
+    storiesButton = new Button("Stories");
+    exitButton = new Button("Exit");
+    root = createRoot();
+  }
+
+  private BorderPane createRoot() {
+    BorderPane root = new BorderPane();
     root.setTop(createTop());
     root.setCenter(createCenter());
     root.getStyleClass().add("main-menu");
+    return root;
   }
 
   private Node createTop() {
@@ -31,11 +40,11 @@ public class MainMenuView {
 
   private Node createCenter() {
     StackPane results = new StackPane();
-    results.getChildren().add(createButtonVBox());
+    results.getChildren().add(createButtonVbox());
     return results;
   }
 
-  private Node createButtonVBox() {
+  private Node createButtonVbox() {
     VBox results = new VBox();
     results.getChildren().add(newGameButton);
     results.getChildren().add(loadGameButton);

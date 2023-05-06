@@ -37,13 +37,16 @@ public class StoriesView {
     customImagesLabel = new Label();
     customSoundsLabel = new Label();
     brokenFilesLabel = new Label();
-
     convertInfoLabel = new Label();
+    root = createRoot();
+  }
 
-    root = new BorderPane();
+  private BorderPane createRoot() {
+   BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
     root.setTop(createTop());
     root.setCenter(createCenter());
+    return root;
   }
 
   private Node createTop() {
