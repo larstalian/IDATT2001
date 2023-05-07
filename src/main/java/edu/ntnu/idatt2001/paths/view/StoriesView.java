@@ -5,23 +5,25 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 public class StoriesView {
 
-  @lombok.Getter private final Button goBackButton;
-  @lombok.Getter private final Button getBrokenLinksButton;
-  @lombok.Getter private final ChoiceBox<String> storySelect;
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button convertToJsonButton;
-  @lombok.Getter private final Button convertToPathsButton;
-  @lombok.Getter private final Label validStoryLabel;
-  @lombok.Getter private final Label storyFileInfoLabel;
-  @lombok.Getter private final Label numberOfPassagesLabel;
-  @lombok.Getter private final Label brokenLinksLabel;
-  @lombok.Getter private final Label customImagesLabel;
-  @lombok.Getter private final Label customSoundsLabel;
-  @lombok.Getter private final Label brokenFilesLabel;
-  @lombok.Getter private final Label convertInfoLabel;
+  @Getter private final Button goBackButton;
+  @Getter private final Button getBrokenLinksButton;
+  @Getter private final ChoiceBox<String> storySelect;
+  @Getter private final BorderPane root;
+  @Getter private final Button convertToJsonButton;
+  @Getter private final Button convertToPathsButton;
+  @Getter private final Label validStoryLabel;
+  @Getter private final Label storyFileInfoLabel;
+  @Getter private final Label numberOfPassagesLabel;
+  @Getter private final Label brokenLinksLabel;
+  @Getter private final Label customImagesLabel;
+  @Getter private final Label customSoundsLabel;
+  @Getter private final Label brokenFilesLabel;
+  @Getter private final Label convertInfoLabel;
+  @Getter private final Button editStoryButton;
 
   public StoriesView() {
     goBackButton = new Button("Back");
@@ -29,7 +31,7 @@ public class StoriesView {
     convertToJsonButton = new Button("Convert to Json");
     convertToPathsButton = new Button("Convert to Paths");
     getBrokenLinksButton = new Button("See broken links");
-    getBrokenLinksButton.setDisable(true);
+    editStoryButton = new Button("Edit Story");
     brokenLinksLabel = new Label();
     storyFileInfoLabel = new Label();
     numberOfPassagesLabel = new Label();
@@ -42,7 +44,7 @@ public class StoriesView {
   }
 
   private BorderPane createRoot() {
-   BorderPane root = new BorderPane();
+    BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
     root.setTop(createTop());
     root.setCenter(createCenter());
@@ -79,10 +81,18 @@ public class StoriesView {
   private Node createCenter() {
     VBox centerInfo = new VBox();
     centerInfo.getStyleClass().add("story-info-vbox");
-    centerInfo.getChildren().add(goBackButton);
     centerInfo.getChildren().add(createStoryInfo());
     centerInfo.getChildren().add(createConvertStoryInfo());
+    centerInfo.getChildren().add(createEditStoryButton());
+    centerInfo.getChildren().add(goBackButton);
     return centerInfo;
+  }
+
+  private Node createEditStoryButton() {
+    VBox results = new VBox();
+    results.getStyleClass().add("story-info-label");
+    results.getChildren().add(editStoryButton);
+    return results;
   }
 
   private Node createMediaFilesInfo() {

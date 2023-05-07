@@ -31,6 +31,22 @@ public class StoriesViewController {
     configureStorySelect();
     configureConvertToJsonButton();
     configureConvertToPathsButton();
+    configureEditStoryButton();
+  }
+
+  private void configureEditStoryButton() {
+    storiesView.getEditStoryButton().setDisable(true);
+    storiesView
+        .getEditStoryButton()
+        .setOnAction(
+            event -> {
+              if (loadedStory != null) {
+                storiesView
+                    .getEditStoryButton()
+                    .getScene()
+                    .setRoot(new CreateStoryViewController(loadedStory).getRoot());
+              }
+            });
   }
 
   public Region getRoot() {
@@ -88,9 +104,7 @@ public class StoriesViewController {
   }
 
   private void updateBrokenLinks() {
-    storiesView
-        .getBrokenLinksLabel()
-        .setText(String.valueOf(loadedStory.getBrokenLinks().size()));
+    storiesView.getBrokenLinksLabel().setText(String.valueOf(loadedStory.getBrokenLinks().size()));
     if (loadedStory.getBrokenLinks().size() > 0) {
       storiesView.getGetBrokenLinksButton().setDisable(false);
       storiesView
@@ -131,8 +145,10 @@ public class StoriesViewController {
       if (storiesView.getStorySelect().getValue().endsWith(".json")) {
         StoryFileHandler storyFileHandler = new StoryFileHandler();
         storyFileHandler.loadStoryFromFile(storiesView.getStorySelect().getValue());
+        storiesView.getEditStoryButton().setDisable(false);
       } else if (storiesView.getStorySelect().getValue().endsWith(".paths")) {
         StoryFileReader.readStoryFromFile(storiesView.getStorySelect().getValue());
+        storiesView.getEditStoryButton().setDisable(true);
       }
       storiesView.getValidStoryLabel().setText("Yes");
     } catch (Exception e) {

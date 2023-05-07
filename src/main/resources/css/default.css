@@ -309,3 +309,75 @@
     -fx-text-fill: white;
     -fx-padding: 1px;
 }
+
+/* Top buttons HBox */
+.top-buttons > Button {
+    spacing: 10px;
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Right panel */
+.right-panel {
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Passage choices HBox */
+.passage-choices {
+    spacing: 10px;
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Center panel */
+.center-panel {
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Passage info HBox */
+.passage-info-hbox {
+    spacing: 10px;
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Actions buttons HBox */
+.actions-buttons {
+    spacing: 10px;
+    padding: 10px;
+    background-color: #3c3f41;
+}
+
+/* Passage container */
+.passage-container {
+    -fx-background-color: #d3d3d3;
+    -fx-border-color: #000000;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #005eb8;
+}
+
+/* Text areas */
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #000000;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* List views */
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #000000;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.list-view .list-cell {
+    -fx-padding: 5px;
+}

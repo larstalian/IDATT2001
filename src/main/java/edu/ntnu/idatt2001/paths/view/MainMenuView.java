@@ -13,12 +13,14 @@ public class MainMenuView {
   @lombok.Getter private final Button storiesButton;
   @lombok.Getter private final Button exitButton;
   @lombok.Getter private final BorderPane root;
+  @lombok.Getter private final Button createStoryButton;
 
   public MainMenuView() {
     newGameButton = new Button("New Game");
     loadGameButton = new Button("Load Game");
     storiesButton = new Button("Stories");
     exitButton = new Button("Exit");
+    createStoryButton = new Button("Create Your Own Story");
     root = createRoot();
   }
 
@@ -49,6 +51,7 @@ public class MainMenuView {
     results.getChildren().add(newGameButton);
     results.getChildren().add(loadGameButton);
     results.getChildren().add(storiesButton);
+    results.getChildren().add(createStoryButton);
     results.getChildren().add(exitButton);
     results.getStyleClass().add("button-vbox");
     return results;
