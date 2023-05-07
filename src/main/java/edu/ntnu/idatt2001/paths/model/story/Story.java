@@ -110,18 +110,17 @@ public class Story {
 
   /**
    * Removes the passage associated with the specified link from this game's passages map.
+   * A passage is removed only if it is not referenced by any other passage.
    *
    * @param link the link whose associated passage is to be removed from the map
    * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
-   * @throws NoSuchElementException if the passage does not exist
    */
   public boolean removePassage(Link link) {
-    Objects.requireNonNull(link, "Link cannot be null");
-    if (!passages.containsKey(link)) {
-      throw new NoSuchElementException("Passage does not exist");
-    }
-
-    return passages.entrySet().removeIf(entry -> entry.getKey().equals(link));
+    Objects.requireNonNull(passages.get(link), "Passage does not exist");
+    return passages
+            .entrySet()
+            .removeIf(
+                    entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
   }
 
   /**
