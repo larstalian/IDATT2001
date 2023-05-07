@@ -14,6 +14,7 @@ public class MainMenuViewController {
     configureNewGameButton();
     configureLoadGameButton();
     configureStoriesButton();
+    configureCreateStoryButton();
     configureExitButton();
     SoundHandler.getInstance().playMenuMusic();
   }
@@ -60,6 +61,17 @@ public class MainMenuViewController {
                     .showAndWait();
               }
             });
+  }
+
+  private void configureCreateStoryButton() {
+    mainMenuView
+        .getCreateStoryButton()
+        .setOnAction(
+            event ->
+                mainMenuView
+                    .getCreateStoryButton()
+                    .getScene()
+                    .setRoot(new NewStoryViewController().getRoot()));
   }
 
   private void configureExitButton() {
