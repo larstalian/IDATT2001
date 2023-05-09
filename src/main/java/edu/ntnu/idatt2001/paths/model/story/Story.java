@@ -117,11 +117,13 @@ public class Story {
    */
   public boolean removePassage(Link link) {
     Objects.requireNonNull(passages.get(link), "Passage does not exist");
-    return passages
-            .entrySet()
-            .removeIf(
-                    entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
+
+    if (passages.values().stream().noneMatch(passage -> passage.getLinks().contains(link))) {
+      return passages.remove(link) != null;
+    }
+    return false;
   }
+
 
   /**
    * Returns a string representation of the story, including its title, opening passage, and all
