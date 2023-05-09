@@ -23,8 +23,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class CreateStoryViewController {
-
   private final ObservableList<Passage> passages;
+
   private final CreateStoryView createStoryView;
   private final Story story;
   private Passage selectedPassage;
@@ -35,6 +35,7 @@ public class CreateStoryViewController {
     story = chosenStory;
     createStoryView = new CreateStoryView();
     passages = FXCollections.observableArrayList(story.getPassages());
+    passages.add(0, story.getOpeningPassage());
     configureAddPassageButton();
     configureDeletePassageButton();
     addPassagesListener();
@@ -381,7 +382,11 @@ public class CreateStoryViewController {
     createStoryView.getLinksView().getItems().clear();
     updateActionsListView();
     selectedPassage = passage;
+    
     for (Link link : passage.getLinks()) {
+      if (link.getRef().equals(story.getOpeningPassage().getTitle())) {
+        createStoryView.getLinksView().getItems().add(story.getOpeningPassage());
+      }
       createStoryView.getLinksView().getItems().addAll(story.getPassage(link));
     }
     createStoryView.getPassageInfo().setText(passage.getContent());
@@ -453,7 +458,7 @@ public class CreateStoryViewController {
                       setText(null);
                     } else {
                       setText(item.getTitle());
-                      setPadding(new Insets(10, 0, 10, 0)); // Set the top and bottom padding to 10
+                      setPadding(new Insets(10, 0, 10, 0));
                     }
                   }
                 });
