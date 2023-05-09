@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.factories.ActionFactory;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.StoryFileHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.Mood;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
 import edu.ntnu.idatt2001.paths.view.CreateStoryView;
@@ -17,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -246,8 +248,16 @@ public class CreateStoryViewController {
     TextArea textArea = new TextArea();
     textArea.setPromptText("Enter text");
 
+    ComboBox<Mood> moodChoiceBox = new ComboBox<>();
+    moodChoiceBox.getItems().addAll(Mood.values());
+    moodChoiceBox.setPromptText("Select mood");
+
+    Label singleVisitLabel = new Label("Support a single visit only?");
+    CheckBox isSingleVisit = new CheckBox();
+    HBox singleVisitHbox = new HBox(singleVisitLabel, isSingleVisit);
+
     VBox vBox = new VBox();
-    vBox.getChildren().addAll(titleField, textArea);
+    vBox.getChildren().addAll(titleField, textArea, moodChoiceBox, singleVisitHbox);
 
     dialog.getDialogPane().setContent(vBox);
 
@@ -255,7 +265,12 @@ public class CreateStoryViewController {
         dialogButton -> {
           if (dialogButton == ButtonType.OK) {
             try {
-              Passage passage = new Passage(titleField.getText(), textArea.getText());
+              Passage passage =
+                  new Passage(
+                      titleField.getText(),
+                      textArea.getText(),
+                      moodChoiceBox.getValue(),
+                      isSingleVisit.isSelected());
               passages.add(passage);
               story.addPassage(passage);
             } catch (IllegalArgumentException e) {
