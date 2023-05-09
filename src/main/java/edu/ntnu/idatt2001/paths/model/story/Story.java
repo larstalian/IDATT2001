@@ -109,8 +109,8 @@ public class Story {
   }
 
   /**
-   * Removes the passage associated with the specified link from this game's passages map.
-   * A passage is removed only if it is not referenced by any other passage.
+   * Removes the passage associated with the specified link from this game's passages map. A passage
+   * is removed only if it is not referenced by any other passage.
    *
    * @param link the link whose associated passage is to be removed from the map
    * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
@@ -123,7 +123,6 @@ public class Story {
     }
     return false;
   }
-
 
   /**
    * Returns a string representation of the story, including its title, opening passage, and all
@@ -175,6 +174,7 @@ public class Story {
    */
   public void removeAllLinksToPassage(String passageTitle) {
     Objects.requireNonNull(passageTitle, "Passage title cannot be null");
+    openingPassage.getLinks().removeIf(link -> link.getRef().equals(passageTitle));
     passages
         .values()
         .forEach(

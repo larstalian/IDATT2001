@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 
 public class CreateStoryViewController {
   private final ObservableList<Passage> passages;
-
   private final CreateStoryView createStoryView;
   private final Story story;
   private Passage selectedPassage;
@@ -183,7 +182,7 @@ public class CreateStoryViewController {
             buttonType -> {
               if (buttonType == ButtonType.YES) {
                 story.removeAllLinksToPassage(selectedPassage.getTitle());
-                
+
                 if (selectedPassage == story.getOpeningPassage()) {
                   Widgets.createAlert("Error", "Cannot delete opening passage", "").showAndWait();
                   return;
@@ -192,7 +191,8 @@ public class CreateStoryViewController {
                 passages.remove(selectedPassage);
                 selectedLink = null;
                 selectedPassage = null;
-                updateLinksViewAndPassageInfo(new Passage("DRAG PASSAGE HERE", "No passage selected"));
+                updateLinksViewAndPassageInfo(
+                    new Passage("DRAG PASSAGE HERE", "No passage selected"));
               }
             });
   }
@@ -430,7 +430,6 @@ public class CreateStoryViewController {
               updateLinkText("");
               updateActionsListView();
               updatePassageContainerText();
-              System.out.println(passage.getLinks());
               success = true;
             }
           }
