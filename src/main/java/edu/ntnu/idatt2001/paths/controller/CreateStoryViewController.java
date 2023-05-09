@@ -44,6 +44,62 @@ public class CreateStoryViewController {
     configureDeleteActionButton();
     configureSaveStoryButton();
     configureExitButton();
+    configureEditPassageButton();
+  }
+
+  private void configureEditPassageButton() {
+    Button editPassageButton = createStoryView.getEditPassageButton();
+    editPassageButton.setOnAction(
+        event -> {
+          if (selectedPassage != null) {
+            showEditPassageDialog(selectedPassage);
+          } else {
+            Widgets.createAlert("Error", "No passage selected", "Please select a passage to edit");
+          }
+        });
+  }
+
+  private void showEditPassageDialog(Passage passage) {
+    Dialog<ButtonType> dialog = new Dialog<>();
+    dialog.setTitle("Edit Passage");
+    dialog.setHeaderText("Edit Passage");
+    dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+    TextArea contentTextArea = new TextArea();
+    contentTextArea.setPromptText("Enter passage content");
+    contentTextArea.setText(passage.getContent());
+
+    ComboBox<Mood> moodChoiceBox = new ComboBox<>();
+    moodChoiceBox.getItems().addAll(Mood.values());
+    moodChoiceBox.setPromptText("Select mood");
+    moodChoiceBox.setValue(passage.getMood());
+
+    Label singleVisitLabel = new Label("Support a single visit only?");
+    CheckBox isSingleVisit = new CheckBox();
+    isSingleVisit.setSelected(passage.isSingleVisitOnly());
+    HBox singleVisitHbox = new HBox(singleVisitLabel, isSingleVisit);
+
+    VBox vBox = new VBox();
+    vBox.getChildren().addAll(contentTextArea, moodChoiceBox, singleVisitHbox);
+
+    dialog.getDialogPane().setContent(vBox);
+
+    dialog.setResultConverter(
+        dialogButton -> {
+          if (dialogButton == ButtonType.OK) {
+            try {
+              passage.setContent(contentTextArea.getText());
+              passage.setMood(moodChoiceBox.getValue());
+              passage.setSingleVisitOnly(isSingleVisit.isSelected());
+              updateLinksViewAndPassageInfo(passage);
+            } catch (IllegalArgumentException e) {
+              Widgets.createAlert("Error", "Invalid input", e.getMessage()).showAndWait();
+            }
+          }
+          return null;
+        });
+
+    dialog.showAndWait();
   }
 
   private void configureExitButton() {
@@ -382,14 +438,14 @@ public class CreateStoryViewController {
     createStoryView.getLinksView().getItems().clear();
     updateActionsListView();
     selectedPassage = passage;
-    
+
     for (Link link : passage.getLinks()) {
       if (link.getRef().equals(story.getOpeningPassage().getTitle())) {
         createStoryView.getLinksView().getItems().add(story.getOpeningPassage());
       }
       createStoryView.getLinksView().getItems().addAll(story.getPassage(link));
     }
-    createStoryView.getPassageInfo().setText(passage.getContent());
+    createStoryView.getPassageContent().setText(passage.getContent());
   }
 
   private void configureLinksViewDragAndDrop() {

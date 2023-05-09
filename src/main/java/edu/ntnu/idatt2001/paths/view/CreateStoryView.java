@@ -23,8 +23,9 @@ public class CreateStoryView {
   @Getter private Button addPassageButton;
   @Getter private Button deletePassageButton;
   @Getter private Label passageContainer;
-  @Getter private Label passageInfo;
+  @Getter private final TextArea passageContent;
   @Getter private Button deleteActionButton;
+  @Getter private final Button editPassageButton;
 
   public CreateStoryView() {
     passages = new ListView<>();
@@ -34,8 +35,9 @@ public class CreateStoryView {
     addPassageButton = new Button("Add Passage");
     saveButton = new Button("Save Story");
     exitButton = new Button("Exit to main menu");
+    editPassageButton = new Button("Edit Passage");
     passageContainer = new Label();
-    passageInfo = new Label();
+    passageContent = new TextArea();
     linksView = new ListView<>();
     linkText = new TextArea();
     actionsListView = new ListView<>();
@@ -101,9 +103,24 @@ public class CreateStoryView {
     VBox results = new VBox();
     results.setSpacing(10);
     results.getChildren().add(createPassageContainer());
-    VBox.setVgrow(passageContainer, Priority.ALWAYS);
-    results.getChildren().add(passageInfo);
+    results.getChildren().add(createPassageInfo());
     return results;
+  }
+
+  private Node createPassageInfo() {
+    HBox results = new HBox();
+    results.getChildren().addAll(createPassageContent(), createEditPassageButton());
+    return results;
+  }
+
+  private Node createPassageContent() {
+    passageContent.setEditable(false);
+    passageContent.setPrefHeight(40);
+    return passageContent;
+  }
+
+  private Node createEditPassageButton() {
+    return editPassageButton;
   }
 
   private Node createPassageInfoHBox() {
