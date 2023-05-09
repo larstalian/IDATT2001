@@ -35,8 +35,8 @@ import lombok.EqualsAndHashCode;
 public class Passage {
 
   @JsonProperty private final String title;
-  @JsonProperty private final String content;
   @JsonProperty private final List<Link> links;
+  @JsonProperty private String content;
   @JsonProperty private Mood mood;
   @JsonProperty private boolean singleVisitOnly;
 
@@ -128,6 +128,15 @@ public class Passage {
    */
   public String getContent() {
     return content;
+  }
+
+  /**
+   * Sets the content of the passage.
+   *
+   * @param content the content of the passage
+   */
+  public void setContent(String content) {
+    this.content = content;
   }
 
   /**
