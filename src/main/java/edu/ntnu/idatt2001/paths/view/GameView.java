@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.controller.GameViewController;
 import edu.ntnu.idatt2001.paths.model.game.Game;
-import edu.ntnu.idatt2001.paths.model.story.Link;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -252,18 +251,6 @@ public class GameView {
     AnchorPane.setRightAnchor(links, 0.0);
     anchorPane.getChildren().add(links);
     return anchorPane;
-  }
-
-  /**
-   * Creates a button for a given link.
-   *
-   * @param link the link for which the button is to be created.
-   * @return the created button.
-   */
-  public Button createLinkButton(Link link) {
-    Button button = new Button(link.getText());
-    button.getStyleClass().add("link-button");
-    return button;
   }
 
   /**

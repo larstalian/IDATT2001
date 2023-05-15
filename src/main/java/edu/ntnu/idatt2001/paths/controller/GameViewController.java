@@ -75,6 +75,7 @@ public class GameViewController {
     visitedPassages = new ArrayList<>();
     visitedPassages.addAll(gameData.getVisitedPassages());
     initialPlayer = new Player.Builder(currentGame.getPlayer()).build();
+
     updatePlayerHealth();
     animateContentBar();
     configureExitButton();
@@ -154,11 +155,7 @@ public class GameViewController {
 
     List<Link> availableLinks = getAvailableLinks();
 
-    availableLinks.forEach(
-        link -> {
-          gameView.getLinks().getChildren().add(gameView.createLinkButton(link));
-          configureLinkButton(link);
-        });
+    availableLinks.forEach(link -> gameView.getLinks().getChildren().add(createLinkButton(link)));
   }
 
   /**
@@ -179,20 +176,25 @@ public class GameViewController {
    *
    * @param link The link object that represents the link in the game's story.
    */
-  private void configureLinkButton(Link link) {
-    gameView
-        .getLinks()
-        .getChildren()
-        .forEach(
-            node -> {
-              if (node instanceof Button button) {
-                button.setFocusTraversable(true);
-                button.setOnAction(event -> handleLinkButtonClick(link));
-              }
-            });
+  public void configureLinkButton(Button button, Link link) {
+    button.setFocusTraversable(true);
+    button.setOnAction(event -> handleLinkButtonClick(link));
   }
 
-  /** Configures the skip label. It is set to visible when clalled */
+  /**
+   * Creates a button for a given link.
+   *
+   * @param link the link for which the button is to be created.
+   * @return the created button.
+   */
+  public Button createLinkButton(Link link) {
+    Button button = new Button(link.getText());
+    button.getStyleClass().add("link-button");
+    configureLinkButton(button, link);
+    return button;
+  }
+
+  /** Configures the skip label. It is set to visible when called */
   private void configureSkipLabel() {
     gameView.getSkipLabel().setVisible(false);
   }
@@ -226,9 +228,9 @@ public class GameViewController {
    * @param link the link that was clicked.
    */
   private void handleLinkButtonClick(Link link) {
-
     if (link.getRef().equals(currentGame.getStory().getOpeningPassage().getTitle())) {
       currentPassage = currentGame.getStory().getOpeningPassage();
+
     } else {
       currentPassage = currentGame.go(link);
     }
