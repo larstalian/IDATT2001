@@ -310,6 +310,16 @@
     -fx-padding: 1px;
 }
 
+.top-buttons{
+    -fx-max-height: 30px;
+}
+
+.passage-view{
+    -fx-max-width: 150px;
+    -fx-min-height: 600px;
+}
+
+
 /* Top buttons HBox */
 .top-buttons > Button {
     spacing: 10px;
@@ -380,4 +390,8 @@
 
 .list-view .list-cell {
     -fx-padding: 5px;
+}
+
+.create-story-link-view{
+    -fx-min-width: 100px;
 }

@@ -12,7 +12,7 @@ import lombok.Getter;
 
 public class CreateStoryView {
 
-  @Getter private final VBox root;
+  @Getter private final BorderPane root;
   @Getter private final ListView<Passage> passages;
   @Getter private final ListView<Passage> linksView;
   @Getter private final TextArea linkText;
@@ -44,22 +44,13 @@ public class CreateStoryView {
     root = createRoot();
   }
 
-  private Node createPassageView() {
-    VBox results = new VBox(passages);
-    results.setMaxWidth(100);
-    results.autosize();
-    return results;
-  }
-
-  private VBox createRoot() {
+  private BorderPane createRoot() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("main-menu");
     results.setCenter(createCenter());
     results.setRight(createRight());
-
-    VBox wrapper = new VBox();
-    wrapper.getChildren().addAll(createTop(), results);
-    return wrapper;
+   results.setTop(createTop());
+    return results;
   }
 
   private Node createTop() {
@@ -77,7 +68,7 @@ public class CreateStoryView {
   private Node createRight() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("right-panel");
-    results.setCenter(createPassageView());
+    results.setCenter(passages);
     results.setBottom(createPassageChoices());
     return results;
   }
@@ -100,10 +91,9 @@ public class CreateStoryView {
   }
 
   private Node createPassageContainerAndInfo() {
-    VBox results = new VBox();
-    results.setSpacing(10);
-    results.getChildren().add(createPassageContainer());
-    results.getChildren().add(createPassageInfo());
+    BorderPane results = new BorderPane();
+    results.setCenter(createPassageContainer());
+    results.setBottom(createPassageInfo());
     return results;
   }
 
@@ -116,6 +106,7 @@ public class CreateStoryView {
   private Node createPassageContent() {
     passageContent.setEditable(false);
     passageContent.setPrefHeight(40);
+    passageContent.setMaxWidth(320);
     return passageContent;
   }
 
@@ -136,7 +127,10 @@ public class CreateStoryView {
     VBox results = new VBox();
     results.setSpacing(10);
     results.getChildren().add(linkText);
+    linkText.setEditable(false);
+    linkText.setMaxWidth(200);
     results.getChildren().add(createActionsView());
+    results.getStyleClass().add("create-story-link-view");
     return results;
   }
 
@@ -144,8 +138,8 @@ public class CreateStoryView {
     VBox results = new VBox();
     results.setSpacing(10);
     results.getChildren().add(actionsListView);
-    results.setPrefHeight(200);
-    results.setPrefWidth(200);
+    results.setPrefHeight(130);
+    results.setMaxWidth(200);
     results.getChildren().add(createActionsButtons());
     return results;
   }
@@ -160,6 +154,7 @@ public class CreateStoryView {
 
   private Node createLinksView() {
     linksView.setPrefHeight(200);
+    linksView.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
     return linksView;
   }
 
@@ -169,7 +164,7 @@ public class CreateStoryView {
     passageContainer.setStyle("-fx-background-color: lightgray; -fx-border-color: black;");
     passageContainer.getStyleClass().add("passage-container");
     passageContainer.setMinSize(200, 100);
-    passageContainer.setMaxSize(Double.MAX_VALUE, 100);
+    passageContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     return passageContainer;
   }
 }
