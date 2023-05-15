@@ -472,24 +472,43 @@ public class CreateStoryViewController {
     linksView.setOnDragDropped(
         event -> {
           Dragboard db = event.getDragboard();
-          boolean success = false;
-          if (db.hasString()) {
-            Passage passageToAdd =
-                passages.stream()
-                    .filter(p -> p.getTitle().equals(db.getString()))
-                    .findFirst()
-                    .orElse(null);
-            if (selectedPassage != null && passageToAdd != null) {
-              TextField linkText = newLinkPopup(passageToAdd.getTitle());
-              if (linkText != null) {
-                selectedPassage.addLink(new Link(linkText.getText(), passageToAdd.getTitle()));
-                updateLinksViewAndPassageInfo(selectedPassage);
-                updateActionsListView();
-              }
-              success = true;
-            }
+
+          if (!db.hasString()) {
+            return;
           }
-          event.setDropCompleted(success);
+          Passage passageToAdd =
+              passages.stream()
+                  .filter(p -> p.getTitle().equals(db.getString()))
+                  .findFirst()
+                  .orElse(null);
+
+          if (passageToAdd == null) {
+            return;
+          }
+          if (selectedPassage == null) {
+            return;
+          }
+          if (selectedPassage.getTitle().equals(passageToAdd.getTitle())) {
+            Widgets.createAlert("Error", "Link to the specified passage already exists", "")
+                .showAndWait();
+            return;
+          }
+
+          TextField linkText = newLinkPopup(passageToAdd.getTitle());
+          if (linkText == null) {
+            return;
+          }
+          try {
+            selectedPassage.addLink(new Link(linkText.getText(), passageToAdd.getTitle()));
+          } catch (IllegalArgumentException e) {
+            Widgets.createAlert(
+                    "Error", "Link to the specified passage already exists", e.getMessage())
+                .showAndWait();
+          }
+          updateLinksViewAndPassageInfo(selectedPassage);
+          updateActionsListView();
+
+          event.setDropCompleted(true);
           event.consume();
         });
   }
