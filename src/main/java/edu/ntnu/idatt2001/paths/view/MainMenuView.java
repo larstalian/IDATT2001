@@ -6,21 +6,32 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.Getter;
 
 public class MainMenuView {
-  @lombok.Getter private final Button newGameButton;
-  @lombok.Getter private final Button loadGameButton;
-  @lombok.Getter private final Button storiesButton;
-  @lombok.Getter private final Button exitButton;
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button createStoryButton;
+  @Getter private final Button newGameButton;
+  @Getter private final Button loadGameButton;
+  @Getter private final Button storiesButton;
+  @Getter private final Button exitButton;
+  @Getter private final BorderPane root;
+  @Getter private final Button createStoryButton;
 
   public MainMenuView() {
     newGameButton = new Button("New Game");
+    newGameButton.getStyleClass().add("default-button");
+
     loadGameButton = new Button("Load Game");
+    loadGameButton.getStyleClass().add("default-button");
+
     storiesButton = new Button("Stories");
+    storiesButton.getStyleClass().add("default-button");
+
     exitButton = new Button("Exit");
+    exitButton.getStyleClass().add("default-button");
+
     createStoryButton = new Button("Create Your Own Story");
+    createStoryButton.getStyleClass().add("default-button");
+
     root = createRoot();
   }
 

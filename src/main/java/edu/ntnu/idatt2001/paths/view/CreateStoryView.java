@@ -20,27 +20,47 @@ public class CreateStoryView {
   @Getter private final Button exitButton;
   @Getter private final Button addActionButton;
   @Getter private final Button saveButton;
+  @Getter private final TextArea passageContent;
+  @Getter private final Button editPassageButton;
   @Getter private Button addPassageButton;
   @Getter private Button deletePassageButton;
   @Getter private Label passageContainer;
-  @Getter private final TextArea passageContent;
   @Getter private Button deleteActionButton;
-  @Getter private final Button editPassageButton;
 
   public CreateStoryView() {
     passages = new ListView<>();
+
     deletePassageButton = new Button("Delete Passage");
+    deletePassageButton.getStyleClass().add("default-button");
+
     addActionButton = new Button("Add Action");
+    addActionButton.getStyleClass().add("default-button");
+
     deleteActionButton = new Button("Delete Action");
+    deleteActionButton.getStyleClass().add("default-button");
+
     addPassageButton = new Button("Add Passage");
+    addPassageButton.getStyleClass().add("default-button");
+
     saveButton = new Button("Save Story");
+    saveButton.getStyleClass().add("default-button");
+
     exitButton = new Button("Exit to main menu");
+    exitButton.getStyleClass().add("default-button");
+
     editPassageButton = new Button("Edit Passage");
+    editPassageButton.getStyleClass().add("default-button");
+
     passageContainer = new Label();
+
     passageContent = new TextArea();
+
     linksView = new ListView<>();
     linkText = new TextArea();
+
     actionsListView = new ListView<>();
+    actionsListView.getStyleClass().add("default-list-view");
+
     root = createRoot();
   }
 
@@ -49,7 +69,7 @@ public class CreateStoryView {
     results.getStyleClass().add("main-menu");
     results.setCenter(createCenter());
     results.setRight(createRight());
-   results.setTop(createTop());
+    results.setTop(createTop());
     return results;
   }
 
@@ -107,6 +127,7 @@ public class CreateStoryView {
     passageContent.setEditable(false);
     passageContent.setPrefHeight(40);
     passageContent.setMaxWidth(320);
+    passageContent.getStyleClass().add("default-text-field");
     return passageContent;
   }
 
@@ -129,6 +150,7 @@ public class CreateStoryView {
     results.getChildren().add(linkText);
     linkText.setEditable(false);
     linkText.setMaxWidth(200);
+    linkText.getStyleClass().add("default-text-field");
     results.getChildren().add(createActionsView());
     results.getStyleClass().add("create-story-link-view");
     return results;
@@ -154,14 +176,14 @@ public class CreateStoryView {
 
   private Node createLinksView() {
     linksView.setPrefHeight(200);
-    linksView.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+    linksView.getStyleClass().add("default-list-view");
+    linksView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     return linksView;
   }
 
   private Node createPassageContainer() {
     passageContainer = new Label("DRAG PASSAGE HERE");
     passageContainer.setAlignment(CENTER);
-    passageContainer.setStyle("-fx-background-color: lightgray; -fx-border-color: black;");
     passageContainer.getStyleClass().add("passage-container");
     passageContainer.setMinSize(200, 100);
     passageContainer.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

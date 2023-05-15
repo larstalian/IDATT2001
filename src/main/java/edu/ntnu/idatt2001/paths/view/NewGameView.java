@@ -3,23 +3,33 @@ package edu.ntnu.idatt2001.paths.view;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import lombok.Getter;
 
 public class NewGameView {
 
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button startNewGameButton;
-  @lombok.Getter private final ComboBox<String> storySelect;
-  @lombok.Getter private final Button goBackButton;
-  @lombok.Getter private final TextField playerName;
-  @lombok.Getter private final Button customizeGameOptionsButton;
+  @Getter private final BorderPane root;
+  @Getter private final Button startNewGameButton;
+  @Getter private final ComboBox<String> storySelect;
+  @Getter private final Button goBackButton;
+  @Getter private final TextField playerName;
+  @Getter private final Button customizeGameOptionsButton;
 
   public NewGameView() {
     startNewGameButton = new Button("Start New Game");
+    startNewGameButton.getStyleClass().add("default-button");
+
     storySelect = new ComboBox<>();
+    storySelect.getStyleClass().add("default-choice-box");
+
     goBackButton = new Button("Go Back");
+    goBackButton.getStyleClass().add("default-button");
+
     playerName = new TextField();
+    playerName.getStyleClass().add("default-text-field");
+
     customizeGameOptionsButton = new Button("Customize Game Options");
+    customizeGameOptionsButton.getStyleClass().add("default-button");
+
     root = createRoot();
   }
 
@@ -49,7 +59,7 @@ public class NewGameView {
 
   private Node createHBox() {
     HBox hboxLayout = new HBox();
-    hboxLayout.getChildren().add(new Text("Select Story: "));
+    hboxLayout.getChildren().add(new Label("Select Story: "));
     hboxLayout.getChildren().add(storySelect);
     hboxLayout.getStyleClass().add("button-hbox");
     return hboxLayout;

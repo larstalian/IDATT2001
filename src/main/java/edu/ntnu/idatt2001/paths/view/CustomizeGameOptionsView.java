@@ -4,27 +4,43 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import lombok.Getter;
 
 public class CustomizeGameOptionsView {
 
-  @lombok.Getter private final TextField healthGoal;
-  @lombok.Getter private final TextField scoreGoal;
-  @lombok.Getter private final TextField goldGoal;
-  @lombok.Getter private final TextField inventoryGoal;
-  @lombok.Getter private final TextField startingHealth;
-  @lombok.Getter private final TextField startingScore;
-  @lombok.Getter private final TextField startingGold;
-  @lombok.Getter private final TextField startingInventory;
+  @Getter private final TextField healthGoal;
+  @Getter private final TextField scoreGoal;
+  @Getter private final TextField goldGoal;
+  @Getter private final TextField inventoryGoal;
+  @Getter private final TextField startingHealth;
+  @Getter private final TextField startingScore;
+  @Getter private final TextField startingGold;
+  @Getter private final TextField startingInventory;
 
   public CustomizeGameOptionsView() {
     healthGoal = new TextField();
+    healthGoal.getStyleClass().add("default-text-field");
+
     scoreGoal = new TextField();
+    scoreGoal.getStyleClass().add("default-text-field");
+
     goldGoal = new TextField();
+    goldGoal.getStyleClass().add("default-text-field");
+
     inventoryGoal = new TextField();
+    inventoryGoal.getStyleClass().add("default-text-field");
+
     startingHealth = new TextField();
+    startingHealth.getStyleClass().add("default-text-field");
+
     startingScore = new TextField();
+    startingScore.getStyleClass().add("default-text-field");
+
     startingGold = new TextField();
+    startingGold.getStyleClass().add("default-text-field");
+
     startingInventory = new TextField();
+    startingInventory.getStyleClass().add("default-text-field");
   }
 
   public Dialog<Void> createDialog() {

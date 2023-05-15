@@ -11,7 +11,7 @@ public class StoriesView {
 
   @Getter private final Button goBackButton;
   @Getter private final Button getBrokenLinksButton;
-  @Getter private final ChoiceBox<String> storySelect;
+  @Getter private final ComboBox<String> storySelect;
   @Getter private final BorderPane root;
   @Getter private final Button convertToJsonButton;
   @Getter private final Button convertToPathsButton;
@@ -27,11 +27,23 @@ public class StoriesView {
 
   public StoriesView() {
     goBackButton = new Button("Back");
-    storySelect = new ChoiceBox<>();
+    goBackButton.getStyleClass().add("default-button");
+
+    storySelect = new ComboBox<>();
+    storySelect.getStyleClass().add("default-choice-box");
+
     convertToJsonButton = new Button("Convert to Json");
+    convertToJsonButton.getStyleClass().add("default-button");
+
     convertToPathsButton = new Button("Convert to Paths");
+    convertToPathsButton.getStyleClass().add("default-button");
+
     getBrokenLinksButton = new Button("See broken links");
+    getBrokenLinksButton.getStyleClass().add("default-button");
+
     editStoryButton = new Button("Edit Story");
+    editStoryButton.getStyleClass().add("default-button");
+
     brokenLinksLabel = new Label();
     storyFileInfoLabel = new Label();
     numberOfPassagesLabel = new Label();
@@ -40,6 +52,7 @@ public class StoriesView {
     customSoundsLabel = new Label();
     brokenFilesLabel = new Label();
     convertInfoLabel = new Label();
+
     root = createRoot();
   }
 
