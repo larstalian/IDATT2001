@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 
 public class CreateStoryViewController {
   private final ObservableList<Passage> passages;
-
   private final CreateStoryView createStoryView;
   private final Story story;
   private Passage selectedPassage;
@@ -165,6 +164,7 @@ public class CreateStoryViewController {
             event -> {
               if (selectedPassage != null) {
                 showDeletePassageDialog();
+                updatePassageContainerText();
               }
             });
   }
@@ -182,11 +182,17 @@ public class CreateStoryViewController {
             buttonType -> {
               if (buttonType == ButtonType.YES) {
                 story.removeAllLinksToPassage(selectedPassage.getTitle());
+
+                if (selectedPassage == story.getOpeningPassage()) {
+                  Widgets.createAlert("Error", "Cannot delete opening passage", "").showAndWait();
+                  return;
+                }
                 story.removePassage(new Link("empty", selectedPassage.getTitle()));
                 passages.remove(selectedPassage);
                 selectedLink = null;
                 selectedPassage = null;
-                updateLinksViewAndPassageInfo(new Passage("", "No passage selected"));
+                updateLinksViewAndPassageInfo(
+                    new Passage("DRAG PASSAGE HERE", "No passage selected"));
               }
             });
   }
@@ -349,9 +355,7 @@ public class CreateStoryViewController {
         .selectedItemProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              if (newValue != null) {
-                createStoryView.getPassageContainer().setText(newValue.getTitle());
-              } else {
+              if (newValue == null) {
                 createStoryView.getPassageContainer().setText("DRAG PASSAGE HERE");
               }
             });
@@ -425,13 +429,17 @@ public class CreateStoryViewController {
               updateLinksViewAndPassageInfo(passage);
               updateLinkText("");
               updateActionsListView();
-              System.out.println(passage.getLinks());
+              updatePassageContainerText();
               success = true;
             }
           }
           event.setDropCompleted(success);
           event.consume();
         });
+  }
+
+  private void updatePassageContainerText() {
+    createStoryView.getPassageContainer().setText(selectedPassage.getTitle());
   }
 
   private void updateLinksViewAndPassageInfo(Passage passage) {

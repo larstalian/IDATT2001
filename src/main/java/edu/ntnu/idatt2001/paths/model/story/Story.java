@@ -109,18 +109,19 @@ public class Story {
   }
 
   /**
-   * Removes the passage associated with the specified link from this game's passages map.
-   * A passage is removed only if it is not referenced by any other passage.
+   * Removes the passage associated with the specified link from this game's passages map. A passage
+   * is removed only if it is not referenced by any other passage.
    *
    * @param link the link whose associated passage is to be removed from the map
    * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
    */
   public boolean removePassage(Link link) {
     Objects.requireNonNull(passages.get(link), "Passage does not exist");
-    return passages
-            .entrySet()
-            .removeIf(
-                    entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
+
+    if (passages.values().stream().noneMatch(passage -> passage.getLinks().contains(link))) {
+      return passages.remove(link) != null;
+    }
+    return false;
   }
 
   /**
@@ -173,6 +174,7 @@ public class Story {
    */
   public void removeAllLinksToPassage(String passageTitle) {
     Objects.requireNonNull(passageTitle, "Passage title cannot be null");
+    openingPassage.getLinks().removeIf(link -> link.getRef().equals(passageTitle));
     passages
         .values()
         .forEach(
