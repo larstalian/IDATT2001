@@ -384,6 +384,7 @@ public class CreateStoryViewController {
                         setText(null);
                       } else {
                         setText(item.getTitle());
+                        this.getStyleClass().add("default-list-view");
                       }
                     }
                   };
@@ -440,6 +441,8 @@ public class CreateStoryViewController {
 
   private void updatePassageContainerText() {
     createStoryView.getPassageContainer().setText(selectedPassage.getTitle());
+
+    createStoryView.getPassageContainer().getStyleClass().add("passage-container");
   }
 
   private void updateLinksViewAndPassageInfo(Passage passage) {

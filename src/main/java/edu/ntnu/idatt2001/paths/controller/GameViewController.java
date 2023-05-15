@@ -321,7 +321,8 @@ public class GameViewController {
     VBox results = new VBox();
     results.getStyleClass().add("game-finish");
 
-    results.getChildren()
+    results
+        .getChildren()
         .addAll(new Label("The end"), new Label("One of them, at least..."), createGoalsScreen());
 
     Button restartButton = new Button("Restart Game");
@@ -430,7 +431,7 @@ public class GameViewController {
           }
         });
   }
-  
+
   /**
    * Executes a list of actions based on the link clicked by the player.
    *
@@ -449,7 +450,7 @@ public class GameViewController {
       onPlayerDeath();
     }
   }
-  
+
   /**
    * Handles the event when the player dies, displaying the death screen and playing the death
    * sound.

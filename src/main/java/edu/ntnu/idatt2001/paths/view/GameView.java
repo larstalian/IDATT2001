@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import lombok.Getter;
 
 /**
  * The GameView class is responsible for creating and maintaining the graphical user interface (GUI)
@@ -30,19 +31,19 @@ import javafx.scene.text.TextFlow;
  */
 public class GameView {
 
-  @lombok.Getter private final VBox links;
-  @lombok.Getter private final Label goldLabel;
-  @lombok.Getter private final Label scoreLabel;
-  @lombok.Getter private final VBox inventory;
-  @lombok.Getter private final ProgressBar healthBar;
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button exitButton;
-  @lombok.Getter private final Label skipLabel;
-  @lombok.Getter private final VBox centerInfo;
-  @lombok.Getter private StringProperty contentBar;
-  @lombok.Getter private ScrollPane contentbarScrollPane;
-  @lombok.Getter private Button deathExitButton;
-  @lombok.Getter private Button deathRestartButton;
+  @Getter private final VBox links;
+  @Getter private final Label goldLabel;
+  @Getter private final Label scoreLabel;
+  @Getter private final VBox inventory;
+  @Getter private final ProgressBar healthBar;
+  @Getter private final BorderPane root;
+  @Getter private final Button exitButton;
+  @Getter private final Label skipLabel;
+  @Getter private final VBox centerInfo;
+  @Getter private StringProperty contentBar;
+  @Getter private ScrollPane contentbarScrollPane;
+  @Getter private Button deathExitButton;
+  @Getter private Button deathRestartButton;
   @lombok.Setter private Image goldIcon;
 
   /**

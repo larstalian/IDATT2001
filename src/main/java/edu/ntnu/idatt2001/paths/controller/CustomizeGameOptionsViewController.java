@@ -23,6 +23,7 @@ public class CustomizeGameOptionsViewController {
 
   public void show() {
     Dialog<Void> popup = customizeGameOptionsView.createDialog();
+    popup.getDialogPane().getStyleClass().add("/css/default.css");
 
     ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
     ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);

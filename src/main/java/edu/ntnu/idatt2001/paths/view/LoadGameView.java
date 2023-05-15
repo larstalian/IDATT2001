@@ -5,18 +5,25 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 public class LoadGameView {
 
-  @lombok.Getter private final ComboBox<String> saveSelect;
-  @lombok.Getter private final Button loadButton;
-  @lombok.Getter private final Button goBackButton;
-  @lombok.Getter private final BorderPane root;
+  @Getter private final ComboBox<String> saveSelect;
+  @Getter private final Button loadButton;
+  @Getter private final Button goBackButton;
+  @Getter private final BorderPane root;
 
   public LoadGameView() {
     saveSelect = new ComboBox<>();
+    saveSelect.getStyleClass().add("default-choice-box");
+
     loadButton = new Button("Load Game");
+    loadButton.getStyleClass().add("default-button");
+
     goBackButton = new Button("Go Back");
+    goBackButton.getStyleClass().add("default-button");
+
     root = createRoot();
   }
 

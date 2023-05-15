@@ -22,6 +22,48 @@
 
 }
 
+.default-button {
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #000000;
+}
+
+.default-choice-box{
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+}
+
+.default-list-view{
+    -fx-control-inner-background: black;
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+}
+
+.default-choice-box .cell, .default-choice-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: black
+}
+
+.default-choice-box .cell:hover{
+    -fx-background-color: #313131;
+}
+
+.default-text-field ,
+.default-label{
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+}
+
 .title {
     -fx-alignment: bottom-center;
     -fx-min-height: 100px;
@@ -45,6 +87,12 @@
     -fx-padding: 10px;
     -fx-spacing: 10px;
     -fx-alignment: center;
+}
+
+.button-hbox > Label {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
 }
 
 .player-name-field {
@@ -310,6 +358,16 @@
     -fx-padding: 1px;
 }
 
+.top-buttons{
+    -fx-max-height: 30px;
+}
+
+.passage-view{
+    -fx-max-width: 150px;
+    -fx-min-height: 600px;
+}
+
+
 /* Top buttons HBox */
 .top-buttons > Button {
     spacing: 10px;
@@ -352,9 +410,10 @@
 
 /* Passage container */
 .passage-container {
-    -fx-background-color: #d3d3d3;
-    -fx-border-color: #000000;
-    -fx-border-radius: 5px;
+    -fx-text-fill: white;
+    -fx-background-color: black;
+    -fx-border-color: #131313;
+    -fx-border-radius: 10px;
     -fx-background-radius: 5px;
 }
 
@@ -380,4 +439,8 @@
 
 .list-view .list-cell {
     -fx-padding: 5px;
+}
+
+.create-story-link-view{
+    -fx-min-width: 100px;
 }
