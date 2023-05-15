@@ -351,6 +351,12 @@ public class CreateStoryViewController {
                       textArea.getText(),
                       moodChoiceBox.getValue(),
                       isSingleVisit.isSelected());
+
+              if (passages.contains(passage)) {
+                  Widgets.createAlert("Error", "Invalid input", "Passage with this title already exists").showAndWait();
+                  return null;
+              }
+
               passages.add(passage);
               story.addPassage(passage);
             } catch (IllegalArgumentException e) {
