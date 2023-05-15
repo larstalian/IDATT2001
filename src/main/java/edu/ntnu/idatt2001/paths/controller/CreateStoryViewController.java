@@ -44,6 +44,23 @@ public class CreateStoryViewController {
     configureSaveStoryButton();
     configureExitButton();
     configureEditPassageButton();
+    configureDeleteLinkButton();
+  }
+
+  private void configureDeleteLinkButton() {
+    Button deleteLinkButton = createStoryView.getDeleteLinkButton();
+    deleteLinkButton.setOnAction(
+        event -> {
+          if (selectedLink != null) {
+            selectedPassage.getLinks().remove(selectedLink);
+            createStoryView
+                .getLinksView()
+                .getItems()
+                .remove(new Passage(selectedLink.getRef(), "dummy text"));
+          } else {
+            Widgets.createAlert("Error", "No link selected", "Please select a link to delete");
+          }
+        });
   }
 
   private void configureEditPassageButton() {
@@ -456,7 +473,10 @@ public class CreateStoryViewController {
       }
       createStoryView.getLinksView().getItems().addAll(story.getPassage(link));
     }
+
     createStoryView.getPassageContent().setText(passage.getContent());
+    createStoryView.getMoodText().setText(passage.getMood().toString());
+    createStoryView.getSingleVisitOnly().setText(passage.isSingleVisitOnly() ? "Yes" : "No");
   }
 
   private void configureLinksViewDragAndDrop() {
@@ -557,15 +577,17 @@ public class CreateStoryViewController {
         .selectedItemProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              if (newValue != null) {
-                List<Link> links = selectedPassage.getLinks();
-                for (Link link : links) {
-                  if (link.getRef().equals(newValue.getTitle())) {
-                    selectedLink = link;
-                    selectedAction = null;
-                    updateLinkText(link.getText());
-                    updateActionsListView();
-                  }
+              if (newValue == null) {
+                createStoryView.getLinkText().setText("Select a link to see its text here!");
+                return;
+              }
+              List<Link> links = selectedPassage.getLinks();
+              for (Link link : links) {
+                if (link.getRef().equals(newValue.getTitle())) {
+                  selectedLink = link;
+                  selectedAction = null;
+                  updateLinkText(link.getText());
+                  updateActionsListView();
                 }
               }
             });
@@ -587,13 +609,23 @@ public class CreateStoryViewController {
   private void updateActionsListView() {
     createStoryView.getActionsListView().getItems().clear();
     selectedAction = null;
-    if (selectedLink != null) {
-      createStoryView.getActionsListView().getItems().addAll(selectedLink.getActions());
+
+    if (selectedPassage == null) {
+      return;
     }
+
+    if (selectedLink == null) {
+      return;
+    }
+    createStoryView.getActionsListView().getItems().addAll(selectedLink.getActions());
   }
 
   private void updateLinkText(String text) {
     createStoryView.getLinkText().clear();
+    if (text.isBlank()) {
+      createStoryView.getLinkText().setText("Select a link to see its text here!");
+      return;
+    }
     createStoryView.getLinkText().setText(text);
   }
 }
