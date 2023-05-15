@@ -18,8 +18,8 @@ public class Main extends Application {
     Scene scene = new Scene(sceneRoot);
     primaryStage.setScene(scene);
     scene.getStylesheets().add("/css/default.css");
-    primaryStage.setMinHeight(670);
-    primaryStage.setMinWidth(670);
+    primaryStage.setMinHeight(800);
+    primaryStage.setMinWidth(800);
     primaryStage.show();
   }
 }

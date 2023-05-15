@@ -25,7 +25,7 @@
 .default-button {
     -fx-text-fill: white;
     -fx-border-color: white;
-    -fx-border-width: 1px;
+    -fx-border-width: 2px;
     -fx-border-radius: 5px;
     -fx-background-color: #000000;
 }
@@ -58,8 +58,8 @@
 
 .default-text-field ,
 .default-label{
+    -fx-padding: 5px;
     -fx-background-color: black;
-    -fx-border-color: white;
     -fx-border-radius: 5px;
     -fx-text-fill: white;
 }

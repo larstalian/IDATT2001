@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.paths.view;
 
-import static javafx.geometry.Pos.CENTER;
+import static javafx.geometry.Pos.*;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
@@ -22,10 +22,13 @@ public class CreateStoryView {
   @Getter private final Button saveButton;
   @Getter private final TextArea passageContent;
   @Getter private final Button editPassageButton;
+  @Getter private final TextArea moodText;
+  @Getter private final TextArea singleVisitOnly;
   @Getter private Button addPassageButton;
   @Getter private Button deletePassageButton;
   @Getter private Label passageContainer;
   @Getter private Button deleteActionButton;
+  @Getter private Button deleteLinkButton;
 
   public CreateStoryView() {
     passages = new ListView<>();
@@ -51,12 +54,17 @@ public class CreateStoryView {
     editPassageButton = new Button("Edit Passage");
     editPassageButton.getStyleClass().add("default-button");
 
+    deleteLinkButton = new Button("Delete Link");
+    deleteLinkButton.getStyleClass().add("default-button");
+
     passageContainer = new Label();
 
     passageContent = new TextArea();
+    singleVisitOnly = new TextArea();
 
     linksView = new ListView<>();
     linkText = new TextArea();
+    moodText = new TextArea();
 
     actionsListView = new ListView<>();
     actionsListView.getStyleClass().add("default-list-view");
@@ -114,24 +122,43 @@ public class CreateStoryView {
     BorderPane results = new BorderPane();
     results.setCenter(createPassageContainer());
     results.setBottom(createPassageInfo());
+    results.setRight(createPassageAdditionalFeaturesInfo());
+    return results;
+  }
+
+  private Node createPassageAdditionalFeaturesInfo() {
+    VBox results = new VBox();
+    Label MoodLabel = new Label("Mood:");
+    MoodLabel.getStyleClass().add("default-label");
+    results.getChildren().add(MoodLabel);
+    moodText.setEditable(false);
+    results.getChildren().add(moodText);
+    Label isSingleVisitOnly = new Label("Single Visit Only:");
+    isSingleVisitOnly.getStyleClass().add("default-label");
+    results.getChildren().add(isSingleVisitOnly);
+    results.getChildren().add(singleVisitOnly);
+    results.setMaxWidth(160);
+    results.setSpacing(10);
+    results.setMinWidth(160);
+    results.setPadding(new Insets(20));
     return results;
   }
 
   private Node createPassageInfo() {
     HBox results = new HBox();
     results.getChildren().addAll(createPassageContent(), createEditPassageButton());
+    results.setMaxWidth(400);
     return results;
   }
 
   private Node createPassageContent() {
     passageContent.setEditable(false);
     passageContent.setPrefHeight(40);
-    passageContent.setMaxWidth(320);
-    passageContent.getStyleClass().add("default-text-field");
     return passageContent;
   }
 
   private Node createEditPassageButton() {
+    editPassageButton.setMinWidth(100);
     return editPassageButton;
   }
 
@@ -145,24 +172,30 @@ public class CreateStoryView {
   }
 
   private Node createLinksInfoView() {
-    VBox results = new VBox();
-    results.setSpacing(10);
-    results.getChildren().add(linkText);
+    BorderPane results = new BorderPane();
+    Label linksLabel = new Label("Link Text:");
+    linksLabel.getStyleClass().add("default-label");
+    results.setTop(linksLabel);
+    results.setCenter(linkText);
     linkText.setEditable(false);
     linkText.setMaxWidth(200);
-    linkText.getStyleClass().add("default-text-field");
-    results.getChildren().add(createActionsView());
+    linkText.setText("Select a link to see its text here!");
+    results.setBottom(createActionsView());
     results.getStyleClass().add("create-story-link-view");
     return results;
   }
 
   private Node createActionsView() {
-    VBox results = new VBox();
-    results.setSpacing(10);
-    results.getChildren().add(actionsListView);
+    BorderPane results = new BorderPane();
+    results.setMinHeight(200);
+    Label actionsLabel = new Label("Actions");
+    actionsLabel.getStyleClass().add("default-label");
+    results.setTop(actionsLabel);
+    results.setCenter(actionsListView);
+    actionsListView.setPlaceholder(new Label("No actions!\nAdd one to see it here!"));
     results.setPrefHeight(130);
     results.setMaxWidth(200);
-    results.getChildren().add(createActionsButtons());
+    results.setBottom(createActionsButtons());
     return results;
   }
 
@@ -171,14 +204,21 @@ public class CreateStoryView {
     results.setSpacing(10);
     results.getChildren().add(addActionButton);
     results.getChildren().add(deleteActionButton);
+    results.setAlignment(BOTTOM_LEFT);
     return results;
   }
 
   private Node createLinksView() {
-    linksView.setPrefHeight(200);
-    linksView.getStyleClass().add("default-list-view");
-    linksView.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-    return linksView;
+    BorderPane results = new BorderPane();
+    Label linksLabel = new Label("Links");
+    linksLabel.getStyleClass().add("default-label");
+    results.setTop(linksLabel);
+    results.setCenter(linksView);
+    linksView.setPlaceholder(new Label("No links!\nDrag a passage here\nto create one!"));
+    linksView.setMinSize(200, 100);
+    linksView.setMaxSize(200, Double.MAX_VALUE);
+    results.setBottom(deleteLinkButton);
+    return results;
   }
 
   private Node createPassageContainer() {
