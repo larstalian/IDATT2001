@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.*;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
@@ -53,9 +55,15 @@ public class Passage {
       @JsonProperty("content") String content,
       @JsonProperty("mood") Mood mood,
       @JsonProperty("singleVisitOnly") boolean singleVisitOnly) {
-    if (title == null || content == null) {
-      throw new IllegalArgumentException("Title and content cannot be null.");
+
+    if (title.length() <= MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
+      throw new IllegalArgumentException("Passage title must be between 1 and 50 characters long");
     }
+    if (content.length() <= MIN_CONTENT_LENGTH || content.length() > MAX_CONTENT_LENGTH) {
+      throw new IllegalArgumentException(
+          "Passage content must be between 1 and 400 characters long");
+    }
+
     this.mood = mood == null ? Mood.NONE : mood;
     this.title = title;
     this.content = content;
@@ -187,5 +195,16 @@ public class Passage {
       sb.append("- ").append(link.getText()).append(": ").append(link.getRef()).append("\n");
     }
     return sb.toString();
+  }
+
+  /**
+   * Constants for the Passage class defining the minimum and maximum length of the title and
+   * content.
+   */
+  static class PassageConstants {
+    static final int MIN_TITLE_LENGTH = 1;
+    static final int MAX_TITLE_LENGTH = 50;
+    static final int MIN_CONTENT_LENGTH = 1;
+    static final int MAX_CONTENT_LENGTH = 400;
   }
 }
