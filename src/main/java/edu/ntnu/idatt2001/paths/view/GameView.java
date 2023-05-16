@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The GameView class is responsible for creating and maintaining the graphical user interface (GUI)
@@ -43,7 +44,8 @@ public class GameView {
   @Getter private ScrollPane contentbarScrollPane;
   @Getter private Button deathExitButton;
   @Getter private Button deathRestartButton;
-  @lombok.Setter private Image goldIcon;
+  @Setter private Image goldIcon;
+  @Getter private Label playerName;
 
   /**
    * Creates a new GameView object.
@@ -62,7 +64,13 @@ public class GameView {
     deathExitButton = new Button("Exit");
     deathRestartButton = new Button("Restart");
     healthBar = new ProgressBar();
+
     exitButton = new Button("Exit");
+    exitButton.getStyleClass().add("default-button");
+
+    playerName = new Label();
+    playerName.getStyleClass().add("default-label");
+
     root = createRoot();
   }
 
@@ -104,6 +112,7 @@ public class GameView {
    */
   private Node createTopCenter() {
     HBox results = new HBox();
+    results.getChildren().add(playerName);
     results.getChildren().add(createGoldInfo());
     results.getChildren().add(createScoreInfo());
     results.getStyleClass().add("top-info");
