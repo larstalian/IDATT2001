@@ -277,6 +277,7 @@ public class Player {
     @JsonCreator
     public Builder(@JsonProperty("name") String name) {
       this.name = name;
+      this.health = DEFAULT_HEALTH;
       inventory = new ArrayList<>();
     }
 
@@ -405,6 +406,7 @@ public class Player {
    */
   public static class PlayerConstants {
 
+    public static final int DEFAULT_HEALTH = 100;
     public static final int MAX_INVENTORY_SIZE = 10;
     public static final int MAX_NAME_LENGTH = 15;
     public static final int MIN_ITEM_LENGTH = 2;
