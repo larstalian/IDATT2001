@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {
@@ -169,5 +170,73 @@ class PlayerTest {
     List<String> expectedInventory = Arrays.asList("Item1", "Item2", "Item3");
 
     assertThat(builtPlayer.getInventory(), is(expectedInventory));
+  }
+
+  @Test
+  @DisplayName("Builder constructor with only name should create players with all fields set")
+  void testBuilderConstructor() {
+    Player player = new Player.Builder("TestPlayer").build();
+    assertThat(player.getName(), is("TestPlayer"));
+    assertThat(player.getHealth(), is(100));
+    assertThat(player.getScore(), is(0));
+    assertThat(player.getGold(), is(0));
+    assertThat(player.getInventory().size(), is(0));
+  }
+
+  @Test
+  @DisplayName("Builder constructor with all fields should create players with all fields")
+  void testBuilderConstructorWithAllFields() {
+    Player player =
+        new Player.Builder("TestPlayer")
+            .health(50)
+            .score(25)
+            .gold(10)
+            .inventory("Item1", "Item2", "Item3")
+            .build();
+    assertThat(player.getName(), is("TestPlayer"));
+    assertThat(player.getHealth(), is(50));
+    assertThat(player.getScore(), is(25));
+    assertThat(player.getGold(), is(10));
+    assertThat(player.getInventory().size(), is(3));
+  }
+
+  @Test
+  @DisplayName("Builder constructor with player param should create equal player")
+  void testBuilderConstructorWithPlayer() {
+    Player player =
+        new Player.Builder("TestPlayer")
+            .health(50)
+            .score(25)
+            .gold(10)
+            .inventory("Item1", "Item2", "Item3")
+            .build();
+    Player player2 = new Player.Builder(player).build();
+    assertThat(player2.getName(), is("TestPlayer"));
+    assertThat(player2.getHealth(), is(50));
+    assertThat(player2.getScore(), is(25));
+    assertThat(player2.getGold(), is(10));
+    assertThat(player2.getInventory().size(), is(3));
+  }
+
+  @Test
+  @DisplayName("Builder constructor with player param should be deep copied")
+  void testBuilderConstructorWithPlayerShouldBeDeepCopied() {
+    Player player =
+        new Player.Builder("TestPlayer")
+            .health(100)
+            .score(25)
+            .gold(10)
+            .inventory("Item1", "Item2", "Item3")
+            .build();
+    Player player2 = new Player.Builder(player).build();
+    player2.addHealth(-50);
+    player2.addScore(25);
+    player2.addGold(10);
+    player2.addToInventory("Item4");
+
+    assertThat(player.getHealth(), is(100));
+    assertThat(player.getScore(), is(25));
+    assertThat(player.getGold(), is(10));
+    assertThat(player.getInventory().size(), is(3));
   }
 }
