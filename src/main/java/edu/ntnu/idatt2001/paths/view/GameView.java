@@ -61,8 +61,8 @@ public class GameView {
     inventory = new VBox();
     goldLabel = new Label();
     scoreLabel = new Label();
-    deathExitButton = new Button("Exit");
-    deathRestartButton = new Button("Restart");
+    deathExitButton = new Button("Exit to Main Menu");
+    deathRestartButton = new Button("Restart Game");
     healthBar = new ProgressBar();
 
     exitButton = new Button("Exit");
@@ -228,10 +228,9 @@ public class GameView {
     centerInfo.getStyleClass().add("death-screen");
     centerInfo.getChildren().add(new Label("YOU ARE DEAD"));
 
-    deathExitButton = new Button("Exit to Main Menu");
-    deathRestartButton = new Button("Restart Game");
-
     HBox deathButtons = new HBox();
+    deathRestartButton.getStyleClass().add("default-button");
+    deathExitButton.getStyleClass().add("default-button");
     deathButtons.getChildren().addAll(deathExitButton, deathRestartButton);
     deathButtons.getStyleClass().add("death-screen");
     return deathButtons;
