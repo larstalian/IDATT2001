@@ -57,7 +57,7 @@ public class Passage {
       @JsonProperty("singleVisitOnly") boolean singleVisitOnly) {
 
     if (title.length() <= MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
-      throw new IllegalArgumentException("Passage title must be between 1 and 50 characters long");
+      throw new IllegalArgumentException("Passage title must be between 1 and 20 characters long");
     }
     if (content.length() <= MIN_CONTENT_LENGTH || content.length() > MAX_CONTENT_LENGTH) {
       throw new IllegalArgumentException(
@@ -80,18 +80,6 @@ public class Passage {
    */
   public Passage(String title, String content) {
     this(title, content, Mood.NONE, false);
-  }
-
-  /**
-   * Constructs a new Passage object with the given title, content, and mood.
-   *
-   * @param title the title of the passage
-   * @param content the content of the passage
-   * @param mood the mood associated with the passage
-   * @throws IllegalArgumentException if the title or content is null
-   */
-  public Passage(String title, String content, Mood mood) {
-    this(title, content, mood, false);
   }
 
   /**
@@ -203,7 +191,7 @@ public class Passage {
    */
   static class PassageConstants {
     static final int MIN_TITLE_LENGTH = 1;
-    static final int MAX_TITLE_LENGTH = 50;
+    static final int MAX_TITLE_LENGTH = 20;
     static final int MIN_CONTENT_LENGTH = 1;
     static final int MAX_CONTENT_LENGTH = 400;
   }

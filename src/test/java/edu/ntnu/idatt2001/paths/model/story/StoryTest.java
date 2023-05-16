@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class StoryTest {
@@ -31,7 +32,7 @@ class StoryTest {
     passage1 = new Passage("Passage 1", "This is passage 1.");
     passage1.addLink(new Link("Go to passage 2", "Passage 2"));
 
-    passage2 = new Passage("Passage 2", "This is passage 2.", Mood.SPOOKY);
+    passage2 = new Passage("Passage 2", "This is passage 2.", Mood.SPOOKY, true);
     passages = new ArrayList<>();
   }
 
@@ -180,5 +181,15 @@ class StoryTest {
     passage2.addLink(link1);
     passage2.addLink(link2);
     assertThat(story.getBrokenLinks(), containsInAnyOrder(link1, link2));
+  }
+
+  @Test
+  @DisplayName("Should remove all links to the given passage")
+  void removeAllLinksToPassage() {
+    story.addPassage(passage1);
+    story.addPassage(passage2);
+    passage2.addLink(new Link(passage1.getTitle(), passage1.getTitle()));
+    story.removeAllLinksToPassage(passage1.getTitle());
+    assertThat(passage2.getLinks(), is(empty()));
   }
 }
