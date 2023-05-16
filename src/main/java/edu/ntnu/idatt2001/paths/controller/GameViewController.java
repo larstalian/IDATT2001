@@ -87,7 +87,12 @@ public class GameViewController {
     configureDeathExitButton();
     configureGoldIcon();
     configureSkipLabel();
+    configurePlayerName();
     isAnimationSkipped = new AtomicBoolean(false);
+  }
+
+  private void configurePlayerName() {
+    gameView.getPlayerName().setText(currentGame.getPlayer().getName());
   }
 
   /** Configures the behavior of the content bar scroll pane to skip the animation when clicked. */
