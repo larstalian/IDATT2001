@@ -88,14 +88,14 @@ class StoryTest {
   }
 
   @Test
-  void testGetPassage_ThrowsNullIfPassageDoesNotExist() {
+  void testGetPassage_ThrowsNoSuchPassageExceptionIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
+        NoSuchPassageException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
-  void testGetPassage_ThrowsNullIfLinkIsNull() {
-    assertThrows(NullPointerException.class, () -> story.getPassage(null));
+  void testGetPassage_NoSuchPassageExceptionIfLinkIsNull() {
+    assertThrows(NoSuchPassageException.class, () -> story.getPassage(null));
   }
 
   @Test
@@ -131,14 +131,15 @@ class StoryTest {
   }
 
   @Test
-  void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
+  void testRemovePassage_ThrowsNoSuchPassageExceptionIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
+        NoSuchPassageException.class,
+        () -> story.removePassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
-  void testRemovePassage_ThrowsIllegalArgumentExceptionIfLinkIsNull() {
-    assertThrows(NullPointerException.class, () -> story.removePassage(null));
+  void testRemovePassage_ThrowsNoSuchPassageExceptionIfLinkIsNull() {
+    assertThrows(NoSuchPassageException.class, () -> story.removePassage(null));
   }
 
   @Test

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.ntnu.idatt2001.paths.model.goals.Goal;
 import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.NoSuchPassageException;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.util.List;
@@ -90,11 +91,12 @@ public class Game {
    *
    * @param link the link of the passage to navigate to
    * @return the passage corresponding to the given link
-   * @throws NullPointerException if the passage with the given link does not exist
+   * @throws NoSuchPassageException if the passage with the given link does not exist
    */
   public Passage go(Link link) {
-    Passage passage = story.getPassage(link);
-    Objects.requireNonNull(passage, "No passage with link " + link);
-    return passage;
+    if (story.getPassage(link) == null) {
+      throw new NoSuchPassageException();
+    }
+    return story.getPassage(link);
   }
 }
