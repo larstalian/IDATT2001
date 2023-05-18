@@ -93,10 +93,13 @@ public class Story {
    *
    * @param link the link to the passage
    * @return the passage with the given link
-   * @throws NullPointerException if the link is {@code null}
+   * @throws NoSuchPassageException if the link is {@code null}
    */
   public Passage getPassage(Link link) {
-    return Objects.requireNonNull(passages.get(link));
+    if (passages.get(link) == null) {
+      throw new NoSuchPassageException();
+    }
+    return (passages.get(link));
   }
 
   /**
@@ -116,7 +119,9 @@ public class Story {
    * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
    */
   public boolean removePassage(Link link) {
-    Objects.requireNonNull(passages.get(link), "Passage does not exist");
+    if (passages.get(link) == null) {
+      throw new NoSuchPassageException();
+    }
 
     if (passages.values().stream().noneMatch(passage -> passage.getLinks().contains(link))) {
       return passages.remove(link) != null;
