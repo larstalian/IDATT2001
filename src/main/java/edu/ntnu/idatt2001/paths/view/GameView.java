@@ -2,7 +2,6 @@ package edu.ntnu.idatt2001.paths.view;
 
 import edu.ntnu.idatt2001.paths.controller.GameViewController;
 import edu.ntnu.idatt2001.paths.model.game.Game;
-import edu.ntnu.idatt2001.paths.model.story.Link;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The GameView class is responsible for creating and maintaining the graphical user interface (GUI)
@@ -30,20 +31,21 @@ import javafx.scene.text.TextFlow;
  */
 public class GameView {
 
-  @lombok.Getter private final VBox links;
-  @lombok.Getter private final Label goldLabel;
-  @lombok.Getter private final Label scoreLabel;
-  @lombok.Getter private final VBox inventory;
-  @lombok.Getter private final ProgressBar healthBar;
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button exitButton;
-  @lombok.Getter private final Label skipLabel;
-  @lombok.Getter private final VBox centerInfo;
-  @lombok.Getter private StringProperty contentBar;
-  @lombok.Getter private ScrollPane contentbarScrollPane;
-  @lombok.Getter private Button deathExitButton;
-  @lombok.Getter private Button deathRestartButton;
-  @lombok.Setter private Image goldIcon;
+  @Getter private final VBox links;
+  @Getter private final Label goldLabel;
+  @Getter private final Label scoreLabel;
+  @Getter private final VBox inventory;
+  @Getter private final ProgressBar healthBar;
+  @Getter private final BorderPane root;
+  @Getter private final Button exitButton;
+  @Getter private final Label skipLabel;
+  @Getter private final VBox centerInfo;
+  @Getter private StringProperty contentBar;
+  @Getter private ScrollPane contentbarScrollPane;
+  @Getter private Button deathExitButton;
+  @Getter private Button deathRestartButton;
+  @Setter private Image goldIcon;
+  @Getter private Label playerName;
 
   /**
    * Creates a new GameView object.
@@ -59,10 +61,16 @@ public class GameView {
     inventory = new VBox();
     goldLabel = new Label();
     scoreLabel = new Label();
-    deathExitButton = new Button("Exit");
-    deathRestartButton = new Button("Restart");
+    deathExitButton = new Button("Exit to Main Menu");
+    deathRestartButton = new Button("Restart Game");
     healthBar = new ProgressBar();
+
     exitButton = new Button("Exit");
+    exitButton.getStyleClass().add("default-button");
+
+    playerName = new Label();
+    playerName.getStyleClass().add("default-label");
+
     root = createRoot();
   }
 
@@ -104,6 +112,7 @@ public class GameView {
    */
   private Node createTopCenter() {
     HBox results = new HBox();
+    results.getChildren().add(playerName);
     results.getChildren().add(createGoldInfo());
     results.getChildren().add(createScoreInfo());
     results.getStyleClass().add("top-info");
@@ -219,10 +228,9 @@ public class GameView {
     centerInfo.getStyleClass().add("death-screen");
     centerInfo.getChildren().add(new Label("YOU ARE DEAD"));
 
-    deathExitButton = new Button("Exit to Main Menu");
-    deathRestartButton = new Button("Restart Game");
-
     HBox deathButtons = new HBox();
+    deathRestartButton.getStyleClass().add("default-button");
+    deathExitButton.getStyleClass().add("default-button");
     deathButtons.getChildren().addAll(deathExitButton, deathRestartButton);
     deathButtons.getStyleClass().add("death-screen");
     return deathButtons;
@@ -251,18 +259,6 @@ public class GameView {
     AnchorPane.setRightAnchor(links, 0.0);
     anchorPane.getChildren().add(links);
     return anchorPane;
-  }
-
-  /**
-   * Creates a button for a given link.
-   *
-   * @param link the link for which the button is to be created.
-   * @return the created button.
-   */
-  public Button createLinkButton(Link link) {
-    Button button = new Button(link.getText());
-    button.getStyleClass().add("link-button");
-    return button;
   }
 
   /**

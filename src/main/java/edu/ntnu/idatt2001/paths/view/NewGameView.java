@@ -3,26 +3,50 @@ package edu.ntnu.idatt2001.paths.view;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import lombok.Getter;
 
+/**
+ * Represents the new game view in the user interface. This includes a text field for player name
+ * input, a button to start a new game, a ComboBox for story selection, a button to return to the
+ * main menu, and a button to customize game options.
+ */
 public class NewGameView {
 
-  @lombok.Getter private final BorderPane root;
-  @lombok.Getter private final Button startNewGameButton;
-  @lombok.Getter private final ComboBox<String> storySelect;
-  @lombok.Getter private final Button goBackButton;
-  @lombok.Getter private final TextField playerName;
-  @lombok.Getter private final Button customizeGameOptionsButton;
+  @Getter private final BorderPane root;
+  @Getter private final Button startNewGameButton;
+  @Getter private final ComboBox<String> storySelect;
+  @Getter private final Button goBackButton;
+  @Getter private final TextField playerName;
+  @Getter private final Button customizeGameOptionsButton;
 
+  /**
+   * Constructs a new game view. It initializes all the UI components, sets up their style classes,
+   * and configures the layout of the view.
+   */
   public NewGameView() {
     startNewGameButton = new Button("Start New Game");
+    startNewGameButton.getStyleClass().add("default-button");
+
     storySelect = new ComboBox<>();
+    storySelect.getStyleClass().add("default-choice-box");
+
     goBackButton = new Button("Go Back");
+    goBackButton.getStyleClass().add("default-button");
+
     playerName = new TextField();
+    playerName.getStyleClass().add("default-text-field");
+
     customizeGameOptionsButton = new Button("Customize Game Options");
+    customizeGameOptionsButton.getStyleClass().add("default-button");
+
     root = createRoot();
   }
 
+  /**
+   * Creates the root BorderPane for the new game view, with the center layout added.
+   *
+   * @return The root BorderPane for the new game view.
+   */
   private BorderPane createRoot() {
     BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
@@ -30,12 +54,24 @@ public class NewGameView {
     return root;
   }
 
+  /**
+   * Creates the center layout for the new game view, which contains a VBox of buttons.
+   *
+   * @return A Node representing the center layout for the new game view.
+   */
   private Node createCenter() {
     StackPane centerLayout = new StackPane();
     centerLayout.getChildren().add(createButtonVBox());
     return centerLayout;
   }
 
+  /**
+   * Creates a VBox layout for the new game view, which contains the player name input field, "Start
+   * New Game" button, story select combo box, "Customize Game Options" button, and "Go Back"
+   * button.
+   *
+   * @return A Node representing the VBox layout for the new game view.
+   */
   private Node createButtonVBox() {
     VBox buttonLayout = new VBox();
     buttonLayout.getChildren().add(playerName);
@@ -47,9 +83,15 @@ public class NewGameView {
     return buttonLayout;
   }
 
+  /**
+   * Creates an HBox layout for the new game view, which contains a label and a ComboBox for story
+   * selection.
+   *
+   * @return A Node representing the HBox layout for the new game view.
+   */
   private Node createHBox() {
     HBox hboxLayout = new HBox();
-    hboxLayout.getChildren().add(new Text("Select Story: "));
+    hboxLayout.getChildren().add(new Label("Select Story: "));
     hboxLayout.getChildren().add(storySelect);
     hboxLayout.getStyleClass().add("button-hbox");
     return hboxLayout;

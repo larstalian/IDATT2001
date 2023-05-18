@@ -6,7 +6,22 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * This utility class contains methods for creating and managing JavaFX widgets such as alerts.
+ *
+ * <p>The class provides static methods, meaning that they can be called directly on the class
+ * without needing to instantiate an object. Currently, the class provides a method for creating an
+ * Alert with specified title, header, and content. More widget-related methods can be added as
+ * necessary.
+ *
+ * <p>As a utility class, the Widgets class is not meant to be instantiated. All of its methods
+ * should be stateless and functional, meaning they don't rely on or change any instance-level data.
+ */
 public class Widgets {
+
+  private Widgets() {
+    throw new IllegalStateException("Utility class");
+  }
 
   /**
    * Creates an Alert with the given title, header, and content.

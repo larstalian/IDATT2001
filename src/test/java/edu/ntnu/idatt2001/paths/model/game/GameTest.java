@@ -10,6 +10,7 @@ import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
 import edu.ntnu.idatt2001.paths.model.goals.InventoryGoal;
 import edu.ntnu.idatt2001.paths.model.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.model.story.Link;
+import edu.ntnu.idatt2001.paths.model.story.NoSuchPassageException;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.util.List;
@@ -84,7 +85,7 @@ class GameTest {
   @Test
   void testGo_LinkToNonexistentPassage_ThrowsNullPointerException() {
     assertThrows(
-        NullPointerException.class,
+        NoSuchPassageException.class,
         () -> game.go(new Link("Nonexistent Passage", "Nonexistent Passage")));
   }
 }

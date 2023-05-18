@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class StoryTest {
@@ -31,7 +32,7 @@ class StoryTest {
     passage1 = new Passage("Passage 1", "This is passage 1.");
     passage1.addLink(new Link("Go to passage 2", "Passage 2"));
 
-    passage2 = new Passage("Passage 2", "This is passage 2.", Mood.SPOOKY);
+    passage2 = new Passage("Passage 2", "This is passage 2.", Mood.SPOOKY, true);
     passages = new ArrayList<>();
   }
 
@@ -87,14 +88,14 @@ class StoryTest {
   }
 
   @Test
-  void testGetPassage_ThrowsNullIfPassageDoesNotExist() {
+  void testGetPassage_ThrowsNoSuchPassageExceptionIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
+        NoSuchPassageException.class, () -> story.getPassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
-  void testGetPassage_ThrowsNullIfLinkIsNull() {
-    assertThrows(NullPointerException.class, () -> story.getPassage(null));
+  void testGetPassage_NoSuchPassageExceptionIfLinkIsNull() {
+    assertThrows(NoSuchPassageException.class, () -> story.getPassage(null));
   }
 
   @Test
@@ -130,14 +131,15 @@ class StoryTest {
   }
 
   @Test
-  void testRemovePassage_ThrowsIllegalArgumentExceptionIfPassageDoesNotExist() {
+  void testRemovePassage_ThrowsNoSuchPassageExceptionIfPassageDoesNotExist() {
     assertThrows(
-        NullPointerException.class, () -> story.removePassage(new Link("Passage 3", "Passage 3")));
+        NoSuchPassageException.class,
+        () -> story.removePassage(new Link("Passage 3", "Passage 3")));
   }
 
   @Test
-  void testRemovePassage_ThrowsIllegalArgumentExceptionIfLinkIsNull() {
-    assertThrows(NullPointerException.class, () -> story.removePassage(null));
+  void testRemovePassage_ThrowsNoSuchPassageExceptionIfLinkIsNull() {
+    assertThrows(NoSuchPassageException.class, () -> story.removePassage(null));
   }
 
   @Test
@@ -180,5 +182,15 @@ class StoryTest {
     passage2.addLink(link1);
     passage2.addLink(link2);
     assertThat(story.getBrokenLinks(), containsInAnyOrder(link1, link2));
+  }
+
+  @Test
+  @DisplayName("Should remove all links to the given passage")
+  void removeAllLinksToPassage() {
+    story.addPassage(passage1);
+    story.addPassage(passage2);
+    passage2.addLink(new Link(passage1.getTitle(), passage1.getTitle()));
+    story.removeAllLinksToPassage(passage1.getTitle());
+    assertThat(passage2.getLinks(), is(empty()));
   }
 }

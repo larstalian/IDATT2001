@@ -1,8 +1,7 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.json;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.actions.GoldAction;
@@ -13,10 +12,12 @@ import edu.ntnu.idatt2001.paths.model.story.Story;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class StoryFileHandlerTest {
@@ -113,5 +114,41 @@ class StoryFileHandlerTest {
             i ->
                 assertThat(
                     testActions.get(i).getClass(), equalTo(loadedActions.get(i).getClass())));
+  }
+
+  @Test
+  @DisplayName("Get saved stories test")
+  void testGetSavedStories() {
+    assertThat(
+        "getSavedStories() should not throw an exception.",
+        StoryFileHandler.getSavedStories(),
+        is(instanceOf(Collection.class)));
+  }
+
+  @Test
+  @DisplayName("Get custom sound files test")
+  void testGetCustomSoundFiles() {
+    assertThat(
+        "getCustomSoundFiles() should not throw an exception.",
+        StoryFileHandler.getCustomSoundFiles(testStory.getTitle()),
+        is(instanceOf(Collection.class)));
+  }
+
+  @Test
+  @DisplayName("Get custom image files test")
+  void testGetCustomImageFiles() {
+    assertThat(
+        "getCustomImageFiles() should not throw an exception.",
+        StoryFileHandler.getCustomImageFiles(testStory.getTitle()),
+        is(instanceOf(Collection.class)));
+  }
+
+  @Test
+  @DisplayName("Get broken files test")
+  void testGetBrokenFiles() {
+    assertThat(
+        "getBrokenFiles() should not throw an exception.",
+        StoryFileHandler.getBrokenFiles(testStory),
+        is(instanceOf(Collection.class)));
   }
 }
