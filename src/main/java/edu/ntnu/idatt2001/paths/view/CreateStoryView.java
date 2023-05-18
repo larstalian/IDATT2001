@@ -10,6 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import lombok.Getter;
 
+/**
+ * This class represents the view for creating a story. It contains various UI elements such as
+ * buttons, labels, and text areas for managing the story creation process.
+ */
 public class CreateStoryView {
 
   @Getter private final BorderPane root;
@@ -30,6 +34,10 @@ public class CreateStoryView {
   @Getter private Button deleteActionButton;
   @Getter private Button deleteLinkButton;
 
+  /**
+   * Constructs a new CreateStoryView. This involves initializing the UI elements and setting up
+   * their properties.
+   */
   public CreateStoryView() {
     passages = new ListView<>();
 
@@ -72,6 +80,11 @@ public class CreateStoryView {
     root = createRoot();
   }
 
+  /**
+   * Creates the root BorderPane for the story creation view.
+   *
+   * @return the created BorderPane
+   */
   private BorderPane createRoot() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("main-menu");
@@ -81,6 +94,11 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the top Node for the story creation view. This includes the exit and save buttons.
+   *
+   * @return the created Node
+   */
   private Node createTop() {
     HBox results = new HBox();
     results.getStyleClass().add("top-buttons");
@@ -93,6 +111,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the right Node for the story creation view. This includes the passages ListView and
+   * passage choices.
+   *
+   * @return the created Node
+   */
   private Node createRight() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("right-panel");
@@ -101,6 +125,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage choices in the story creation view. This includes the add and
+   * delete passage buttons.
+   *
+   * @return the created Node
+   */
   private Node createPassageChoices() {
     HBox results = new HBox();
     results.getStyleClass().add("passage-choices");
@@ -110,6 +140,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the center Node for the story creation view. This includes the passage container and
+   * info, and the passage info HBox.
+   *
+   * @return the created Node
+   */
   private Node createCenter() {
     BorderPane results = new BorderPane();
     results.getStyleClass().add("center-panel");
@@ -118,6 +154,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage container and info in the story creation view. This includes
+   * the passage container, passage info, and passage additional features info.
+   *
+   * @return the created Node
+   */
   private Node createPassageContainerAndInfo() {
     BorderPane results = new BorderPane();
     results.setCenter(createPassageContainer());
@@ -126,6 +168,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage additional features info in the story creation view. This
+   * includes the mood text and single visit only text area.
+   *
+   * @return the created Node
+   */
   private Node createPassageAdditionalFeaturesInfo() {
     VBox results = new VBox();
     Label MoodLabel = new Label("Mood:");
@@ -144,6 +192,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage info in the story creation view. This includes the passage
+   * content and the edit passage button.
+   *
+   * @return the created Node
+   */
   private Node createPassageInfo() {
     HBox results = new HBox();
     results.getChildren().addAll(createPassageContent(), createEditPassageButton());
@@ -151,17 +205,33 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage content in the story creation view.
+   *
+   * @return the created Node
+   */
   private Node createPassageContent() {
     passageContent.setEditable(false);
     passageContent.setPrefHeight(40);
     return passageContent;
   }
 
+  /**
+   * Creates the Node for the edit passage button in the story creation view.
+   *
+   * @return the created Node
+   */
   private Node createEditPassageButton() {
     editPassageButton.setMinWidth(100);
     return editPassageButton;
   }
 
+  /**
+   * Creates the Node for the passage info HBox in the story creation view. This includes the links
+   * view and links info view.
+   *
+   * @return the created Node
+   */
   private Node createPassageInfoHBox() {
     HBox results = new HBox();
     results.getStyleClass().add("passage-info-hbox");
@@ -171,6 +241,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the links info view in the story creation view. This includes the link
+   * text and actions view.
+   *
+   * @return the created Node
+   */
   private Node createLinksInfoView() {
     BorderPane results = new BorderPane();
     Label linksLabel = new Label("Link Text:");
@@ -185,6 +261,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the actions view in the story creation view. This includes the actions
+   * ListView and action buttons.
+   *
+   * @return the created Node
+   */
   private Node createActionsView() {
     BorderPane results = new BorderPane();
     results.setMinHeight(200);
@@ -199,6 +281,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the actions buttons in the story creation view. This includes the add and
+   * delete action buttons.
+   *
+   * @return the created Node
+   */
   private Node createActionsButtons() {
     HBox results = new HBox();
     results.setSpacing(10);
@@ -208,6 +296,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the links view in the story creation view. This includes the links label,
+   * links ListView, and the delete link button.
+   *
+   * @return the created Node
+   */
   private Node createLinksView() {
     BorderPane results = new BorderPane();
     Label linksLabel = new Label("Links");
@@ -221,6 +315,12 @@ public class CreateStoryView {
     return results;
   }
 
+  /**
+   * Creates the Node for the passage container in the story creation view. The passage container is
+   * where a passage can be dragged in the UI.
+   *
+   * @return the created Node
+   */
   private Node createPassageContainer() {
     passageContainer = new Label("DRAG PASSAGE HERE");
     passageContainer.setAlignment(CENTER);
