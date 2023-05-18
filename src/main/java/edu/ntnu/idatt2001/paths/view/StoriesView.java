@@ -7,6 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+/**
+ * Represents the StoriesView in the user interface. This includes a number of buttons to control
+ * story-related actions, a ComboBox for story selection, labels to display various information
+ * about the selected story, and other UI components.
+ */
 public class StoriesView {
 
   @Getter private final Button goBackButton;
@@ -25,6 +30,10 @@ public class StoriesView {
   @Getter private final Label convertInfoLabel;
   @Getter private final Button editStoryButton;
 
+  /**
+   * Constructs a StoriesView. It initializes all the UI components, sets up their style classes,
+   * and configures the layout of the view.
+   */
   public StoriesView() {
     goBackButton = new Button("Back");
     goBackButton.getStyleClass().add("default-button");
@@ -56,6 +65,11 @@ public class StoriesView {
     root = createRoot();
   }
 
+  /**
+   * Creates the root BorderPane for the stories view, with the top layout and center layout added.
+   *
+   * @return The root BorderPane for the stories view.
+   */
   private BorderPane createRoot() {
     BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
@@ -64,6 +78,12 @@ public class StoriesView {
     return root;
   }
 
+  /**
+   * Creates the top layout for the stories view, which contains a label and a ComboBox for story
+   * selection.
+   *
+   * @return A Node representing the top layout for the stories view.
+   */
   private Node createTop() {
     VBox results = new VBox();
     results.getStyleClass().add("story-info-top");
@@ -72,6 +92,11 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates a VBox layout for the stories view, which contains the story information.
+   *
+   * @return A Node representing the VBox layout for the stories view.
+   */
   private Node createStoryInfo() {
     VBox results = new VBox();
     results.getStyleClass().add("story-info-label");
@@ -83,6 +108,11 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates an HBox layout for the stories view, which contains a label and the number of passages.
+   *
+   * @return A Node representing the HBox layout for the stories view.
+   */
   private Node createNumberOfPassagesInfo() {
     HBox results = new HBox();
     results.getStyleClass().add("story-info-label");
@@ -91,6 +121,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates the center layout for the stories view, which contains the story information, convert
+   * story options, edit story button, and the "Back" button.
+   *
+   * @return A Node representing the center layout for the stories view.
+   */
   private Node createCenter() {
     VBox centerInfo = new VBox();
     centerInfo.getStyleClass().add("story-info-vbox");
@@ -101,6 +137,11 @@ public class StoriesView {
     return centerInfo;
   }
 
+  /**
+   * Creates a VBox layout for the stories view, which contains the "Edit Story" button.
+   *
+   * @return A Node representing the VBox layout for the stories view.
+   */
   private Node createEditStoryButton() {
     VBox results = new VBox();
     results.getStyleClass().add("story-info-label");
@@ -108,6 +149,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates an HBox layout for the stories view, which contains labels for custom media files,
+   * custom images, custom sounds, and broken files.
+   *
+   * @return A Node representing the HBox layout for the stories view.
+   */
   private Node createMediaFilesInfo() {
     HBox results = new HBox();
     results.getStyleClass().add("story-info-label");
@@ -119,6 +166,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates an HBox layout for the stories view, which contains a label for broken links, the
+   * number of broken links, and the "See broken links" button.
+   *
+   * @return A Node representing the HBox layout for the stories view.
+   */
   private Node createNumberOfBrokenLinksInfo() {
     HBox results = new HBox();
     results.getStyleClass().add("story-info-label");
@@ -128,6 +181,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates an HBox layout for the stories view, which contains a label for story file type and the
+   * type of the story file.
+   *
+   * @return A Node representing the HBox layout for the stories view.
+   */
   private Node createStoryFileInfo() {
     HBox results = new HBox();
     results.getStyleClass().add("story-info-label");
@@ -136,6 +195,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates an HBox layout for the stories view, which contains a label for valid story and the
+   * validity of the story.
+   *
+   * @return A Node representing the HBox layout for the stories view.
+   */
   private Node createValidStoryInfo() {
     HBox results = new HBox();
     results.getStyleClass().add("story-info-label");
@@ -144,6 +209,12 @@ public class StoriesView {
     return results;
   }
 
+  /**
+   * Creates a VBox layout for the stories view, which contains the convert story information,
+   * "Convert to Json" button, and the "Convert to Paths" button.
+   *
+   * @return A Node representing the VBox layout for the stories view.
+   */
   private Node createConvertStoryInfo() {
     VBox convertStoryVBox = new VBox();
     convertStoryVBox

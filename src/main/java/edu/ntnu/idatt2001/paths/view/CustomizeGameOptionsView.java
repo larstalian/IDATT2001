@@ -6,6 +6,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import lombok.Getter;
 
+/**
+ * This class represents the view for customizing game options. It contains text fields for the user
+ * to input their desired options for the game.
+ */
 public class CustomizeGameOptionsView {
 
   @Getter private final TextField healthGoal;
@@ -17,6 +21,10 @@ public class CustomizeGameOptionsView {
   @Getter private final TextField startingGold;
   @Getter private final TextField startingInventory;
 
+  /**
+   * Constructs a new CustomizeGameOptionsView. This involves initializing the text fields for game
+   * options.
+   */
   public CustomizeGameOptionsView() {
     healthGoal = new TextField();
     healthGoal.getStyleClass().add("default-text-field");
@@ -43,6 +51,11 @@ public class CustomizeGameOptionsView {
     startingInventory.getStyleClass().add("default-text-field");
   }
 
+  /**
+   * Creates a dialog for the game options customization view.
+   *
+   * @return the created dialog
+   */
   public Dialog<Void> createDialog() {
     Dialog<Void> popup = new Dialog<>();
     popup.setTitle("Customize Game Options");
@@ -56,6 +69,12 @@ public class CustomizeGameOptionsView {
     return popup;
   }
 
+  /**
+   * Creates a node representing the customizable game settings. This includes the health goal,
+   * score goal, gold goal, and inventory goal.
+   *
+   * @return the created node
+   */
   private Node createCustomGameSettings() {
     GridPane results = new GridPane();
     results.add(new Label("Game Settings"), 0, 0);
@@ -72,6 +91,12 @@ public class CustomizeGameOptionsView {
     return results;
   }
 
+  /**
+   * Creates a node representing the customizable player settings. This includes the starting
+   * health, starting score, starting gold, and starting inventory.
+   *
+   * @return the created node
+   */
   private Node createCustomPlayerSettings() {
     GridPane results = new GridPane();
     results.add(new Label("Player Settings"), 0, 0);

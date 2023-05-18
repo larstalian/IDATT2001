@@ -20,11 +20,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.apache.commons.io.FilenameUtils;
 
+/**
+ * Controller class for the Stories View. Handles all interactions and logic for the view. This
+ * includes story selection, conversion between JSON and paths formats, updating story info, and
+ * more.
+ */
 public class StoriesViewController {
 
   private final StoriesView storiesView;
   private Story loadedStory;
 
+  /**
+   * Default constructor for StoriesViewController. Sets up the StoriesView and configures all
+   * interactive elements.
+   */
   public StoriesViewController() {
     storiesView = new StoriesView();
     configureBackButton();
@@ -34,6 +43,11 @@ public class StoriesViewController {
     configureEditStoryButton();
   }
 
+  /**
+   * Configures the action for the Edit Story button. The button is disabled if there is no story
+   * loaded. When clicked, the button will take the user to a new view to edit the currently loaded
+   * story.
+   */
   private void configureEditStoryButton() {
     storiesView.getEditStoryButton().setDisable(true);
     storiesView
@@ -49,10 +63,20 @@ public class StoriesViewController {
             });
   }
 
+  /**
+   * Returns the root UI element for the StoriesViewController.
+   *
+   * @return the root UI element
+   */
   public Region getRoot() {
     return storiesView.getRoot();
   }
 
+  /**
+   * Configures the Story Select dropdown. The dropdown allows the user to select a saved story.
+   * When a story is selected, it is loaded into the view and the appropriate information is updated
+   * and displayed.
+   */
   private void configureStorySelect() {
     storiesView.getStorySelect().getItems().addAll(StoryFileHandler.getSavedStories());
     storiesView.getStorySelect().getItems().addAll(StoryFileReader.getSavedStories());
@@ -95,6 +119,12 @@ public class StoriesViewController {
             });
   }
 
+  /**
+   * Opens an alert dialog showing all broken links in the loaded story when the corresponding
+   * button is clicked.
+   *
+   * @return The Alert dialog to be shown
+   */
   private Alert onBrokenLinksButtonClick() {
     String brokenLinks =
         loadedStory.getBrokenLinks().stream()
@@ -103,6 +133,7 @@ public class StoriesViewController {
     return Widgets.createAlert("Broken links", "The following links are broken", brokenLinks);
   }
 
+  /** Updates the label displaying the number of broken links in the loaded story. */
   private void updateBrokenLinks() {
     storiesView.getBrokenLinksLabel().setText(String.valueOf(loadedStory.getBrokenLinks().size()));
     if (loadedStory.getBrokenLinks().size() > 0) {
@@ -115,19 +146,25 @@ public class StoriesViewController {
     }
   }
 
+  /** Updates the label showing the file information of the loaded story. */
   private void updateStoryFileInfo() {
     storiesView
         .getStoryFileInfoLabel()
         .setText(FilenameUtils.getExtension(storiesView.getStorySelect().getValue()));
   }
 
+  /**
+   * Checks if there are any stories saved and updates the label with conversion information. If no
+   * stories are saved, an alert is shown to the user.
+   */
   public void updateConvertStoryInfo() {
     String selectedFile = storiesView.getStorySelect().getValue();
     if (selectedFile == null) {
       Widgets.createAlert(
               "Error",
               "There are no stories",
-              "Please check that the stories are in the correct file path, see the .README for more info.")
+              "Please check that the stories are in the correct file path, "
+                  + "see the .README for more info.")
           .showAndWait();
       storiesView.getConvertInfoLabel().setText("");
       return;
@@ -140,6 +177,7 @@ public class StoriesViewController {
     }
   }
 
+  /** Updates the label displaying whether the loaded story is valid. */
   private void updateValidStoryInfo() {
     try {
       if (storiesView.getStorySelect().getValue().endsWith(".json")) {
@@ -157,6 +195,7 @@ public class StoriesViewController {
     }
   }
 
+  /** Updates the label with information about converting from JSON format. */
   private void updateJsonConvertInfo() {
     String info =
         """
@@ -170,6 +209,7 @@ public class StoriesViewController {
     storiesView.getConvertInfoLabel().setText(info);
   }
 
+  /** Updates the label with information about converting to paths format. */
   private void updatePathsConvertInfo() {
     String info =
         """
@@ -186,6 +226,11 @@ public class StoriesViewController {
     storiesView.getConvertInfoLabel().setText(info);
   }
 
+  /**
+   * Configures the action for the Convert to JSON button. The button is visible if the loaded story
+   * is in .paths format, and hidden otherwise. When clicked, the loaded story will be converted to
+   * JSON format.
+   */
   private void configureConvertToJsonButton() {
     storiesView.getConvertToJsonButton().setVisible(false);
     storiesView
@@ -218,6 +263,10 @@ public class StoriesViewController {
             });
   }
 
+  /**
+   * Creates and returns a dialog for user input when converting a story to JSON. The dialog allows
+   * the user to set the mood and single visit properties for each passage in the story.
+   */
   private void createValues() {
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Edit passages");
@@ -227,8 +276,8 @@ public class StoriesViewController {
     grid.getStyleClass().add("dialog-grid");
     grid.setHgap(5);
 
-    List<ChoiceBox<Mood>> moodComboBoxes = new ArrayList<>();
-    List<ChoiceBox<String>> singleVisitComboBox = new ArrayList<>();
+    final List<ChoiceBox<Mood>> moodComboBoxes = new ArrayList<>();
+    final List<ChoiceBox<String>> singleVisitComboBox = new ArrayList<>();
     List<Passage> passagesList = new ArrayList<>(loadedStory.getPassages());
     passagesList.add(0, loadedStory.getOpeningPassage());
     grid.add(new Label("Passage"), 0, 0);
@@ -269,6 +318,11 @@ public class StoriesViewController {
     }
   }
 
+  /**
+   * Configures the action for the Convert to Paths button. The button is visible if the loaded
+   * story is in JSON format, and hidden otherwise. When clicked, the loaded story will be converted
+   * to .paths format.
+   */
   private void configureConvertToPathsButton() {
     storiesView.getConvertToPathsButton().setVisible(false);
     storiesView
@@ -283,7 +337,8 @@ public class StoriesViewController {
                   Widgets.createAlert(
                           "Success",
                           "Story converted",
-                          "Story converted successfully and can be now found in the paths directory")
+                          "Story converted successfully and can "
+                              + "be now found in the paths directory")
                       .showAndWait();
                 } catch (IOException e) {
                   Widgets.createAlert("Error", "Error converting story", e.getMessage())
@@ -293,21 +348,33 @@ public class StoriesViewController {
             });
   }
 
+  /** Updates the label displaying the number of passages in the loaded story. */
   private void updateNumberOfPassages() {
     storiesView
         .getNumberOfPassagesLabel()
         .setText(String.valueOf(loadedStory.getPassages().size()));
   }
 
+  /**
+   * Returns an alert with a warning message to the user. The warning is shown when the user is
+   * about to convert a story to paths format, as it may result in loss of data.
+   *
+   * @return an alert with a warning message
+   */
   private Alert convertWarning() {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Warning");
     alert.setHeaderText("Wait!");
     alert.setContentText(
-        "Additional features, other than custom images and sound will be deleted and must be re-added when converting back to Json");
+        "Additional features, other than custom images and sound "
+            + "will be deleted and must be re-added when converting back to Json");
     return alert;
   }
 
+  /**
+   * Configures the action for the "Back" button. When clicked, the button will return the user to
+   * the main menu.
+   */
   private void configureBackButton() {
     storiesView.getGoBackButton().getStyleClass().add("story-info-button");
     storiesView
@@ -319,6 +386,10 @@ public class StoriesViewController {
             });
   }
 
+  /**
+   * Updates the labels displaying the number of custom images, custom sound files, and broken media
+   * files in the loaded story.
+   */
   public void updateMediaFilesLabel() {
     int numberOfCustomImages = StoryFileHandler.getCustomImageFiles(loadedStory.getTitle()).size();
     int numberOfCustomSound = StoryFileHandler.getCustomSoundFiles(loadedStory.getTitle()).size();

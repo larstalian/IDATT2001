@@ -5,6 +5,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import lombok.Getter;
 
+/**
+ * Represents the new game view in the user interface. This includes a text field for player name
+ * input, a button to start a new game, a ComboBox for story selection, a button to return to the
+ * main menu, and a button to customize game options.
+ */
 public class NewGameView {
 
   @Getter private final BorderPane root;
@@ -14,6 +19,10 @@ public class NewGameView {
   @Getter private final TextField playerName;
   @Getter private final Button customizeGameOptionsButton;
 
+  /**
+   * Constructs a new game view. It initializes all the UI components, sets up their style classes,
+   * and configures the layout of the view.
+   */
   public NewGameView() {
     startNewGameButton = new Button("Start New Game");
     startNewGameButton.getStyleClass().add("default-button");
@@ -33,6 +42,11 @@ public class NewGameView {
     root = createRoot();
   }
 
+  /**
+   * Creates the root BorderPane for the new game view, with the center layout added.
+   *
+   * @return The root BorderPane for the new game view.
+   */
   private BorderPane createRoot() {
     BorderPane root = new BorderPane();
     root.getStyleClass().add("main-menu");
@@ -40,12 +54,24 @@ public class NewGameView {
     return root;
   }
 
+  /**
+   * Creates the center layout for the new game view, which contains a VBox of buttons.
+   *
+   * @return A Node representing the center layout for the new game view.
+   */
   private Node createCenter() {
     StackPane centerLayout = new StackPane();
     centerLayout.getChildren().add(createButtonVBox());
     return centerLayout;
   }
 
+  /**
+   * Creates a VBox layout for the new game view, which contains the player name input field, "Start
+   * New Game" button, story select combo box, "Customize Game Options" button, and "Go Back"
+   * button.
+   *
+   * @return A Node representing the VBox layout for the new game view.
+   */
   private Node createButtonVBox() {
     VBox buttonLayout = new VBox();
     buttonLayout.getChildren().add(playerName);
@@ -57,6 +83,12 @@ public class NewGameView {
     return buttonLayout;
   }
 
+  /**
+   * Creates an HBox layout for the new game view, which contains a label and a ComboBox for story
+   * selection.
+   *
+   * @return A Node representing the HBox layout for the new game view.
+   */
   private Node createHBox() {
     HBox hboxLayout = new HBox();
     hboxLayout.getChildren().add(new Label("Select Story: "));

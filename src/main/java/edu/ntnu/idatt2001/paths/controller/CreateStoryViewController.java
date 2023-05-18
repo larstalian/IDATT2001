@@ -22,6 +22,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for creating stories in the user interface. This class manages the interactions
+ * between the UI and the Story model. It configures the buttons for adding and deleting passages,
+ * adding and deleting actions, saving the story, exiting the story creation, editing a passage, and
+ * deleting a link. It also manages drag and drop functionality and the updating of views.
+ */
 public class CreateStoryViewController {
   private final ObservableList<Passage> passages;
   private final CreateStoryView createStoryView;
@@ -30,6 +36,13 @@ public class CreateStoryViewController {
   private Link selectedLink;
   private Action selectedAction;
 
+  /**
+   * Constructs a CreateStoryViewController for a specified story. It initializes the
+   * createStoryView, sets up the passages list, and configures the buttons and listeners for the
+   * user interface.
+   *
+   * @param chosenStory The story to create a view controller for.
+   */
   public CreateStoryViewController(Story chosenStory) {
     story = chosenStory;
     createStoryView = new CreateStoryView();
@@ -47,6 +60,10 @@ public class CreateStoryViewController {
     configureDeleteLinkButton();
   }
 
+  /**
+   * Configures the Delete Link Button. On action, removes the selected link from the selected
+   * passage. If no link is selected, an error alert is shown.
+   */
   private void configureDeleteLinkButton() {
     Button deleteLinkButton = createStoryView.getDeleteLinkButton();
     deleteLinkButton.setOnAction(
@@ -63,6 +80,10 @@ public class CreateStoryViewController {
         });
   }
 
+  /**
+   * Configures the Edit Passage Button. On action, if a passage is selected, opens a dialog to edit
+   * the passage. If no passage is selected, an error alert is shown.
+   */
   private void configureEditPassageButton() {
     Button editPassageButton = createStoryView.getEditPassageButton();
     editPassageButton.setOnAction(
@@ -75,6 +96,12 @@ public class CreateStoryViewController {
         });
   }
 
+  /**
+   * Opens a dialog to edit a selected passage. Allows for modification of passage content, mood,
+   * and single visit property. If an invalid input is provided, an error alert is shown.
+   *
+   * @param passage The passage to be edited.
+   */
   private void showEditPassageDialog(Passage passage) {
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Edit Passage");
@@ -118,10 +145,15 @@ public class CreateStoryViewController {
     dialog.showAndWait();
   }
 
+  /** Configures the Exit Button. On action, opens a dialog to confirm the exit without saving. */
   private void configureExitButton() {
     createStoryView.getExitButton().setOnAction(event -> showExitDialog());
   }
 
+  /**
+   * Opens a dialog to confirm the exit without saving. If confirmed, switches the view to the main
+   * menu.
+   */
   private void showExitDialog() {
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Exit");
@@ -142,6 +174,11 @@ public class CreateStoryViewController {
     dialog.showAndWait();
   }
 
+  /**
+   * Configures the Save Story Button. On action, opens a dialog to confirm the save operation,
+   * which overwrites the old file. If an error occurs during the save operation, an error alert is
+   * shown.
+   */
   private void configureSaveStoryButton() {
     createStoryView
         .getSaveButton()
@@ -174,6 +211,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Configures the Delete Passage Button. On action, if a passage is selected, opens a dialog to
+   * confirm the deletion of the passage.
+   */
   private void configureDeletePassageButton() {
     createStoryView
         .getDeletePassageButton()
@@ -186,6 +227,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Opens a dialog to confirm the deletion of a selected passage. If confirmed, removes all links
+   * to and from the passage, and updates the view.
+   */
   private void showDeletePassageDialog() {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Delete Passage");
@@ -214,6 +259,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Configures the Delete Action Button. On action, if a passage, link, and action are all
+   * selected, removes the action from the link.
+   */
   private void configureDeleteActionButton() {
     createStoryView
         .getDeleteActionButton()
@@ -226,6 +275,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Configures the Add Action Button. On action, if a passage and link are selected, opens a dialog
+   * to add an action to the link.
+   */
   private void configureAddActionButton() {
     createStoryView
         .getAddActionButton()
@@ -238,6 +291,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Opens a dialog to add an action to a selected link. Allows for the choice of action type and
+   * value. If an invalid input is provided, an error alert is shown.
+   */
   private void showAddActionDialog() {
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Add Action");
@@ -309,14 +366,25 @@ public class CreateStoryViewController {
     dialog.showAndWait();
   }
 
+  /**
+   * Returns the root region of the CreateStoryView.
+   *
+   * @return the root region
+   */
   public Region getRoot() {
     return createStoryView.getRoot();
   }
 
+  /** Configures the Add Passage Button. On action, opens a dialog to add a new passage. */
   private void configureAddPassageButton() {
     createStoryView.getAddPassageButton().setOnAction(event -> showAddPassageDialog());
   }
 
+  /**
+   * Opens a dialog to add a new passage. Allows for input of title, text, mood, and single visit
+   * property. If an invalid input is provided or a passage with the same title already exists, an
+   * error alert is shown.
+   */
   private void showAddPassageDialog() {
     Dialog<ButtonType> dialog = new Dialog<>();
     dialog.setTitle("Add Passage");
@@ -353,8 +421,10 @@ public class CreateStoryViewController {
                       isSingleVisit.isSelected());
 
               if (passages.contains(passage)) {
-                  Widgets.createAlert("Error", "Invalid input", "Passage with this title already exists").showAndWait();
-                  return null;
+                Widgets.createAlert(
+                        "Error", "Invalid input", "Passage with this title already exists")
+                    .showAndWait();
+                return null;
               }
 
               passages.add(passage);
@@ -369,6 +439,10 @@ public class CreateStoryViewController {
     dialog.showAndWait();
   }
 
+  /**
+   * Adds a listener to the passages list. Updates the passage container text when a passage is
+   * selected.
+   */
   private void addPassagesListener() {
     createStoryView.getPassages().setItems(passages);
 
@@ -384,6 +458,7 @@ public class CreateStoryViewController {
             });
   }
 
+  /** Configures drag and drop functionality for passages, links, and actions. */
   private void configureDragAndDrop() {
     configurePassagesCellFactory();
     configureLinksViewCellFactory();
@@ -393,6 +468,10 @@ public class CreateStoryViewController {
     configureActionsViewSelectionListener();
   }
 
+  /**
+   * Configures the cell factory for the passages list view. Allows for drag and drop functionality
+   * of passages.
+   */
   private void configurePassagesCellFactory() {
     createStoryView
         .getPassages()
@@ -427,6 +506,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Configures drag and drop functionality for the passage container. On drop, updates the links
+   * view and passage information to reflect the dropped passage.
+   */
   private void configurePassageContainerDragAndDrop() {
     Label passageContainer = createStoryView.getPassageContainer();
     passageContainer.setOnDragOver(
@@ -462,12 +545,18 @@ public class CreateStoryViewController {
         });
   }
 
+  /** Updates the text of the passage container to display the title of the selected passage. */
   private void updatePassageContainerText() {
     createStoryView.getPassageContainer().setText(selectedPassage.getTitle());
 
     createStoryView.getPassageContainer().getStyleClass().add("passage-container");
   }
 
+  /**
+   * Updates the links view and passage information to reflect the given passage.
+   *
+   * @param passage The passage to be reflected.
+   */
   private void updateLinksViewAndPassageInfo(Passage passage) {
     createStoryView.getLinksView().getItems().clear();
     updateActionsListView();
@@ -485,6 +574,10 @@ public class CreateStoryViewController {
     createStoryView.getSingleVisitOnly().setText(passage.isSingleVisitOnly() ? "Yes" : "No");
   }
 
+  /**
+   * Configures drag and drop functionality for the links view. On drop, adds a new link to the
+   * selected passage that leads to the dropped passage.
+   */
   private void configureLinksViewDragAndDrop() {
     ListView<Passage> linksView = createStoryView.getLinksView();
     linksView.setOnDragOver(
@@ -539,6 +632,12 @@ public class CreateStoryViewController {
         });
   }
 
+  /**
+   * Opens a dialog to enter the text for a new link to the given passage title.
+   *
+   * @param passageTitle The title of the passage to be linked to.
+   * @return A TextField containing the text for the new link, or null if the dialog was cancelled.
+   */
   private TextField newLinkPopup(String passageTitle) {
     Dialog<Object> dialog = new Dialog<>();
     dialog.setTitle("New Link");
@@ -557,6 +656,10 @@ public class CreateStoryViewController {
     return dialog.getResult() == addLinkButton ? linkText : null;
   }
 
+  /**
+   * Configures the cell factory for the links view. Displays the title of the passage each link
+   * leads to.
+   */
   private void configureLinksViewCellFactory() {
     createStoryView
         .getLinksView()
@@ -576,6 +679,10 @@ public class CreateStoryViewController {
                 });
   }
 
+  /**
+   * Adds a listener to the links view selection model. Updates the displayed link text and actions
+   * list to reflect the selected link.
+   */
   private void configureLinksViewSelectionListener() {
     createStoryView
         .getLinksView()
@@ -599,6 +706,10 @@ public class CreateStoryViewController {
             });
   }
 
+  /**
+   * Adds a listener to the actions list view selection model. Updates the selected action to
+   * reflect the selected item in the list view.
+   */
   private void configureActionsViewSelectionListener() {
     createStoryView
         .getActionsListView()
@@ -612,6 +723,7 @@ public class CreateStoryViewController {
             });
   }
 
+  /** Updates the actions list view to display the actions of the selected link. */
   private void updateActionsListView() {
     createStoryView.getActionsListView().getItems().clear();
     selectedAction = null;
@@ -626,6 +738,11 @@ public class CreateStoryViewController {
     createStoryView.getActionsListView().getItems().addAll(selectedLink.getActions());
   }
 
+  /**
+   * Updates the displayed link text to the given text.
+   *
+   * @param text The text to be displayed.
+   */
   private void updateLinkText(String text) {
     createStoryView.getLinkText().clear();
     if (text.isBlank()) {

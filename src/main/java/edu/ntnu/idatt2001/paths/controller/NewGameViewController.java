@@ -15,11 +15,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Region;
 
+/**
+ * Controller for the NewGameView class. Manages the actions associated with each button and field
+ * in the new game screen, including validation of player name input, story selection, and game
+ * configuration.
+ */
 public class NewGameViewController {
 
   private final NewGameView newGameView;
   private final CustomizeGameOptionsViewController customizeGameOptionsViewController;
 
+  /** Creates a new instance of the NewGameViewController class. */
   public NewGameViewController() {
     newGameView = new NewGameView();
     customizeGameOptionsViewController = new CustomizeGameOptionsViewController();
@@ -30,10 +36,20 @@ public class NewGameViewController {
     configureCustomizeGameOptionsButton();
   }
 
+  /**
+   * Returns the root node of the new game view.
+   *
+   * @return a Region representing the root node of the new game view.
+   */
   public Region getRoot() {
     return newGameView.getRoot();
   }
 
+  /**
+   * Configures the action of the "Start New Game" button. It will check the validity of the player
+   * name and the selected story before starting the new game. If either is invalid, a warning
+   * dialog will be shown.
+   */
   private void configureNewGameButton() {
     newGameView
         .getStartNewGameButton()
@@ -49,12 +65,20 @@ public class NewGameViewController {
             });
   }
 
+  /**
+   * Configures the action of the "Customize Game Options" button to show the game options
+   * customization view.
+   */
   private void configureCustomizeGameOptionsButton() {
     newGameView
         .getCustomizeGameOptionsButton()
         .setOnAction(event -> customizeGameOptionsViewController.show());
   }
 
+  /**
+   * Configures the action of the "Go Back" button. It changes the current scene's root to the main
+   * menu view.
+   */
   private void configureGoBackButton() {
     newGameView
         .getGoBackButton()
@@ -65,24 +89,39 @@ public class NewGameViewController {
             });
   }
 
+  /** Configures the story selection ComboBox with the available story files. */
   private void configureStorySelect() {
     newGameView.getStorySelect().getItems().addAll(StoryFileReader.getSavedStories());
     newGameView.getStorySelect().getItems().addAll(StoryFileHandler.getSavedStories());
     newGameView.getStorySelect().selectionModelProperty().get().selectFirst();
   }
 
+  /** Configures the player name input field with additional styling and placeholder text. */
   private void configurePlayerName() {
     newGameView.getPlayerName().getStyleClass().add("player-name-field");
     newGameView.getPlayerName().setPromptText("Enter your name");
     newGameView.getPlayerName().setFocusTraversable(false);
   }
 
+  /**
+   * Checks if the provided name is valid according to the defined length constraints.
+   *
+   * @param name the name to validate
+   * @return true if the name is valid, false otherwise
+   */
   private boolean isNameValid(String name) {
     int minNameLength = Player.PlayerConstants.MIN_NAME_LENGTH;
     int maxNameLength = Player.PlayerConstants.MAX_NAME_LENGTH;
     return name != null && name.length() >= minNameLength && name.length() <= maxNameLength;
   }
 
+  /**
+   * Starts a new game with the given player name and story. Depending on the game options
+   * customization, it creates a new player with specific attributes and goals.
+   *
+   * @param name the name of the player
+   * @param story the selected story
+   */
   private void startNewGame(String name, String story) {
     Story loadedStory = loadStoryFromFile(story);
     Player player;
@@ -112,6 +151,13 @@ public class NewGameViewController {
     }
   }
 
+  /**
+   * Loads a story from a file with the provided story name. The method supports both the custom
+   * story file format and JSON.
+   *
+   * @param story the name of the story file
+   * @return the loaded Story object, or null if an error occurred during loading
+   */
   private Story loadStoryFromFile(String story) {
     Story loadedStory = null;
     try {
@@ -129,6 +175,7 @@ public class NewGameViewController {
     return loadedStory;
   }
 
+  /** Shows a warning dialog when the player name or the selected story is invalid. */
   private void showWarningDialog() {
     Alert alert =
         new Alert(

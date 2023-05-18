@@ -258,6 +258,7 @@ public class GameViewController {
     }
   }
 
+  /** Configures the exit button to show a confirmation dialog when clicked. */
   private void configureExitButton() {
     gameView.getExitButton().setOnAction(e -> showSaveGameConfirmationDialog());
   }
