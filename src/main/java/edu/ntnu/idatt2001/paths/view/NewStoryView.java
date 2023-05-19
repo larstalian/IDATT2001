@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.paths.view;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -18,7 +19,7 @@ public class NewStoryView {
   @Getter private final Button newStoryButton;
   @Getter private final Button goBackButton;
   @Getter private final TextField storyName;
-  @Getter private final TextField openingPassageText;
+  @Getter private final TextArea openingPassageText;
   @Getter private final Label infoLabel;
   @Getter private final BorderPane root;
 
@@ -36,10 +37,10 @@ public class NewStoryView {
     storyName = new TextField();
     storyName.getStyleClass().add("default-text-field");
 
-    openingPassageText = new TextField();
-    openingPassageText.getStyleClass().add("default-text-field");
+    openingPassageText = new TextArea();
+    openingPassageText.getStyleClass().add("default-text-area");
 
-    infoLabel = new Label();
+    infoLabel = new Label("Enter the name of the story and \nthe content of the opening passage");
     infoLabel.getStyleClass().add("default-label");
     root = createRoot();
   }
@@ -63,9 +64,12 @@ public class NewStoryView {
    */
   private Node createCenter() {
     VBox results = new VBox();
+    results.getStyleClass().add("main-menu");
     results.getChildren().add(infoLabel);
     results.getChildren().add(storyName);
+    storyName.setMaxWidth(200);
     results.getChildren().add(openingPassageText);
+    openingPassageText.setMaxWidth(200);
     results.getChildren().add(newStoryButton);
     results.getChildren().add(goBackButton);
     return results;
