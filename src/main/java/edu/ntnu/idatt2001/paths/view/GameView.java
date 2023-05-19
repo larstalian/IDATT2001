@@ -1,7 +1,11 @@
 package edu.ntnu.idatt2001.paths.view;
 
+import static edu.ntnu.idatt2001.paths.model.media.IconHandler.getIcon;
+
 import edu.ntnu.idatt2001.paths.controller.GameViewController;
 import edu.ntnu.idatt2001.paths.model.game.Game;
+import edu.ntnu.idatt2001.paths.view.util.Widgets;
+import java.io.IOException;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -12,13 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * The GameView class is responsible for creating and maintaining the graphical user interface (GUI)
@@ -44,7 +46,7 @@ public class GameView {
   @Getter private ScrollPane contentbarScrollPane;
   @Getter private Button deathExitButton;
   @Getter private Button deathRestartButton;
-  @Setter private Image goldIcon;
+  @Getter private ImageView goldIcon;
   @Getter private Label playerName;
 
   /**
@@ -142,7 +144,18 @@ public class GameView {
 
   private Node createGoldIconContainer() {
     HBox imageContainer = new HBox();
-    imageContainer.getChildren().add(new ImageView(goldIcon));
+    try {
+      ImageView goldIcon = new ImageView(getIcon("gold"));
+      goldIcon.setFitHeight(20);
+      goldIcon.setFitWidth(20);
+      imageContainer.getChildren().add(goldIcon);
+
+    } catch (IOException e) {
+      Widgets.createAlert("Error", "Could not load gold icon", "").showAndWait();
+      Label goldIcon = new Label("Gold: ");
+      goldIcon.getStyleClass().add("default-label");
+      imageContainer.getChildren().add(goldIcon);
+    }
     return imageContainer;
   }
 
