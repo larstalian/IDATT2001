@@ -66,15 +66,16 @@ public class GameViewController {
   public GameViewController(GameData gameData) {
     currentGame = gameData.getGame();
     currentPassage = gameData.getPassage();
-    gameView = new GameView();
     soundHandler = SoundHandler.getInstance();
     backgroundHandler = BackgroundHandler.getInstance();
     soundHandler.updateMusic(currentPassage, currentGame.getStory().getTitle());
-    backgroundHandler.updateBackground(
-        gameView.getRoot(), currentPassage, currentGame.getStory().getTitle());
     visitedPassages = new ArrayList<>();
     visitedPassages.addAll(gameData.getVisitedPassages());
     initialPlayer = new Player.Builder(currentGame.getPlayer()).build();
+
+    gameView = new GameView();
+    backgroundHandler.updateBackground(
+        gameView.getRoot(), currentPassage, currentGame.getStory().getTitle());
 
     updatePlayerHealth();
     animateContentBar();
@@ -85,7 +86,6 @@ public class GameViewController {
     updateGoldLabel();
     configureRestartGameButton();
     configureDeathExitButton();
-    configureGoldIcon();
     configureSkipLabel();
     configurePlayerName();
     isAnimationSkipped = new AtomicBoolean(false);
@@ -467,14 +467,5 @@ public class GameViewController {
     gameView.getCenterInfo().getChildren().add(gameView.createDeathScreen());
     soundHandler.playSound("death");
     gameView.getLinks().getChildren().clear();
-  }
-
-  /** Configures the gold icon in the game view. */
-  private void configureGoldIcon() {
-    try {
-      gameView.setGoldIcon(getIcon("gold"));
-    } catch (IOException e) {
-      Widgets.createAlert("Error", "Error loading inventory icon", e.getMessage()).showAndWait();
-    }
   }
 }
