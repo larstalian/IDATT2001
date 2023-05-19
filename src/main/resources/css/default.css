@@ -30,7 +30,7 @@
     -fx-background-color: #000000;
 }
 
-.default-choice-box{
+.default-choice-box {
     -fx-background-color: black;
     -fx-border-color: white;
     -fx-border-width: 1px;
@@ -38,7 +38,7 @@
     -fx-text-fill: white;
 }
 
-.default-list-view{
+.default-list-view {
     -fx-control-inner-background: black;
     -fx-background-color: black;
     -fx-border-color: white;
@@ -52,16 +52,32 @@
     -fx-background-color: black
 }
 
-.default-choice-box .cell:hover{
+.default-text-area {
+
+}
+
+.default-choice-box .cell:hover {
     -fx-background-color: #313131;
 }
 
-.default-text-field ,
-.default-label{
+.default-text-field,
+.default-label,
+.default-text-area {
+    -fx-wrap-text: true;
     -fx-padding: 5px;
     -fx-background-color: black;
+    -fx-border-color: black;
     -fx-border-radius: 5px;
     -fx-text-fill: white;
+}
+
+.default-text-area .content {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.default-text-area .scroll-pane {
+    -fx-background-color: black;
 }
 
 .title {
@@ -99,6 +115,7 @@
     -fx-max-width: 150px;
 }
 
+
 .content-bar {
     -fx-spacing: 10px;
     -fx-alignment: center;
@@ -110,7 +127,6 @@
     -fx-border-color: white;
     -fx-background-insets: 0px;
 }
-
 
 .text-flow {
     -fx-pref-width: 600px;
@@ -200,10 +216,10 @@
     -fx-alignment: center;
 }
 
-.story-info-HBox{
+
+.story-info-HBox {
     -fx-padding: 40px;
 }
-
 
 .story-info-label {
     -fx-font-family: "Fira Code Retina";
@@ -250,7 +266,7 @@
     -fx-alignment: center;
 }
 
-.inventory-view-title{
+.inventory-view-title {
     -fx-font-family: "Fira Code Retina";
     -fx-font-size: 14px;
     -fx-text-fill: white;
@@ -289,7 +305,7 @@
     -fx-background-color: rgba(89, 23, 23, 0.32);
 }
 
-.gold-info{
+.gold-info {
     -fx-font-family: "Fira Code Retina";
     -fx-font-size: 14px;
     -fx-text-fill: white;
@@ -304,7 +320,7 @@
     -fx-padding: 1px;
 }
 
-.top-info{
+.top-info {
     -fx-padding: 5px;
     -fx-alignment: center;
     -fx-background-color: rgba(0, 0, 0, 0.9);
@@ -358,17 +374,18 @@
     -fx-padding: 1px;
 }
 
-.top-buttons{
+.top-buttons {
     -fx-max-height: 30px;
 }
 
-.passage-view{
+
+.passage-view {
     -fx-max-width: 150px;
     -fx-min-height: 600px;
 }
 
-
 /* Top buttons HBox */
+
 .top-buttons > Button {
     spacing: 10px;
     padding: 10px;
@@ -376,12 +393,14 @@
 }
 
 /* Right panel */
+
 .right-panel {
     padding: 10px;
     background-color: #3c3f41;
 }
 
 /* Passage choices HBox */
+
 .passage-choices {
     spacing: 10px;
     padding: 10px;
@@ -389,12 +408,14 @@
 }
 
 /* Center panel */
+
 .center-panel {
     padding: 10px;
     background-color: #3c3f41;
 }
 
 /* Passage info HBox */
+
 .passage-info-hbox {
     spacing: 10px;
     padding: 10px;
@@ -402,6 +423,7 @@
 }
 
 /* Actions buttons HBox */
+
 .actions-buttons {
     spacing: 10px;
     padding: 10px;
@@ -409,6 +431,7 @@
 }
 
 /* Passage container */
+
 .passage-container {
     -fx-text-fill: white;
     -fx-background-color: black;
@@ -422,6 +445,7 @@
 }
 
 /* Text areas */
+
 .text-area {
     -fx-background-color: white;
     -fx-border-color: #000000;
@@ -430,6 +454,7 @@
 }
 
 /* List views */
+
 .list-view {
     -fx-background-color: white;
     -fx-border-color: #000000;
@@ -441,6 +466,6 @@
     -fx-padding: 5px;
 }
 
-.create-story-link-view{
+.create-story-link-view {
     -fx-min-width: 100px;
 }

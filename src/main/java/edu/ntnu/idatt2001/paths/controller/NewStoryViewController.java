@@ -50,7 +50,7 @@ public class NewStoryViewController {
 
   /** Configure the text prompt for the story name field in the new story view. */
   private void configureStoryNameTextField() {
-    newStoryView.getStoryName().setPromptText("Enter Story Name (file name)");
+    newStoryView.getStoryName().setPromptText("Enter the story title");
   }
 
   /**
