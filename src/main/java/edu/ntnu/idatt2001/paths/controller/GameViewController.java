@@ -233,6 +233,7 @@ public class GameViewController {
    * @param link the link that was clicked.
    */
   private void handleLinkButtonClick(Link link) {
+    Passage oldPassage = currentPassage;
     if (link.getRef().equals(currentGame.getStory().getOpeningPassage().getTitle())) {
       currentPassage = currentGame.getStory().getOpeningPassage();
 
@@ -240,8 +241,14 @@ public class GameViewController {
       currentPassage = currentGame.go(link);
     }
 
+    try {
+      executeActions(link);
+    } catch (IllegalArgumentException e) {
+      currentPassage = oldPassage;
+      return;
+    }
+
     visitedPassages.add(currentPassage);
-    executeActions(link);
     animateContentBar();
     updateInventory();
     updateGoldLabel();
