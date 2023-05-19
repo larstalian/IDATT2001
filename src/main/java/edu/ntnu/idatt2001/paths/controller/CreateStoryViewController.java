@@ -565,8 +565,9 @@ public class CreateStoryViewController {
     for (Link link : passage.getLinks()) {
       if (link.getRef().equals(story.getOpeningPassage().getTitle())) {
         createStoryView.getLinksView().getItems().add(story.getOpeningPassage());
+      } else {
+        createStoryView.getLinksView().getItems().addAll(story.getPassage(link));
       }
-      createStoryView.getLinksView().getItems().addAll(story.getPassage(link));
     }
 
     createStoryView.getPassageContent().setText(passage.getContent());
