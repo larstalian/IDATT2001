@@ -17,13 +17,14 @@ import java.util.List;
 
 /**
  * A custom deserializer for the {@link GameData} class, using the Jackson library. This class is
- * responsible for deserializing JSON data into a {@link GameData} object containing the {@link
- * Game} and {@link Passage} objects. The custom deserialization is necessary because the {@link
- * Game} object contains a {@link Player}, a {@link Story}, and a list of {@link Goal} objects that
- * should be deserialized according to their respective types. The {@link Goal} objects are
- * deserialized using the {@link GoalFactory}.
+ * responsible for deserializing JSON data into a {@link GameData} object containing the
+ * {@link Game} and {@link Passage} objects. The custom deserialization is necessary because the
+ * {@link Game} object contains a {@link Player}, a {@link Story}, and a list of {@link Goal}
+ * objects that should be deserialized according to their respective types. The {@link Goal} objects
+ * are deserialized using the {@link GoalFactory}.
  *
- * <p>To use this deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper}, register
+ * <p>To use this deserializer with an {@link com.fasterxml.jackson.databind.ObjectMapper},
+ * register
  * it with a {@link com.fasterxml.jackson.databind.module.SimpleModule} and add the module to the
  * ObjectMapper. For example:
  *

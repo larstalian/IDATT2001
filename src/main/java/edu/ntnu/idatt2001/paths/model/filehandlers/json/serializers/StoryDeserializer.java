@@ -38,10 +38,10 @@ public class StoryDeserializer extends JsonDeserializer<Story> {
   /**
    * Deserializes JSON data into a Story object.
    *
-   * @param jsonParser the JSON parser
+   * @param jsonParser             the JSON parser
    * @param deserializationContext the deserialization context
    * @return the deserialized Story object
-   * @throws IOException if there is an issue reading from the JSON parser
+   * @throws IOException             if there is an issue reading from the JSON parser
    * @throws JsonProcessingException if there is an issue processing the JSON data
    */
   @Override
@@ -68,7 +68,7 @@ public class StoryDeserializer extends JsonDeserializer<Story> {
   /**
    * Creates a Passage object from the given JSON node.
    *
-   * @param jsonParser the JSON parser
+   * @param jsonParser  the JSON parser
    * @param passageNode the JSON node containing the passage data
    * @return the created Passage object
    * @throws JsonProcessingException if there is an issue processing the JSON data
