@@ -18,7 +18,8 @@ import edu.ntnu.idatt2001.paths.model.game.Player;
  */
 public class HealthGoal implements Goal {
 
-  @JsonProperty private final int minimumHealth;
+  @JsonProperty
+  private final int minimumHealth;
 
   /**
    * Creates a new <em>HealthGoal</em> with the given minimum health amount.
@@ -35,7 +36,7 @@ public class HealthGoal implements Goal {
    *
    * @param player the player to check for the goal fulfillment
    * @return {@code true} if the player has at least the required amount of health {@code false}
-   *     otherwise
+   * otherwise
    */
   @Override
   public boolean isFulfilled(Player player) {

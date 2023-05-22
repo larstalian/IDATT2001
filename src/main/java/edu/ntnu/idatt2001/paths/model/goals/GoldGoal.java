@@ -17,7 +17,8 @@ import edu.ntnu.idatt2001.paths.model.game.Player;
  */
 public class GoldGoal implements Goal {
 
-  @JsonProperty private final int minimumGold;
+  @JsonProperty
+  private final int minimumGold;
 
   /**
    * Creates a new <em>GoldGoal</em> with the given minimum gold amount.
@@ -33,8 +34,8 @@ public class GoldGoal implements Goal {
    * Checks if the player has collected at least the minimum amount of gold to fulfill the goal.
    *
    * @param player the player to check for the goal fulfillment
-   * @return {@code true} if the player has collected at least the minimum amount of gold, {@code
-   *     false} otherwise
+   * @return {@code true} if the player has collected at least the minimum amount of gold,
+   * {@code false} otherwise
    */
   @Override
   public boolean isFulfilled(Player player) {

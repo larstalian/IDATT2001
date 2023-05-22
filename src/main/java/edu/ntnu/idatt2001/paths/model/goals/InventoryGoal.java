@@ -20,13 +20,14 @@ import java.util.List;
  */
 public class InventoryGoal implements Goal {
 
-  @JsonProperty private final List<String> mandatoryItems;
+  @JsonProperty
+  private final List<String> mandatoryItems;
 
   /**
    * Constructs a new `InventoryGoal` object with the specified list of mandatory items.
    *
    * @param mandatoryItems the list of mandatory items that a player must collect to fulfill the
-   *     goal
+   *                       goal
    */
   @JsonCreator
   public InventoryGoal(@JsonProperty List<String> mandatoryItems) {
@@ -39,7 +40,7 @@ public class InventoryGoal implements Goal {
    *
    * @param player the player whose inventory is to be checked
    * @return {@code true}` if the player has collected all the mandatory items, {@code false}
-   *     otherwise
+   * otherwise
    */
   @Override
   public boolean isFulfilled(Player player) {
