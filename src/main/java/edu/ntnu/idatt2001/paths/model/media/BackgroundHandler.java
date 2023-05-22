@@ -43,8 +43,8 @@ public class BackgroundHandler {
    * @return {@code true} if the passage has a custom background, {@code false} otherwise.
    */
   public boolean hasBackground(Passage passage, String storyTitle) {
-    String path = STORIES_PATH + storyTitle + IMAGE_PATH;
-    String fileName = passage.getTitle() + IMAGE_EXTENSION;
+    String path = STORIES_PATH + storyTitle + "/images/";
+    String fileName = passage.getTitle().toLowerCase() + IMAGE_EXTENSION;
     return getClass().getResource(path + fileName) != null;
   }
 
