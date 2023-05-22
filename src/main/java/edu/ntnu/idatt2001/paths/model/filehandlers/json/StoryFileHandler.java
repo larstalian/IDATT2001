@@ -24,9 +24,9 @@ import org.apache.commons.io.FilenameUtils;
  * JSON format with a ".json" extension in the "src/main/resources/stories" directory.
  *
  * <p>Files are being saved and serialized using default jackson serialization, and uses custom
- * serializing deserializing for the {@link Story} class and custom deserializing for the {@link
- * Link} class because Jacksons default deserialization cannot deserialize the map in the {@link
- * Story} class, or the {@code actions} List in the {@link Link} class.
+ * serializing deserializing for the {@link Story} class and custom deserializing for the
+ * {@link Link} class because Jacksons default deserialization cannot deserialize the map in the
+ * {@link Story} class, or the {@code actions} List in the {@link Link} class.
  *
  * <p>To use this class to write and read stories to and from files, create a new instance of this
  * class and use the {@link #saveStoryToFile(Story)} and {@link #loadStoryFromFile(String)} methods.
@@ -78,9 +78,12 @@ public class StoryFileHandler {
    *
    * @param storyName The name of the story for which custom sound files should be retrieved.
    * @return A collection of file names from the "sounds" folder in the custom media path.
+   * @throws IOException if cannot resolve file.
    */
-  public static Collection<String> getCustomSoundFiles(String storyName) {
+  public static Collection<String> getCustomSoundFiles(String storyName) throws IOException {
     File soundsFolder = new File(customMediaPath + "/" + storyName + "/sounds");
+
+    Files.createDirectories(customMediaPath.resolve(storyName).resolve("sounds"));
     String[] soundFiles = soundsFolder.list();
     return soundFiles == null ? Collections.emptyList() : Arrays.asList(soundFiles);
   }
@@ -93,6 +96,10 @@ public class StoryFileHandler {
    */
   public static Collection<String> getCustomImageFiles(String storyTitle) {
     storyTitle = FilenameUtils.removeExtension(storyTitle);
+    try {
+      Files.createDirectories(customMediaPath.resolve(storyTitle).resolve("images"));
+    } catch (IOException ignored) {
+    }
     File imagesFolder = new File(customMediaPath + "/" + storyTitle + "/images");
     String[] imageFiles = imagesFolder.list();
     return imageFiles == null ? Collections.emptyList() : Arrays.asList(imageFiles);
@@ -105,9 +112,10 @@ public class StoryFileHandler {
    *
    * @param story The story object containing the passages to check against the custom media files.
    * @return A collection of file names from the "sounds" and "images" folders that do not match any
-   *     passage titles.
+   * passage titles.
+   * @throws IOException if cant resolve file for sound and images.
    */
-  public static Collection<String> getBrokenFiles(Story story) {
+  public static Collection<String> getBrokenFiles(Story story) throws IOException {
     Collection<String> sounds = getCustomSoundFiles(story.getTitle());
     Collection<String> images = getCustomImageFiles(story.getTitle());
     Collection<String> brokenFiles = new ArrayList<>();

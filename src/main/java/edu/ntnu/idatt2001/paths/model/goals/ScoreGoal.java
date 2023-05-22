@@ -9,7 +9,8 @@ import edu.ntnu.idatt2001.paths.model.game.Player;
  * score. The goal is considered fulfilled if the player's score is greater than or equal to a
  * minimum number of points.
  *
- * <p>The minimum number of points required to fulfill the goal is specified in the constructor. The
+ * <p>The minimum number of points required to fulfill the goal is specified in the constructor.
+ * The
  * goal can be checked for fulfillment by calling the {@link #isFulfilled} method and passing in a
  * Player object.
  *
@@ -18,7 +19,8 @@ import edu.ntnu.idatt2001.paths.model.game.Player;
  */
 public class ScoreGoal implements Goal {
 
-  @JsonProperty private final int minimumScore;
+  @JsonProperty
+  private final int minimumScore;
 
   /**
    * Creates a new ScoreGoal with the given minimum number of points.
@@ -35,7 +37,7 @@ public class ScoreGoal implements Goal {
    *
    * @param player the player to check for goal fulfillment
    * @return {@code true} if the player's score is greater than or equal to the minimum score,
-   *     {@code false} otherwise
+   * {@code false} otherwise
    */
   @Override
   public boolean isFulfilled(Player player) {

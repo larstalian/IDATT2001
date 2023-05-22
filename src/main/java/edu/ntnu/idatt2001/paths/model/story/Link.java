@@ -1,6 +1,9 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
-import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.*;
+import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.REF_MAX_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.REF_MIN_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.TEXT_MAX_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Link.LinkConstants.TEXT_MIN_LENGTH;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +23,8 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Links are immutable: their contents and actions cant be modified.
  *
- * <p>To create a new Link, provide a text label and reference as arguments. Actions can be added to
+ * <p>To create a new Link, provide a text label and reference as arguments. Actions can be added
+ * to
  * the Link using the {@link #addAction(Action)} method.
  *
  * <p>Links for a passage can also be created automatically when creating a new passage using the
@@ -31,15 +35,19 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(of = "ref")
 public class Link {
-  @JsonProperty private final String text;
-  @JsonProperty private final String ref;
-  @JsonProperty private final List<Action> actions;
+
+  @JsonProperty
+  private final String text;
+  @JsonProperty
+  private final String ref;
+  @JsonProperty
+  private final List<Action> actions;
 
   /**
    * Constructs a new Link object with the given text label and reference.
    *
    * @param text the text label for the link
-   * @param ref the reference to the target passage
+   * @param ref  the reference to the target passage
    * @throws IllegalArgumentException if the text label or reference is invalid
    */
   @JsonCreator
@@ -120,11 +128,13 @@ public class Link {
   /**
    * The `LinkConstants` class defines constants used in the `Link` class.
    *
-   * <p>These constants include the maximum and minimum lengths for the `text` and `ref` fields in a
+   * <p>These constants include the maximum and minimum lengths for the `text` and `ref` fields in
+   * a
    * `Link` object. They are used to ensure that the `text` and `ref` fields are within the expected
    * range of lengths.
    *
-   * <p>This class is not intended to be instantiated, but rather provides a namespace for constants
+   * <p>This class is not intended to be instantiated, but rather provides a namespace for
+   * constants
    * that are used throughout the `Link` class.
    *
    * @see Link

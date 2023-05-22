@@ -31,8 +31,8 @@ import java.util.stream.Stream;
  * Jackson's default deserialization cannot deserialize certain properties within these classes.
  *
  * <p>To use this class to write and read games to and from files, create a new instance of this
- * class and use the {@link #saveGameToFile(Game, Passage, List)} and {@link #loadGameFromFile
- * (String)} methods. For example:
+ * class and use the {@link #saveGameToFile(Game, Passage, List)} and
+ * {@link #loadGameFromFile (String)} methods. For example:
  *
  * <pre>{@code
  * GameFileHandler gameFileHandler = new GameFileHandler();
@@ -83,13 +83,13 @@ public class GameFileHandler {
   }
 
   /**
-   * Saves the given game to a file with a filename based on the game's story title, and the
-   * list of visited passages as well.
+   * Saves the given game to a file with a filename based on the game's story title, and the list of
+   * visited passages as well.
    *
-   * @param game the game to be saved
-   * @param passage the passage the player is currently at
+   * @param game            the game to be saved
+   * @param passage         the passage the player is currently at
    * @param visitedPassages the passages the player has visited
-   * @throws IOException if there is an issue writing the game to the file
+   * @throws IOException          if there is an issue writing the game to the file
    * @throws NullPointerException if the game is null
    */
   public void saveGameToFile(Game game, Passage passage, List<Passage> visitedPassages)
@@ -108,9 +108,9 @@ public class GameFileHandler {
    * Saves the given game to a file with a filename based on the game's story title, without
    * specifying visited passages.
    *
-   * @param game the game to be saved
+   * @param game    the game to be saved
    * @param passage the passage the player is currently at
-   * @throws IOException if there is an issue writing the game to the file
+   * @throws IOException          if there is an issue writing the game to the file
    * @throws NullPointerException if the game is null
    */
   public void saveGameToFile(Game game, Passage passage) throws IOException {
@@ -122,7 +122,7 @@ public class GameFileHandler {
    *
    * @param filename the name of the file to load the game from (without the ".json" extension)
    * @return the loaded game
-   * @throws IOException if there is an issue reading the game from the file
+   * @throws IOException          if there is an issue reading the game from the file
    * @throws NullPointerException if the filename is null
    */
   public GameData loadGameFromFile(String filename) throws IOException {

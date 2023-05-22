@@ -1,5 +1,10 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MAX_CONTENT_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MAX_TITLE_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MIN_CONTENT_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MIN_TITLE_LENGTH;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
@@ -34,16 +39,21 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "title")
 public class Passage {
 
-  @JsonProperty private final String title;
-  @JsonProperty private final String content;
-  @JsonProperty private final List<Link> links;
-  @JsonProperty private Mood mood;
-  @JsonProperty private boolean singleVisitOnly;
+  @JsonProperty
+  private final String title;
+  @JsonProperty
+  private final List<Link> links;
+  @JsonProperty
+  private String content;
+  @JsonProperty
+  private Mood mood;
+  @JsonProperty
+  private boolean singleVisitOnly;
 
   /**
    * Constructs a new Passage object with the given title and content.
    *
-   * @param title the title of the passage
+   * @param title   the title of the passage
    * @param content the content of the passage
    * @throws IllegalArgumentException if the title or content is null
    */
@@ -53,9 +63,15 @@ public class Passage {
       @JsonProperty("content") String content,
       @JsonProperty("mood") Mood mood,
       @JsonProperty("singleVisitOnly") boolean singleVisitOnly) {
-    if (title == null || content == null) {
-      throw new IllegalArgumentException("Title and content cannot be null.");
+
+    if (title.length() <= MIN_TITLE_LENGTH || title.length() > MAX_TITLE_LENGTH) {
+      throw new IllegalArgumentException("Passage title must be between 1 and 20 characters long");
     }
+    if (content.length() <= MIN_CONTENT_LENGTH || content.length() > MAX_CONTENT_LENGTH) {
+      throw new IllegalArgumentException(
+          "Passage content must be between 1 and 400 characters long");
+    }
+
     this.mood = mood == null ? Mood.NONE : mood;
     this.title = title;
     this.content = content;
@@ -66,24 +82,12 @@ public class Passage {
   /**
    * Constructs a new Passage object with the given title and content.
    *
-   * @param title the title of the passage
+   * @param title   the title of the passage
    * @param content the content of the passage
    * @throws IllegalArgumentException if the title or content is null
    */
   public Passage(String title, String content) {
     this(title, content, Mood.NONE, false);
-  }
-
-  /**
-   * Constructs a new Passage object with the given title, content, and mood.
-   *
-   * @param title the title of the passage
-   * @param content the content of the passage
-   * @param mood the mood associated with the passage
-   * @throws IllegalArgumentException if the title or content is null
-   */
-  public Passage(String title, String content, Mood mood) {
-    this(title, content, mood, false);
   }
 
   /**
@@ -98,7 +102,8 @@ public class Passage {
   /**
    * Sets the single visit only status for the passage.
    *
-   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit only
+   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit
+   *                        only
    */
   public void setSingleVisitOnly(boolean singleVisitOnly) {
     this.singleVisitOnly = singleVisitOnly;
@@ -128,6 +133,15 @@ public class Passage {
    */
   public String getContent() {
     return content;
+  }
+
+  /**
+   * Sets the content of the passage.
+   *
+   * @param content the content of the passage
+   */
+  public void setContent(String content) {
+    this.content = content;
   }
 
   /**
@@ -178,5 +192,17 @@ public class Passage {
       sb.append("- ").append(link.getText()).append(": ").append(link.getRef()).append("\n");
     }
     return sb.toString();
+  }
+
+  /**
+   * Constants for the Passage class defining the minimum and maximum length of the title and
+   * content.
+   */
+  static class PassageConstants {
+
+    static final int MIN_TITLE_LENGTH = 1;
+    static final int MAX_TITLE_LENGTH = 20;
+    static final int MIN_CONTENT_LENGTH = 1;
+    static final int MAX_CONTENT_LENGTH = 400;
   }
 }

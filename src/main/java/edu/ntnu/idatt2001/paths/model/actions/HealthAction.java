@@ -13,7 +13,9 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode
 public class HealthAction implements Action {
-  @JsonProperty private final int healthChange;
+
+  @JsonProperty
+  private final int healthChange;
 
   @JsonCreator
   public HealthAction(@JsonProperty int health) {

@@ -15,6 +15,7 @@ import java.util.List;
  * @see GameDeserializer
  */
 public class GameData {
+
   private Game game;
   private Passage passage;
   private List<Passage> visitedPassages;
@@ -22,7 +23,7 @@ public class GameData {
   /**
    * Constructs a new {@code GameData} object with the specified game and passage.
    *
-   * @param game the {@link Game} object to be stored in this {@code GameData}
+   * @param game    the {@link Game} object to be stored in this {@code GameData}
    * @param passage the {@link Passage} object to be stored in this {@code GameData}
    */
   public GameData(Game game, Passage passage) {
@@ -35,8 +36,8 @@ public class GameData {
    * Constructs a new {@code GameData} object with the specified game, passage, and list of visited
    * passages.
    *
-   * @param game the {@link Game} object to be stored in this {@code GameData}
-   * @param passage the {@link Passage} object to be stored in this {@code GameData}
+   * @param game            the {@link Game} object to be stored in this {@code GameData}
+   * @param passage         the {@link Passage} object to be stored in this {@code GameData}
    * @param visitedPassages the list of visited passages to be stored in this {@code GameData}
    */
   public GameData(Game game, Passage passage, List<Passage> visitedPassages) {

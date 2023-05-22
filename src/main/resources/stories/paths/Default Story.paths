@@ -1,0 +1,80 @@
+Default Story
+
+::Opening Passage
+You are deep within a forest. You see a village in the distance
+[Explore the village](Village)
+{}
+[Walk past the village](Deep Forest)
+{}
+
+
+::Village
+You explore the village. The villagers seems busy and you are not noticed...
+[Go to the Tavern](Tavern)
+{}
+[Go back into the forest](Opening Passage)
+{}
+
+::Tavern
+You are in the tavern. It`s run down. There is a woman in the bar and drunk man in the dark corner...
+[Approach the lady](Tavern Lady)
+{}
+[Approach the man](Scary man)
+{}
+[Go back to the Village](Village)
+{}
+
+::Tavern Lady
+You slowly approach the lady as she whispers  "You are not welcome here"
+[Go back](Tavern)
+{}
+
+::Scary man
+You approach the suspucious looking man. He is snoring
+[Steal the mans coin](Coin steal)
+{G:50,S:100}
+[Wake him](Old man woke)
+{}
+
+::Coin steal
+You searched the old mans wallet. You found 50 coins! The man dosent seem to wake up
+[Return to the tavern](Tavern)
+{}
+
+::Old man woke
+The old man wakes up and draws his axe.
+[Fight him](Old man Fought)
+{H:-100}
+[Run](Tavern)
+{}
+
+::Old man Fought
+You fight like a hero until you die a misarable death
+
+::Deep Forest
+You are deep in the forest, you are surrounded by trees. Suddenly, a flickering light captures your attention.
+[Follow the light](Mysterious Light)
+{}
+[Ignore the light and walk deeper into the forest](Deep Forest End)
+{}
+
+::Mysterious Light
+You reach the source of the light. A beautiful fairy floats before you, illuminating the forest. She has an offer for you...
+[Accept her offer](Fairy Offer)
+{S:100}
+[Politely decline](Refused Offer)
+{}
+
+::Fairy Offer
+The fairy grants you strength. You return to the village and face the old man. You are victorious!
+
+::Refused Offer
+You decide to go your own way. But without the fairy's blessing, you have to confront the old man again...
+[Fight him](Old man Fought)
+{H:-100}
+[Run](Tavern)
+{}
+
+::Deep Forest End
+You get lost in the forest. You spend days searching for a way out, but you never do...
+

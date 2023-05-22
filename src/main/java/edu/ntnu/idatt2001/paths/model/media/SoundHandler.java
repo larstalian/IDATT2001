@@ -20,8 +20,11 @@ public class SoundHandler {
   private MediaPlayer mediaPlayer;
   private String currentMusicFile;
 
-  /** Private constructor to prevent multiple instances. */
-  private SoundHandler() {}
+  /**
+   * Private constructor to prevent multiple instances.
+   */
+  private SoundHandler() {
+  }
 
   /**
    * Retrieves the singleton instance of SoundHandler.
@@ -38,7 +41,7 @@ public class SoundHandler {
   /**
    * Checks if the passage has custom background music.
    *
-   * @param passage the passage to check for custom background music.
+   * @param passage    the passage to check for custom background music.
    * @param storyTitle the title of the story containing the passage.
    * @return true if the passage has custom background music, false otherwise.
    */
@@ -50,9 +53,10 @@ public class SoundHandler {
 
   /**
    * Updates the background music based on the passage and story title. If the passage has custom
-   * music, it will be used. Otherwise, a default music based on the passage's mood will be applied.
+   * music, it will be used. Otherwise, a default music based on the passage's mood will be
+   * applied.
    *
-   * @param passage the passage used to determine the background music.
+   * @param passage    the passage used to determine the background music.
    * @param storyTitle the title of the story containing the passage.
    */
   public void updateMusic(Passage passage, String storyTitle) {
@@ -66,7 +70,7 @@ public class SoundHandler {
     }
     if (!musicUrl.equals(currentMusicFile)) {
       playMusicUrl(musicUrl);
-      currentMusicFile = musicUrl; 
+      currentMusicFile = musicUrl;
     }
   }
 

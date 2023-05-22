@@ -15,12 +15,16 @@ import javafx.scene.image.Image;
  * <p>Note: This class is not meant to be instantiated.
  */
 public class IconHandler {
+
   private static final Path INVENTORY_ICON_PATH =
       Path.of("src/main/resources/images/inventory-icons/");
   private static final Path ICON_PATH = Path.of("src/main/resources/images/icons/");
 
-  /** Private constructor to prevent instantiation. */
-  private IconHandler() {}
+  /**
+   * Private constructor to prevent instantiation.
+   */
+  private IconHandler() {
+  }
 
   /**
    * Retrieves the icon image for the specified icon name. The icon name should not include the file
@@ -28,7 +32,7 @@ public class IconHandler {
    *
    * @param icon the name of the icon to retrieve, without the file extension
    * @return the {@code Image} object representing the icon, or {@code null} if the icon is not
-   *     found
+   *         found
    * @throws IOException if an I/O error occurs
    */
   public static Image getInventoryIcon(final String icon) throws IOException {
@@ -51,7 +55,7 @@ public class IconHandler {
    *
    * @param icon the name of the icon to retrieve, without the file extension
    * @return the {@code Image} object representing the icon, or {@code null} if the icon is not
-   *     found
+   *         found
    * @throws IOException if an I/O error occurs
    */
   public static Image getIcon(final String icon) throws IOException {

@@ -14,7 +14,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class InventoryAction implements Action {
 
-  @JsonProperty private final String item;
+  @JsonProperty
+  private final String item;
 
   @JsonCreator
   public InventoryAction(@JsonProperty String item) {

@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.model.media;
 
 import edu.ntnu.idatt2001.paths.model.story.Passage;
+import java.util.Objects;
 import javafx.scene.layout.Region;
 
 /**
@@ -16,8 +17,11 @@ public class BackgroundHandler {
   private static final String IMAGE_EXTENSION = ".png";
   private static BackgroundHandler instance;
 
-  /** Private constructor to prevent multiple instances. */
-  private BackgroundHandler() {}
+  /**
+   * Private constructor to prevent multiple instances.
+   */
+  private BackgroundHandler() {
+  }
 
   /**
    * Retrieves the singleton instance of BackgroundHandler.
@@ -34,13 +38,13 @@ public class BackgroundHandler {
   /**
    * Checks if the passage has a custom background image.
    *
-   * @param passage the passage to check for a background image.
+   * @param passage    the passage to check for a background image.
    * @param storyTitle the title of the story containing the passage.
    * @return {@code true} if the passage has a custom background, {@code false} otherwise.
    */
   public boolean hasBackground(Passage passage, String storyTitle) {
-    String path = STORIES_PATH + storyTitle + IMAGE_PATH;
-    String fileName = passage.getTitle() + IMAGE_EXTENSION;
+    String path = STORIES_PATH + storyTitle + "/images/";
+    String fileName = passage.getTitle().toLowerCase() + IMAGE_EXTENSION;
     return getClass().getResource(path + fileName) != null;
   }
 
@@ -49,8 +53,8 @@ public class BackgroundHandler {
    * passage has a custom background, it will be used. Otherwise, a default background based on the
    * passage's mood will be applied.
    *
-   * @param region the region to update the background image for.
-   * @param passage the passage used to determine the background image.
+   * @param region     the region to update the background image for.
+   * @param passage    the passage used to determine the background image.
    * @param storyTitle the title of the story containing the passage.
    */
   public void updateBackground(Region region, Passage passage, String storyTitle) {
@@ -58,10 +62,11 @@ public class BackgroundHandler {
     if (hasBackground(passage, storyTitle)) {
       String path = "/stories/" + storyTitle + "/images/";
       String fileName = passage.getTitle().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl = getClass().getResource(path + fileName).toExternalForm();
+      backgroundImageUrl = Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
     } else {
       String defaultBackground = passage.getMood().toString().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl = getClass().getResource(IMAGE_PATH + defaultBackground).toExternalForm();
+      backgroundImageUrl = Objects.requireNonNull(
+          getClass().getResource(IMAGE_PATH + defaultBackground)).toExternalForm();
     }
     setBackgroundImageUrl(region, backgroundImageUrl);
   }
@@ -69,7 +74,7 @@ public class BackgroundHandler {
   /**
    * Sets the background image of the given region using the specified URL.
    *
-   * @param region the region to set the background image for.
+   * @param region             the region to set the background image for.
    * @param backgroundImageUrl the URL of the background image.
    */
   private void setBackgroundImageUrl(Region region, String backgroundImageUrl) {

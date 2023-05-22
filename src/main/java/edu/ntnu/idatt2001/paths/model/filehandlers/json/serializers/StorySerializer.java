@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * A custom serializer for the {@link Story} class, using the Jackson library. This class is
  * responsible for serializing a {@link Story} object into a JSON representation. The custom
- * serialization is necessary due to the passage map in the {@link Story} being of type {@code
- * Map<Link, Passage>}.
+ * serialization is necessary due to the passage map in the {@link Story} being of type
+ * {@code Map<Link, Passage>}.
  *
  * <p>When de-serializing use the {@link StoryDeserializer} class.
  *

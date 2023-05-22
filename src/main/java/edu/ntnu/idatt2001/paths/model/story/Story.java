@@ -5,7 +5,14 @@ import static edu.ntnu.idatt2001.paths.model.story.Story.StoryConstants.MIN_TITL
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 
@@ -14,9 +21,10 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Each passage is represented by a Passage object, and can be linked to other passages using
  * Link objects. The opening passage of the story is represented by a Passage object passed to the
- * constructor of the Story object. Passages can be added to the story using the {@link
- * #addPassage(Passage)} method, and the full list of passages can be accessed using the {@link
- * #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)} method.
+ * constructor of the Story object. Passages can be added to the story using the
+ * {@link #addPassage(Passage)} method, and the full list of passages can be accessed using the
+ * {@link #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)}
+ * method.
  *
  * <p>The Story class is immutable, and its properties cannot be modified once the object is
  * constructed. The properties of the story include its title, represented by a String object, and
@@ -30,14 +38,18 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(of = {"title", "openingPassage"})
 public class Story {
-  @JsonProperty private final String title;
-  @JsonProperty private final Passage openingPassage;
-  @JsonProperty private final Map<Link, Passage> passages;
+
+  @JsonProperty
+  private final String title;
+  @JsonProperty
+  private final Passage openingPassage;
+  @JsonProperty
+  private final Map<Link, Passage> passages;
 
   /**
    * Constructs a new Story object with the given title and opening passage.
    *
-   * @param title the title of the story
+   * @param title          the title of the story
    * @param openingPassage the opening passage of the story
    */
   @JsonCreator
@@ -76,7 +88,7 @@ public class Story {
    *
    * @param passage the passage to be added
    * @return {@code true} if the passage was added to the story, {@code false} if the passage
-   *     already exists
+   * already exists
    */
   public boolean addPassage(final Passage passage) {
     Objects.requireNonNull(passage, "Passage cannot be null");
@@ -93,10 +105,13 @@ public class Story {
    *
    * @param link the link to the passage
    * @return the passage with the given link
-   * @throws NullPointerException if the link is {@code null}
+   * @throws NoSuchPassageException if the link is {@code null}
    */
   public Passage getPassage(Link link) {
-    return Objects.requireNonNull(passages.get(link));
+    if (passages.get(link) == null) {
+      throw new NoSuchPassageException();
+    }
+    return (passages.get(link));
   }
 
   /**
@@ -109,17 +124,21 @@ public class Story {
   }
 
   /**
-   * Removes the passage associated with the specified link from this game's passages map.
+   * Removes the passage associated with the specified link from this game's passages map. A passage
+   * is removed only if it is not referenced by any other passage.
    *
    * @param link the link whose associated passage is to be removed from the map
    * @return {@code true} if the map changed as a result of the operation, {@code false} otherwise
    */
   public boolean removePassage(Link link) {
-    Objects.requireNonNull(passages.get(link), "Passage does not exist");
-    return passages
-        .entrySet()
-        .removeIf(
-            entry -> passages.values().stream().noneMatch(keys -> keys.getLinks().contains(link)));
+    if (passages.get(link) == null) {
+      throw new NoSuchPassageException();
+    }
+
+    if (passages.values().stream().noneMatch(passage -> passage.getLinks().contains(link))) {
+      return passages.remove(link) != null;
+    }
+    return false;
   }
 
   /**
@@ -162,10 +181,29 @@ public class Story {
   }
 
   /**
+   * Removes all links to the specified passage in the story.
+   *
+   * <p>This method iterates through all the passages in the story and removes any link whose
+   * reference is equal to the given passage title. This helps to ensure that there are no broken
+   * links in the story after the deletion of a passage.
+   *
+   * @param passageTitle the title of the passage to remove all links to
+   */
+  public void removeAllLinksToPassage(String passageTitle) {
+    Objects.requireNonNull(passageTitle, "Passage title cannot be null");
+    openingPassage.getLinks().removeIf(link -> link.getRef().equals(passageTitle));
+    passages
+        .values()
+        .forEach(
+            passage -> passage.getLinks().removeIf(link -> link.getRef().equals(passageTitle)));
+  }
+
+  /**
    * The StoryConstants class contains constants used by the Story class to set the valid range of
    * its fields. The constants are declared as static and final, and can therefore not be modified.
    *
-   * <p>Use the constants to check that parameter values are within the valid range when creating or
+   * <p>Use the constants to check that parameter values are within the valid range when creating
+   * or
    * modifying Story objects.
    *
    * @see Story

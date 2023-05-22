@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
-import edu.ntnu.idatt2001.paths.model.actions.*;
+import edu.ntnu.idatt2001.paths.model.actions.Action;
+import edu.ntnu.idatt2001.paths.model.filehandlers.factories.ActionFactory;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.model.story.Story;
@@ -37,6 +38,7 @@ import org.apache.commons.io.FilenameUtils;
  * @see StoryFileWriter
  */
 public class StoryFileReader {
+
   private static final String DELIMITER = System.getProperty("line.separator");
   private static final String FILE_ENDING = ".paths";
   private static final Path FILE_PATH = Paths.get("src/main/resources/stories/paths/");
@@ -45,18 +47,20 @@ public class StoryFileReader {
   private static final String ACTIONS_PATTERN = "^\\{(.+)}$";
   private static final String ACTION_TYPE_PATTERN = "^([HISG]):";
 
-  private StoryFileReader() {}
+  private StoryFileReader() {
+  }
 
   /**
    * Reads the story from the specified file and returns a Story object.
    *
-   * @param fileName The name of the file containing the story.
+   * @param storyTitle The name of the file containing the story.
    * @return A Story object representing the story read from the file.
-   * @throws IOException If there is a problem reading the file.
+   * @throws IOException    If there is a problem reading the file.
+   * @throws ParseException If there is a problem parsing the story content.
    */
-  public static Story readStoryFromFile(String fileName) throws IOException, ParseException {
-    fileName = FilenameUtils.removeExtension(fileName);
-    String storyContent = readFile(fileName);
+  public static Story readStoryFromFile(String storyTitle) throws IOException, ParseException {
+    storyTitle = FilenameUtils.removeExtension(storyTitle);
+    String storyContent = readFile(storyTitle);
     return parseStoryContent(storyContent);
   }
 
@@ -152,10 +156,10 @@ public class StoryFileReader {
    * index.
    *
    * @param passage The passage to add links to.
-   * @param index The index in the array where the link information starts.
-   * @param lines An array of strings representing the story content.
+   * @param index   The index in the array where the link information starts.
+   * @param lines   An array of strings representing the story content.
    */
-  private static void addLinks(Passage passage, int index, String[] lines) throws ParseException {
+  private static void addLinks(Passage passage, int index, String[] lines) {
     ListIterator<String> lineIterator = Arrays.asList(lines).listIterator(index);
 
     while (lineIterator.hasNext()) {
@@ -169,7 +173,7 @@ public class StoryFileReader {
           String linkRef = linkMatcher.group(2);
           Link link = new Link(linkText, linkRef);
           if (lineIterator.hasNext()) {
-            String nextLine = lineIterator.next(); // Advance the iterator
+            String nextLine = lineIterator.next();
             if (isActions(nextLine)) {
               buildActionsContent(link, nextLine);
             } else {
@@ -186,12 +190,13 @@ public class StoryFileReader {
   }
 
   /**
-   * Builds actions for the provided link based on the specified line containing action information.
+   * Builds actions for the provided link based on the specified line containing action
+   * information.
    *
    * @param link The link to add actions to.
    * @param line The line containing action information.
    */
-  private static void buildActionsContent(Link link, String line) throws ParseException {
+  private static void buildActionsContent(Link link, String line) {
     Matcher actionsMatcher = Pattern.compile(ACTIONS_PATTERN).matcher(line);
     if (actionsMatcher.find()) {
       String actions = actionsMatcher.group(1);
@@ -203,13 +208,8 @@ public class StoryFileReader {
           String actionType = actionTypeMatcher.group(1);
           String actionValue = action.substring(2);
 
-          switch (actionType) {
-            case "H" -> link.addAction(new HealthAction(Integer.parseInt(actionValue)));
-            case "I" -> link.addAction(new InventoryAction(actionValue));
-            case "S" -> link.addAction(new ScoreAction(Integer.parseInt(actionValue)));
-            case "G" -> link.addAction(new GoldAction(Integer.parseInt(actionValue)));
-            default -> throw new ParseException("Unrecognized action type: " + actionType, 0);
-          }
+          Action actionObject = ActionFactory.createActionFromPathFormat(actionType, actionValue);
+          link.addAction(actionObject);
         }
       }
     }
