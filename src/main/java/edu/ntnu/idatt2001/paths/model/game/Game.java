@@ -28,16 +28,19 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"player", "story"})
 public class Game {
 
-  @JsonProperty private final Player player;
-  @JsonProperty private final Story story;
-  @JsonProperty private final List<Goal> goals;
+  @JsonProperty
+  private final Player player;
+  @JsonProperty
+  private final Story story;
+  @JsonProperty
+  private final List<Goal> goals;
 
   /**
    * Creates a new game with the given player, story, and goals.
    *
    * @param player the player of the game, cannot be null
-   * @param story the story of the game, cannot be null
-   * @param goals the goals of the game, cannot be null
+   * @param story  the story of the game, cannot be null
+   * @param goals  the goals of the game, cannot be null
    * @throws IllegalArgumentException if any of the parameter values are invalid
    */
   @JsonCreator

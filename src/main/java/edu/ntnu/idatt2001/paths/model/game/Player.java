@@ -1,6 +1,14 @@
 package edu.ntnu.idatt2001.paths.model.game;
 
-import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.*;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.DEFAULT_HEALTH;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_GOLD;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_HEALTH;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_INVENTORY_SIZE;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_ITEM_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_NAME_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MAX_SCORE;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MIN_ITEM_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.game.Player.PlayerConstants.MIN_NAME_LENGTH;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,8 +25,8 @@ import lombok.EqualsAndHashCode;
  * modifying these attributes.
  *
  * <p>The player attributes must fall within certain ranges or an IllegalArgumentException will be
- * thrown. The player's inventory is empty by default and can be populated using the {@link
- * #addToInventory} method. The players' health, score and gold can be modified using their
+ * thrown. The player's inventory is empty by default and can be populated using the
+ * {@link #addToInventory} method. The players' health, score and gold can be modified using their
  * corresponding add-methods and retrieved using get methods.
  *
  * <p>The attributes {@link Player#name} and {@link Player#inventory} are immutable and cannot be
@@ -36,11 +44,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"name", "inventory"})
 public class Player {
 
-  @JsonProperty private final String name;
-  @JsonProperty private final List<String> inventory;
-  @JsonProperty private int health;
-  @JsonProperty private int score;
-  @JsonProperty private int gold;
+  @JsonProperty
+  private final String name;
+  @JsonProperty
+  private final List<String> inventory;
+  @JsonProperty
+  private int health;
+  @JsonProperty
+  private int score;
+  @JsonProperty
+  private int gold;
 
   private Player(Builder builder) {
     this.name = builder.name;
@@ -137,7 +150,7 @@ public class Player {
    *
    * @param item the name of the item to be added to the inventory
    * @throws IllegalArgumentException if the length of the item is less than 2 or greater than 15
-   *     characters
+   *                                  characters
    */
   public void addToInventory(final String item) {
     checkItemLength(item);
@@ -163,7 +176,7 @@ public class Player {
    *
    * @param score the score value to check
    * @throws IllegalArgumentException if the score value is less than 0 or greater than or equal to
-   *     MAX_SCORE
+   *                                  MAX_SCORE
    */
   private void checkScoreRange(int score) {
     if (score < 0 || score >= MAX_SCORE) {
@@ -189,7 +202,7 @@ public class Player {
    *
    * @param item the item to check
    * @throws IllegalArgumentException if the length of the item is less than MIN_ITEM_LENGTH or
-   *     greater than MAX_ITEM_LENGTH
+   *                                  greater than MAX_ITEM_LENGTH
    */
   private void checkItemLength(String item) {
     if (item.length() < MIN_ITEM_LENGTH || item.length() > MAX_ITEM_LENGTH) {
@@ -203,7 +216,7 @@ public class Player {
    *
    * @param inventory the inventory to check
    * @throws IllegalArgumentException if the size of the inventory is greater than
-   *     MAX_INVENTORY_SIZE
+   *                                  MAX_INVENTORY_SIZE
    */
   private void checkInventorySize(List<String> inventory) {
     if (inventory.size() >= MAX_INVENTORY_SIZE) {
@@ -295,7 +308,8 @@ public class Player {
      *                         .build();
      * }</pre>
      *
-     * @param player the Player object whose properties should be copied to the new Builder instance
+     * @param player the Player object whose properties should be copied to the new Builder
+     *               instance
      * @see Player
      */
     public Builder(Player player) {
@@ -342,7 +356,8 @@ public class Player {
     /**
      * Sets the inventory of the Player to be built.
      *
-     * @param items an array of Strings representing the items to be added to the Player's inventory
+     * @param items an array of Strings representing the items to be added to the Player's
+     *              inventory
      * @return the current Builder instance for method chaining
      */
     public Builder inventory(String... items) {
@@ -366,7 +381,7 @@ public class Player {
      *
      * @param player the Player object to be validated
      * @throws IllegalArgumentException if any of the fields are outside the valid range or have
-     *     invalid values
+     *                                  invalid values
      */
     private void validateObject(Player player) {
       checkNameLength(player.name);
@@ -381,7 +396,7 @@ public class Player {
      *
      * @param name the name to check
      * @throws IllegalArgumentException if the length of the name is less than MIN_NAME_LENGTH or
-     *     greater than MAX_NAME_LENGTH
+     *                                  greater than MAX_NAME_LENGTH
      */
     private void checkNameLength(String name) {
       if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
@@ -399,7 +414,8 @@ public class Player {
    * The PlayerConstants class contains constants used by the Player class to set the valid range of
    * its fields. The constants are declared as static and final, and can therefore not be modified.
    *
-   * <p>Use the constants to check that parameter values are within the valid range when creating or
+   * <p>Use the constants to check that parameter values are within the valid range when creating
+   * or
    * modifying Player objects.
    *
    * @see Player
