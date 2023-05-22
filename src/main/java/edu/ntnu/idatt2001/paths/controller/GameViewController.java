@@ -341,7 +341,7 @@ public class GameViewController {
   }
 
   /**
-   * Sets the scene to main menu.
+   * Sets the scene to the main menu.
    */
   private void switchToMainMenu() {
     MainMenuViewController mainMenuViewController = new MainMenuViewController();
@@ -355,7 +355,7 @@ public class GameViewController {
    */
   private void restartGame() {
     Game game = new Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
-    GameData gameData = new GameData(game, game.getStory().getOpeningPassage(), visitedPassages);
+    GameData gameData = new GameData(game, game.getStory().getOpeningPassage());
     Region gameRoot = new GameViewController(gameData).getRoot();
     gameView.getRoot().getScene().setRoot(gameRoot);
   }
@@ -387,7 +387,7 @@ public class GameViewController {
   }
 
   /**
-   * Sets the scene to main menu.
+   * Sets the scene to the main menu.
    */
   private void configureDeathExitButton() {
     gameView.getDeathExitButton().setOnAction(e -> switchToMainMenu());
