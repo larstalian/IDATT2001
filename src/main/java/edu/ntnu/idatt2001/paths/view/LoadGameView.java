@@ -1,7 +1,8 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -14,10 +15,14 @@ import lombok.Getter;
  */
 public class LoadGameView {
 
-  @Getter private final ComboBox<String> saveSelect;
-  @Getter private final Button loadButton;
-  @Getter private final Button goBackButton;
-  @Getter private final BorderPane root;
+  @Getter
+  private final ComboBox<String> saveSelect;
+  @Getter
+  private final Button loadButton;
+  @Getter
+  private final Button goBackButton;
+  @Getter
+  private final BorderPane root;
 
   /**
    * Constructs a new LoadGameView. This involves creating and styling all the nodes, and assembling

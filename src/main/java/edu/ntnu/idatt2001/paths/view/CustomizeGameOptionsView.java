@@ -1,7 +1,9 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import lombok.Getter;
@@ -12,14 +14,22 @@ import lombok.Getter;
  */
 public class CustomizeGameOptionsView {
 
-  @Getter private final TextField healthGoal;
-  @Getter private final TextField scoreGoal;
-  @Getter private final TextField goldGoal;
-  @Getter private final TextField inventoryGoal;
-  @Getter private final TextField startingHealth;
-  @Getter private final TextField startingScore;
-  @Getter private final TextField startingGold;
-  @Getter private final TextField startingInventory;
+  @Getter
+  private final TextField healthGoal;
+  @Getter
+  private final TextField scoreGoal;
+  @Getter
+  private final TextField goldGoal;
+  @Getter
+  private final TextField inventoryGoal;
+  @Getter
+  private final TextField startingHealth;
+  @Getter
+  private final TextField startingScore;
+  @Getter
+  private final TextField startingGold;
+  @Getter
+  private final TextField startingInventory;
 
   /**
    * Constructs a new CustomizeGameOptionsView. This involves initializing the text fields for game
