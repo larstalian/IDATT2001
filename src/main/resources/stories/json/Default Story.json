@@ -1,0 +1,182 @@
+{
+  "title" : "Default Story",
+  "openingPassage" : {
+    "title" : "Opening Passage",
+    "content" : "You are deep within a forest. You see a village in the distance",
+    "mood" : "NONE",
+    "singleVisitOnly" : false,
+    "links" : [ {
+      "text" : "Explore the village",
+      "ref" : "Village",
+      "actions" : [ ]
+    }, {
+      "text" : "Walk past the village",
+      "ref" : "Deep Forest",
+      "actions" : [ ]
+    } ]
+  },
+  "passages" : {
+    "Village" : {
+      "title" : "Village",
+      "content" : "You explore the village. The villagers seems busy and you are not noticed...",
+      "mood" : "NONE",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Go to the Tavern",
+        "ref" : "Tavern",
+        "actions" : [ ]
+      }, {
+        "text" : "Go back into the forest",
+        "ref" : "Opening Passage",
+        "actions" : [ ]
+      } ]
+    },
+    "Tavern" : {
+      "title" : "Tavern",
+      "content" : "You are in the tavern. It`s run down. There is a woman in the bar and drunk man in the dark corner...",
+      "mood" : "SPOOKY",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Approach the lady",
+        "ref" : "Tavern Lady",
+        "actions" : [ ]
+      }, {
+        "text" : "Approach the man",
+        "ref" : "Scary man",
+        "actions" : [ ]
+      }, {
+        "text" : "Go back to the Village",
+        "ref" : "Village",
+        "actions" : [ ]
+      } ]
+    },
+    "Tavern Lady" : {
+      "title" : "Tavern Lady",
+      "content" : "You slowly approach the lady as she whispers  \"You are not welcome here\"",
+      "mood" : "SPOOKY",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Go back",
+        "ref" : "Tavern",
+        "actions" : [ ]
+      } ]
+    },
+    "Scary man" : {
+      "title" : "Scary man",
+      "content" : "You approach the suspucious looking man. He is snoring",
+      "mood" : "SPOOKY",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Steal the mans coin",
+        "ref" : "Coin steal",
+        "actions" : [ {
+          "goldChange" : 50
+        }, {
+          "scoreChange" : 100
+        } ]
+      }, {
+        "text" : "Wake him",
+        "ref" : "Old man woke",
+        "actions" : [ ]
+      } ]
+    },
+    "Coin steal" : {
+      "title" : "Coin steal",
+      "content" : "You searched the old mans wallet. You found 50 coins! The man dosent seem to wake up",
+      "mood" : "SNEAKY",
+      "singleVisitOnly" : true,
+      "links" : [ {
+        "text" : "Return to the tavern",
+        "ref" : "Tavern",
+        "actions" : [ ]
+      } ]
+    },
+    "Old man woke" : {
+      "title" : "Old man woke",
+      "content" : "The old man wakes up and draws his axe.",
+      "mood" : "BOSS_BATTLE",
+      "singleVisitOnly" : true,
+      "links" : [ {
+        "text" : "Fight him",
+        "ref" : "Old man Fought",
+        "actions" : [ {
+          "healthChange" : -100
+        } ]
+      }, {
+        "text" : "Run",
+        "ref" : "Tavern",
+        "actions" : [ ]
+      } ]
+    },
+    "Old man Fought" : {
+      "title" : "Old man Fought",
+      "content" : "You fight like a hero until you die a misarable death",
+      "mood" : "BOSS_BATTLE",
+      "singleVisitOnly" : true,
+      "links" : [ ]
+    },
+    "Deep Forest" : {
+      "title" : "Deep Forest",
+      "content" : "You are deep in the forest, you are surrounded by trees. Suddenly, a flickering light captures your attention.",
+      "mood" : "SPOOKY",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Follow the light",
+        "ref" : "Mysterious Light",
+        "actions" : [ ]
+      }, {
+        "text" : "Ignore the light and walk deeper into the forest",
+        "ref" : "Deep Forest End",
+        "actions" : [ ]
+      } ]
+    },
+    "Mysterious Light" : {
+      "title" : "Mysterious Light",
+      "content" : "You reach the source of the light. A beautiful fairy floats before you, illuminating the forest. She has an offer for you...",
+      "mood" : "HAPPY",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Accept her offer",
+        "ref" : "Fairy Offer",
+        "actions" : [ {
+          "scoreChange" : 100
+        } ]
+      }, {
+        "text" : "Politely decline",
+        "ref" : "Refused Offer",
+        "actions" : [ ]
+      } ]
+    },
+    "Fairy Offer" : {
+      "title" : "Fairy Offer",
+      "content" : "The fairy grants you strength. You return to the village and face the old man. You are victorious!",
+      "mood" : "VICTORY",
+      "singleVisitOnly" : true,
+      "links" : [ ]
+    },
+    "Refused Offer" : {
+      "title" : "Refused Offer",
+      "content" : "You decide to go your own way. But without the fairy's blessing, you have to confront the old man again...",
+      "mood" : "BOSS_BATTLE",
+      "singleVisitOnly" : false,
+      "links" : [ {
+        "text" : "Fight him",
+        "ref" : "Old man Fought",
+        "actions" : [ {
+          "healthChange" : -100
+        } ]
+      }, {
+        "text" : "Run",
+        "ref" : "Tavern",
+        "actions" : [ ]
+      } ]
+    },
+    "Deep Forest End" : {
+      "title" : "Deep Forest End",
+      "content" : "You get lost in the forest. You spend days searching for a way out, but you never do...",
+      "mood" : "DEFEAT",
+      "singleVisitOnly" : true,
+      "links" : [ ]
+    }
+  }
+}
