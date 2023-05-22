@@ -14,7 +14,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class ScoreAction implements Action {
 
-  @JsonProperty private final int scoreChange;
+  @JsonProperty
+  private final int scoreChange;
 
   @JsonCreator
   public ScoreAction(@JsonProperty int points) {

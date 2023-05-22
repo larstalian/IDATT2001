@@ -14,7 +14,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class GoldAction implements Action {
 
-  @JsonProperty private final int goldChange;
+  @JsonProperty
+  private final int goldChange;
 
   @JsonCreator
   public GoldAction(@JsonProperty int gold) {
