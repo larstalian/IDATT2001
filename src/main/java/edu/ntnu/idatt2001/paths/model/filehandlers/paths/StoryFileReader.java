@@ -10,10 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ListIterator;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
@@ -53,8 +50,13 @@ public class StoryFileReader {
    * @param fileName The name of the file containing the story.
    * @return A Story object representing the story read from the file.
    * @throws IOException If there is a problem reading the file.
+   * @throws ParseException If there is a problem parsing the story content.
+   * @throws IllegalArgumentException If the file name does not end with the correct file ending.
    */
   public static Story readStoryFromFile(String fileName) throws IOException, ParseException {
+    if (!fileName.endsWith(FILE_ENDING)) {
+      throw new IllegalArgumentException("Invalid file ending. Must be .paths");
+    }
     fileName = FilenameUtils.removeExtension(fileName);
     String storyContent = readFile(fileName);
     return parseStoryContent(storyContent);
