@@ -15,7 +15,8 @@ import javafx.stage.WindowEvent;
  * necessary.
  *
  * <p>As a utility class, the Widgets class is not meant to be instantiated. All of its methods
- * should be stateless and functional, meaning they don't rely on or change any instance-level data.
+ * should be stateless and functional, meaning they don't rely on or change any instance-level
+ * data.
  */
 public class Widgets {
 
@@ -26,8 +27,8 @@ public class Widgets {
   /**
    * Creates an Alert with the given title, header, and content.
    *
-   * @param title the title for the alert
-   * @param header the header text for the alert
+   * @param title   the title for the alert
+   * @param header  the header text for the alert
    * @param content the content text for the alert. If empty, no content will be added.
    * @return the Alert created with the specified parameters
    */
