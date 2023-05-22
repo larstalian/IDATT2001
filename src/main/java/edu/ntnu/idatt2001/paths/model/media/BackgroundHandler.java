@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.paths.model.media;
 
 import edu.ntnu.idatt2001.paths.model.story.Passage;
+import java.util.Objects;
 import javafx.scene.layout.Region;
 
 /**
@@ -61,10 +62,11 @@ public class BackgroundHandler {
     if (hasBackground(passage, storyTitle)) {
       String path = "/stories/" + storyTitle + "/images/";
       String fileName = passage.getTitle().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl = getClass().getResource(path + fileName).toExternalForm();
+      backgroundImageUrl = Objects.requireNonNull(getClass().getResource(path + fileName)).toExternalForm();
     } else {
       String defaultBackground = passage.getMood().toString().toLowerCase() + IMAGE_EXTENSION;
-      backgroundImageUrl = getClass().getResource(IMAGE_PATH + defaultBackground).toExternalForm();
+      backgroundImageUrl = Objects.requireNonNull(
+          getClass().getResource(IMAGE_PATH + defaultBackground)).toExternalForm();
     }
     setBackgroundImageUrl(region, backgroundImageUrl);
   }
