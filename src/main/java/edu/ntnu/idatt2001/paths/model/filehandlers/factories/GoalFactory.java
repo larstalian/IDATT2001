@@ -1,7 +1,11 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import edu.ntnu.idatt2001.paths.model.goals.*;
+import edu.ntnu.idatt2001.paths.model.goals.Goal;
+import edu.ntnu.idatt2001.paths.model.goals.GoldGoal;
+import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
+import edu.ntnu.idatt2001.paths.model.goals.InventoryGoal;
+import edu.ntnu.idatt2001.paths.model.goals.ScoreGoal;
 import java.util.ArrayList;
 import java.util.List;
 
