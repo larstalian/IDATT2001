@@ -16,12 +16,18 @@ import lombok.Getter;
  */
 public class NewStoryView {
 
-  @Getter private final Button newStoryButton;
-  @Getter private final Button goBackButton;
-  @Getter private final TextField storyName;
-  @Getter private final TextArea openingPassageText;
-  @Getter private final Label infoLabel;
-  @Getter private final BorderPane root;
+  @Getter
+  private final Button newStoryButton;
+  @Getter
+  private final Button goBackButton;
+  @Getter
+  private final TextField storyName;
+  @Getter
+  private final TextArea openingPassageText;
+  @Getter
+  private final Label infoLabel;
+  @Getter
+  private final BorderPane root;
 
   /**
    * Creates a new instance of the new game view, initializes the field variables and sets their

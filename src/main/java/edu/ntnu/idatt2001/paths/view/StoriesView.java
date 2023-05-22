@@ -1,7 +1,9 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,21 +16,36 @@ import lombok.Getter;
  */
 public class StoriesView {
 
-  @Getter private final Button goBackButton;
-  @Getter private final Button getBrokenLinksButton;
-  @Getter private final ComboBox<String> storySelect;
-  @Getter private final BorderPane root;
-  @Getter private final Button convertToJsonButton;
-  @Getter private final Button convertToPathsButton;
-  @Getter private final Label validStoryLabel;
-  @Getter private final Label storyFileInfoLabel;
-  @Getter private final Label numberOfPassagesLabel;
-  @Getter private final Label brokenLinksLabel;
-  @Getter private final Label customImagesLabel;
-  @Getter private final Label customSoundsLabel;
-  @Getter private final Label brokenFilesLabel;
-  @Getter private final Label convertInfoLabel;
-  @Getter private final Button editStoryButton;
+  @Getter
+  private final Button goBackButton;
+  @Getter
+  private final Button getBrokenLinksButton;
+  @Getter
+  private final ComboBox<String> storySelect;
+  @Getter
+  private final BorderPane root;
+  @Getter
+  private final Button convertToJsonButton;
+  @Getter
+  private final Button convertToPathsButton;
+  @Getter
+  private final Label validStoryLabel;
+  @Getter
+  private final Label storyFileInfoLabel;
+  @Getter
+  private final Label numberOfPassagesLabel;
+  @Getter
+  private final Label brokenLinksLabel;
+  @Getter
+  private final Label customImagesLabel;
+  @Getter
+  private final Label customSoundsLabel;
+  @Getter
+  private final Label brokenFilesLabel;
+  @Getter
+  private final Label convertInfoLabel;
+  @Getter
+  private final Button editStoryButton;
 
   /**
    * Constructs a StoriesView. It initializes all the UI components, sets up their style classes,
@@ -109,7 +126,8 @@ public class StoriesView {
   }
 
   /**
-   * Creates an HBox layout for the stories view, which contains a label and the number of passages.
+   * Creates an HBox layout for the stories view, which contains a label and the number of
+   * passages.
    *
    * @return A Node representing the HBox layout for the stories view.
    */

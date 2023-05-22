@@ -13,14 +13,23 @@ import lombok.Getter;
  * managing all the elements related to the main menu.
  */
 public class MainMenuView {
-  @Getter private final Button newGameButton;
-  @Getter private final Button loadGameButton;
-  @Getter private final Button storiesButton;
-  @Getter private final Button exitButton;
-  @Getter private final BorderPane root;
-  @Getter private final Button createStoryButton;
 
-  /** Constructs a MainMenuView object. Initializes all the buttons and sets up the root node. */
+  @Getter
+  private final Button newGameButton;
+  @Getter
+  private final Button loadGameButton;
+  @Getter
+  private final Button storiesButton;
+  @Getter
+  private final Button exitButton;
+  @Getter
+  private final BorderPane root;
+  @Getter
+  private final Button createStoryButton;
+
+  /**
+   * Constructs a MainMenuView object. Initializes all the buttons and sets up the root node.
+   */
   public MainMenuView() {
     newGameButton = new Button("New Game");
     newGameButton.getStyleClass().add("default-button");

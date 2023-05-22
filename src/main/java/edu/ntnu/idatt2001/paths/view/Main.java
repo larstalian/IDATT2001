@@ -28,7 +28,7 @@ public class Main extends Application {
    * stylesheet.
    *
    * @param primaryStage the primary stage for this application, onto which the application scene
-   *     can be set.
+   *                     can be set.
    */
   @Override
   public void start(Stage primaryStage) {

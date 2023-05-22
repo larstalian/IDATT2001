@@ -1,8 +1,14 @@
 package edu.ntnu.idatt2001.paths.view;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 /**
@@ -12,12 +18,18 @@ import lombok.Getter;
  */
 public class NewGameView {
 
-  @Getter private final BorderPane root;
-  @Getter private final Button startNewGameButton;
-  @Getter private final ComboBox<String> storySelect;
-  @Getter private final Button goBackButton;
-  @Getter private final TextField playerName;
-  @Getter private final Button customizeGameOptionsButton;
+  @Getter
+  private final BorderPane root;
+  @Getter
+  private final Button startNewGameButton;
+  @Getter
+  private final ComboBox<String> storySelect;
+  @Getter
+  private final Button goBackButton;
+  @Getter
+  private final TextField playerName;
+  @Getter
+  private final Button customizeGameOptionsButton;
 
   /**
    * Constructs a new game view. It initializes all the UI components, sets up their style classes,
