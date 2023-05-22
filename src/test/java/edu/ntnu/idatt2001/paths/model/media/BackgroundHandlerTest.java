@@ -36,8 +36,6 @@ class BackgroundHandlerTest {
   void testUpdateBackgroundDefault() {
     backgroundHandler.updateBackground(region, passage, storyTitle);
     String style = region.getStyle();
-    // This assumes that the default image URL for a happy mood is
-    // "/images/passage-moods/happy.png".
     assertThat(style, containsString("/images/passage-moods/happy.png"));
   }
 }

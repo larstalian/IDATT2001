@@ -25,7 +25,6 @@ class StoryTest {
 
   @BeforeEach
   void setup() {
-    // Define passages and links for testing
     openingPassage = new Passage("Opening Passage", "This is the opening passage.");
     story = new Story("Test Story", openingPassage);
 

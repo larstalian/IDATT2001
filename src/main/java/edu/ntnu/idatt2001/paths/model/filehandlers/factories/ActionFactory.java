@@ -38,4 +38,33 @@ public class ActionFactory {
       default -> throw new IllegalArgumentException("Unrecognized action name: " + actionName);
     }
   }
+
+  /**
+   * Creates an Action instance based on the provided action name and value. Used when creating
+   * actions from a .paths format.
+   *
+   * @param actionName the name of the action
+   * @param actionValue the value associated with the action
+   * @return an instance of the Action class corresponding to the action name
+   */
+  public static Action createActionFromPathFormat(String actionName, String actionValue) {
+    switch (actionName) {
+      case "G" -> {
+        int gold = Integer.parseInt(actionValue);
+        return new GoldAction(gold);
+      }
+      case "H" -> {
+        int health = Integer.parseInt(actionValue);
+        return new HealthAction(health);
+      }
+      case "I" -> {
+        return new InventoryAction(actionValue);
+      }
+      case "S" -> {
+        int points = Integer.parseInt(actionValue);
+        return new ScoreAction(points);
+      }
+      default -> throw new IllegalArgumentException("Unrecognized action name: " + actionName);
+    }
+  }
 }
