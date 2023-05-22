@@ -14,7 +14,19 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -29,6 +41,7 @@ import javafx.scene.layout.VBox;
  * deleting a link. It also manages drag and drop functionality and the updating of views.
  */
 public class CreateStoryViewController {
+
   private final ObservableList<Passage> passages;
   private final CreateStoryView createStoryView;
   private final Story story;
@@ -145,7 +158,9 @@ public class CreateStoryViewController {
     dialog.showAndWait();
   }
 
-  /** Configures the Exit Button. On action, opens a dialog to confirm the exit without saving. */
+  /**
+   * Configures the Exit Button. On action, opens a dialog to confirm the exit without saving.
+   */
   private void configureExitButton() {
     createStoryView.getExitButton().setOnAction(event -> showExitDialog());
   }
@@ -375,7 +390,9 @@ public class CreateStoryViewController {
     return createStoryView.getRoot();
   }
 
-  /** Configures the Add Passage Button. On action, opens a dialog to add a new passage. */
+  /**
+   * Configures the Add Passage Button. On action, opens a dialog to add a new passage.
+   */
   private void configureAddPassageButton() {
     createStoryView.getAddPassageButton().setOnAction(event -> showAddPassageDialog());
   }
@@ -458,7 +475,9 @@ public class CreateStoryViewController {
             });
   }
 
-  /** Configures drag and drop functionality for passages, links, and actions. */
+  /**
+   * Configures drag and drop functionality for passages, links, and actions.
+   */
   private void configureDragAndDrop() {
     configurePassagesCellFactory();
     configureLinksViewCellFactory();
@@ -545,7 +564,9 @@ public class CreateStoryViewController {
         });
   }
 
-  /** Updates the text of the passage container to display the title of the selected passage. */
+  /**
+   * Updates the text of the passage container to display the title of the selected passage.
+   */
   private void updatePassageContainerText() {
     createStoryView.getPassageContainer().setText(selectedPassage.getTitle());
 
@@ -724,7 +745,9 @@ public class CreateStoryViewController {
             });
   }
 
-  /** Updates the actions list view to display the actions of the selected link. */
+  /**
+   * Updates the actions list view to display the actions of the selected link.
+   */
   private void updateActionsListView() {
     createStoryView.getActionsListView().getItems().clear();
     selectedAction = null;

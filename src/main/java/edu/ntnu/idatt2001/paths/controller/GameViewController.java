@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.paths.controller;
 
-import static edu.ntnu.idatt2001.paths.model.media.IconHandler.*;
+import static edu.ntnu.idatt2001.paths.model.media.IconHandler.getInventoryIcon;
 import static edu.ntnu.idatt2001.paths.view.util.Widgets.createAlert;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
@@ -8,7 +8,11 @@ import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameData;
 import edu.ntnu.idatt2001.paths.model.filehandlers.json.GameFileHandler;
 import edu.ntnu.idatt2001.paths.model.game.Game;
 import edu.ntnu.idatt2001.paths.model.game.Player;
-import edu.ntnu.idatt2001.paths.model.goals.*;
+import edu.ntnu.idatt2001.paths.model.goals.Goal;
+import edu.ntnu.idatt2001.paths.model.goals.GoldGoal;
+import edu.ntnu.idatt2001.paths.model.goals.HealthGoal;
+import edu.ntnu.idatt2001.paths.model.goals.InventoryGoal;
+import edu.ntnu.idatt2001.paths.model.goals.ScoreGoal;
 import edu.ntnu.idatt2001.paths.model.media.BackgroundHandler;
 import edu.ntnu.idatt2001.paths.model.media.SoundHandler;
 import edu.ntnu.idatt2001.paths.model.story.Link;
@@ -16,7 +20,11 @@ import edu.ntnu.idatt2001.paths.model.story.Passage;
 import edu.ntnu.idatt2001.paths.view.GameView;
 import edu.ntnu.idatt2001.paths.view.util.Widgets;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.Animation;
@@ -61,7 +69,8 @@ public class GameViewController {
    * Creates a new GameController object, initializes the game view, player, sound, and background
    * handlers, and sets up the initial state of the game.
    *
-   * @param gameData The game data containing the game model, current passage, and visited passages.
+   * @param gameData The game data containing the game model, current passage, and visited
+   *                 passages.
    */
   public GameViewController(GameData gameData) {
     currentGame = gameData.getGame();
@@ -95,22 +104,30 @@ public class GameViewController {
     gameView.getPlayerName().setText(currentGame.getPlayer().getName());
   }
 
-  /** Configures the behavior of the content bar scroll pane to skip the animation when clicked. */
+  /**
+   * Configures the behavior of the content bar scroll pane to skip the animation when clicked.
+   */
   private void configureContentBarScrollPane() {
     gameView.getContentbarScrollPane().setOnMouseClicked(event -> isAnimationSkipped.set(true));
   }
 
-  /** Updates the score label to the new value. */
+  /**
+   * Updates the score label to the new value.
+   */
   private void updateScoreLabel() {
     gameView.getScoreLabel().setText(String.valueOf(currentGame.getPlayer().getScore()));
   }
 
-  /** Updates the gold label to the new value. */
+  /**
+   * Updates the gold label to the new value.
+   */
   private void updateGoldLabel() {
     gameView.getGoldLabel().setText(String.valueOf(currentGame.getPlayer().getGold()));
   }
 
-  /** Creates and animates the content string of the current passage. */
+  /**
+   * Creates and animates the content string of the current passage.
+   */
   private void animateContentBar() {
     gameView.getContentBar().set("");
     char[] charArray = currentPassage.getContent().toCharArray();
@@ -154,7 +171,9 @@ public class GameViewController {
     timeline.play();
   }
 
-  /** Updates the link choices based on the current passage. */
+  /**
+   * Updates the link choices based on the current passage.
+   */
   private void updateLinkChoices() {
     gameView.getLinks().getChildren().clear();
 
@@ -199,7 +218,9 @@ public class GameViewController {
     return button;
   }
 
-  /** Configures the skip label. It is set to visible when called */
+  /**
+   * Configures the skip label. It is set to visible when called
+   */
   private void configureSkipLabel() {
     gameView.getSkipLabel().setVisible(false);
   }
@@ -207,7 +228,7 @@ public class GameViewController {
   /**
    * Determines if a link is valid based on broken links and single-visit passages.
    *
-   * @param link the link to be checked.
+   * @param link        the link to be checked.
    * @param brokenLinks the set of broken links.
    * @return true if the link is valid, false otherwise.
    */
@@ -265,7 +286,9 @@ public class GameViewController {
     }
   }
 
-  /** Configures the exit button to show a confirmation dialog when clicked. */
+  /**
+   * Configures the exit button to show a confirmation dialog when clicked.
+   */
   private void configureExitButton() {
     gameView.getExitButton().setOnAction(e -> showSaveGameConfirmationDialog());
   }
@@ -279,7 +302,9 @@ public class GameViewController {
     return gameView.getRoot();
   }
 
-  /** Builds and shows the save game confirmation dialog. */
+  /**
+   * Builds and shows the save game confirmation dialog.
+   */
   private void showSaveGameConfirmationDialog() {
     String title = "Wait!";
     String header = "Are you sure you want to exit?";
@@ -315,7 +340,9 @@ public class GameViewController {
     }
   }
 
-  /** Sets the scene to main menu. */
+  /**
+   * Sets the scene to main menu.
+   */
   private void switchToMainMenu() {
     MainMenuViewController mainMenuViewController = new MainMenuViewController();
     Region mainMenuRoot = mainMenuViewController.getRoot();
@@ -323,7 +350,9 @@ public class GameViewController {
     gameView.getRoot().getScene().setRoot(mainMenuRoot);
   }
 
-  /** Restarts the game by resetting the game state and the game view. */
+  /**
+   * Restarts the game by resetting the game state and the game view.
+   */
   private void restartGame() {
     Game game = new Game(initialPlayer, currentGame.getStory(), currentGame.getGoals());
     GameData gameData = new GameData(game, game.getStory().getOpeningPassage(), visitedPassages);
@@ -331,7 +360,9 @@ public class GameViewController {
     gameView.getRoot().getScene().setRoot(gameRoot);
   }
 
-  /** Handles the event when the game is finished, displaying the game's end screen and goals. */
+  /**
+   * Handles the event when the game is finished, displaying the game's end screen and goals.
+   */
   private void onGameFinish() {
     VBox results = new VBox();
     results.getStyleClass().add("game-finish");
@@ -348,12 +379,16 @@ public class GameViewController {
     gameView.getCenterInfo().setAlignment(Pos.CENTER);
   }
 
-  /** Configures the restart game button to restart the game when clicked. */
+  /**
+   * Configures the restart game button to restart the game when clicked.
+   */
   private void configureRestartGameButton() {
     gameView.getDeathRestartButton().setOnAction(e -> restartGame());
   }
 
-  /** Sets the scene to main menu. */
+  /**
+   * Sets the scene to main menu.
+   */
   private void configureDeathExitButton() {
     gameView.getDeathExitButton().setOnAction(e -> switchToMainMenu());
   }
@@ -457,7 +492,9 @@ public class GameViewController {
     actions.forEach(action -> action.execute(currentGame.getPlayer()));
   }
 
-  /** Updates the player's health and handles the event of the player's death. */
+  /**
+   * Updates the player's health and handles the event of the player's death.
+   */
   private void updatePlayerHealth() {
     double health = currentGame.getPlayer().getHealth();
     gameView.getHealthBar().setProgress(health / 100);

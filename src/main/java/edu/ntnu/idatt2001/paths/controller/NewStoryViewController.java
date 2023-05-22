@@ -43,12 +43,16 @@ public class NewStoryViewController {
                     .setRoot(new MainMenuViewController().getRoot()));
   }
 
-  /** Configure the text prompt for the opening passage text field in the new story view. */
+  /**
+   * Configure the text prompt for the opening passage text field in the new story view.
+   */
   private void configureOpeningPassageTextField() {
     newStoryView.getOpeningPassageText().setPromptText("Enter the opening passage content");
   }
 
-  /** Configure the text prompt for the story name field in the new story view. */
+  /**
+   * Configure the text prompt for the story name field in the new story view.
+   */
   private void configureStoryNameTextField() {
     newStoryView.getStoryName().setPromptText("Enter the story title");
   }
