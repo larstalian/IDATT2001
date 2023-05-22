@@ -1,6 +1,9 @@
 package edu.ntnu.idatt2001.paths.model.story;
 
-import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.*;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MAX_CONTENT_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MAX_TITLE_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MIN_CONTENT_LENGTH;
+import static edu.ntnu.idatt2001.paths.model.story.Passage.PassageConstants.MIN_TITLE_LENGTH;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,16 +39,21 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "title")
 public class Passage {
 
-  @JsonProperty private final String title;
-  @JsonProperty private final List<Link> links;
-  @JsonProperty private String content;
-  @JsonProperty private Mood mood;
-  @JsonProperty private boolean singleVisitOnly;
+  @JsonProperty
+  private final String title;
+  @JsonProperty
+  private final List<Link> links;
+  @JsonProperty
+  private String content;
+  @JsonProperty
+  private Mood mood;
+  @JsonProperty
+  private boolean singleVisitOnly;
 
   /**
    * Constructs a new Passage object with the given title and content.
    *
-   * @param title the title of the passage
+   * @param title   the title of the passage
    * @param content the content of the passage
    * @throws IllegalArgumentException if the title or content is null
    */
@@ -74,7 +82,7 @@ public class Passage {
   /**
    * Constructs a new Passage object with the given title and content.
    *
-   * @param title the title of the passage
+   * @param title   the title of the passage
    * @param content the content of the passage
    * @throws IllegalArgumentException if the title or content is null
    */
@@ -94,7 +102,8 @@ public class Passage {
   /**
    * Sets the single visit only status for the passage.
    *
-   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit only
+   * @param singleVisitOnly a boolean value indicating if the passage is meant for single visit
+   *                        only
    */
   public void setSingleVisitOnly(boolean singleVisitOnly) {
     this.singleVisitOnly = singleVisitOnly;
@@ -190,6 +199,7 @@ public class Passage {
    * content.
    */
   static class PassageConstants {
+
     static final int MIN_TITLE_LENGTH = 1;
     static final int MAX_TITLE_LENGTH = 20;
     static final int MIN_CONTENT_LENGTH = 1;
