@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2001.paths.model.filehandlers.paths;
 
-import edu.ntnu.idatt2001.paths.model.actions.*;
+import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.filehandlers.factories.ActionFactory;
 import edu.ntnu.idatt2001.paths.model.story.Link;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
@@ -11,7 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
@@ -35,6 +38,7 @@ import org.apache.commons.io.FilenameUtils;
  * @see StoryFileWriter
  */
 public class StoryFileReader {
+
   private static final String DELIMITER = System.getProperty("line.separator");
   private static final String FILE_ENDING = ".paths";
   private static final Path FILE_PATH = Paths.get("src/main/resources/stories/paths/");
@@ -43,14 +47,15 @@ public class StoryFileReader {
   private static final String ACTIONS_PATTERN = "^\\{(.+)}$";
   private static final String ACTION_TYPE_PATTERN = "^([HISG]):";
 
-  private StoryFileReader() {}
+  private StoryFileReader() {
+  }
 
   /**
    * Reads the story from the specified file and returns a Story object.
    *
    * @param storyTitle The name of the file containing the story.
    * @return A Story object representing the story read from the file.
-   * @throws IOException If there is a problem reading the file.
+   * @throws IOException    If there is a problem reading the file.
    * @throws ParseException If there is a problem parsing the story content.
    */
   public static Story readStoryFromFile(String storyTitle) throws IOException, ParseException {
@@ -151,8 +156,8 @@ public class StoryFileReader {
    * index.
    *
    * @param passage The passage to add links to.
-   * @param index The index in the array where the link information starts.
-   * @param lines An array of strings representing the story content.
+   * @param index   The index in the array where the link information starts.
+   * @param lines   An array of strings representing the story content.
    */
   private static void addLinks(Passage passage, int index, String[] lines) {
     ListIterator<String> lineIterator = Arrays.asList(lines).listIterator(index);
@@ -185,7 +190,8 @@ public class StoryFileReader {
   }
 
   /**
-   * Builds actions for the provided link based on the specified line containing action information.
+   * Builds actions for the provided link based on the specified line containing action
+   * information.
    *
    * @param link The link to add actions to.
    * @param line The line containing action information.

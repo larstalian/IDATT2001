@@ -19,17 +19,19 @@ import java.util.stream.Collectors;
  * <p>The class offers methods to save a story object to a text file, and to build strings
  * representing the content of story components, such as passages, links, and actions.
  *
- * <p>The static method {@link #saveStoryToFile( Story )} takes a story object and saves it to a
+ * <p>The static method {@link #saveStoryToFile(Story)} takes a story object and saves it to a
  * text file. The file is created in the specified file path, with the story's title as the
  * filename. The content of the story is formatted using helper methods provided in this class. If
  * any I/O error occurs while saving the story, an IOException is thrown.
  *
  * <p>The StoryFileWriter class utilizes the {@link Story}, {@link Passage}, {@link Link}, and
- * {@link Action} classes as components to build the content of the story into an editable txt file.
+ * {@link Action} classes as components to build the content of the story into an editable txt
+ * file.
  *
  * @see StoryFileReader
  */
 public class StoryFileWriter {
+
   private static final String NEWLINE = System.lineSeparator();
   private static final String FILE_ENDING = ".paths";
   private static final String FILEPATH = "src/main/resources/stories/paths/";
@@ -45,7 +47,8 @@ public class StoryFileWriter {
 
   private static final Path FILE_PATH = Paths.get(FILEPATH);
 
-  private StoryFileWriter() {}
+  private StoryFileWriter() {
+  }
 
   /**
    * Saves the given story to a text file with the story's title as the filename.
@@ -141,7 +144,7 @@ public class StoryFileWriter {
    * Writes the given content to a text file with the specified filename.
    *
    * @param filename the filename to use when saving the content
-   * @param content the content to be written to the file
+   * @param content  the content to be written to the file
    * @throws IOException if an I/O error occurs while writing the content to the file
    */
   private static void writeFile(String filename, String content) throws IOException {
