@@ -1,13 +1,19 @@
 package edu.ntnu.idatt2001.paths.view;
 
-import static javafx.geometry.Pos.*;
+import static javafx.geometry.Pos.BOTTOM_LEFT;
+import static javafx.geometry.Pos.CENTER;
 
 import edu.ntnu.idatt2001.paths.model.actions.Action;
 import edu.ntnu.idatt2001.paths.model.story.Passage;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 /**
@@ -16,23 +22,40 @@ import lombok.Getter;
  */
 public class CreateStoryView {
 
-  @Getter private final BorderPane root;
-  @Getter private final ListView<Passage> passages;
-  @Getter private final ListView<Passage> linksView;
-  @Getter private final TextArea linkText;
-  @Getter private final ListView<Action> actionsListView;
-  @Getter private final Button exitButton;
-  @Getter private final Button addActionButton;
-  @Getter private final Button saveButton;
-  @Getter private final TextArea passageContent;
-  @Getter private final Button editPassageButton;
-  @Getter private final TextArea moodText;
-  @Getter private final TextArea singleVisitOnly;
-  @Getter private Button addPassageButton;
-  @Getter private Button deletePassageButton;
-  @Getter private Label passageContainer;
-  @Getter private Button deleteActionButton;
-  @Getter private Button deleteLinkButton;
+  @Getter
+  private final BorderPane root;
+  @Getter
+  private final ListView<Passage> passages;
+  @Getter
+  private final ListView<Passage> linksView;
+  @Getter
+  private final TextArea linkText;
+  @Getter
+  private final ListView<Action> actionsListView;
+  @Getter
+  private final Button exitButton;
+  @Getter
+  private final Button addActionButton;
+  @Getter
+  private final Button saveButton;
+  @Getter
+  private final TextArea passageContent;
+  @Getter
+  private final Button editPassageButton;
+  @Getter
+  private final TextArea moodText;
+  @Getter
+  private final TextArea singleVisitOnly;
+  @Getter
+  private Button addPassageButton;
+  @Getter
+  private Button deletePassageButton;
+  @Getter
+  private Label passageContainer;
+  @Getter
+  private Button deleteActionButton;
+  @Getter
+  private Button deleteLinkButton;
 
   /**
    * Constructs a new CreateStoryView. This involves initializing the UI elements and setting up

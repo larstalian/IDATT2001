@@ -17,7 +17,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.Getter;
@@ -33,21 +37,36 @@ import lombok.Getter;
  */
 public class GameView {
 
-  @Getter private final VBox links;
-  @Getter private final Label goldLabel;
-  @Getter private final Label scoreLabel;
-  @Getter private final VBox inventory;
-  @Getter private final ProgressBar healthBar;
-  @Getter private final BorderPane root;
-  @Getter private final Button exitButton;
-  @Getter private final Label skipLabel;
-  @Getter private final VBox centerInfo;
-  @Getter private StringProperty contentBar;
-  @Getter private ScrollPane contentbarScrollPane;
-  @Getter private Button deathExitButton;
-  @Getter private Button deathRestartButton;
-  @Getter private ImageView goldIcon;
-  @Getter private Label playerName;
+  @Getter
+  private final VBox links;
+  @Getter
+  private final Label goldLabel;
+  @Getter
+  private final Label scoreLabel;
+  @Getter
+  private final VBox inventory;
+  @Getter
+  private final ProgressBar healthBar;
+  @Getter
+  private final BorderPane root;
+  @Getter
+  private final Button exitButton;
+  @Getter
+  private final Label skipLabel;
+  @Getter
+  private final VBox centerInfo;
+  @Getter
+  private StringProperty contentBar;
+  @Getter
+  private ScrollPane contentbarScrollPane;
+  @Getter
+  private Button deathExitButton;
+  @Getter
+  private Button deathRestartButton;
+  @Getter
+  private ImageView goldIcon;
+  @Getter
+  private Label playerName;
 
   /**
    * Creates a new GameView object.
