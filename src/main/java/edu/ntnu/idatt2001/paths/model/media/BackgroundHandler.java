@@ -16,8 +16,11 @@ public class BackgroundHandler {
   private static final String IMAGE_EXTENSION = ".png";
   private static BackgroundHandler instance;
 
-  /** Private constructor to prevent multiple instances. */
-  private BackgroundHandler() {}
+  /**
+   * Private constructor to prevent multiple instances.
+   */
+  private BackgroundHandler() {
+  }
 
   /**
    * Retrieves the singleton instance of BackgroundHandler.
@@ -34,7 +37,7 @@ public class BackgroundHandler {
   /**
    * Checks if the passage has a custom background image.
    *
-   * @param passage the passage to check for a background image.
+   * @param passage    the passage to check for a background image.
    * @param storyTitle the title of the story containing the passage.
    * @return {@code true} if the passage has a custom background, {@code false} otherwise.
    */
@@ -49,8 +52,8 @@ public class BackgroundHandler {
    * passage has a custom background, it will be used. Otherwise, a default background based on the
    * passage's mood will be applied.
    *
-   * @param region the region to update the background image for.
-   * @param passage the passage used to determine the background image.
+   * @param region     the region to update the background image for.
+   * @param passage    the passage used to determine the background image.
    * @param storyTitle the title of the story containing the passage.
    */
   public void updateBackground(Region region, Passage passage, String storyTitle) {
@@ -69,7 +72,7 @@ public class BackgroundHandler {
   /**
    * Sets the background image of the given region using the specified URL.
    *
-   * @param region the region to set the background image for.
+   * @param region             the region to set the background image for.
    * @param backgroundImageUrl the URL of the background image.
    */
   private void setBackgroundImageUrl(Region region, String backgroundImageUrl) {
