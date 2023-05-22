@@ -64,8 +64,6 @@ public class IconHandler {
     } else if (Files.exists(jpegPath)) {
       return new Image(Files.newInputStream(jpegPath));
     } else {
-
-      System.out.println("We are here");
       return null;
     }
   }

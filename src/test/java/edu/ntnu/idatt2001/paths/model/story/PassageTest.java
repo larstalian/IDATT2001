@@ -97,7 +97,7 @@ class PassageTest {
   }
 
   @Test
-  @DisplayName("Test if the passage is single visit only")
+  @DisplayName("Test that the set single visit only works correctly")
   void setSingleVisitOnly() {
     Passage passage = new Passage("A4-110", "Classroom", NONE, true);
     passage.setSingleVisitOnly(false);
@@ -105,14 +105,14 @@ class PassageTest {
   }
 
   @Test
-  @DisplayName("Test if the passage is single visit only")
+  @DisplayName("Test if the passage has correct Mood")
   void getMood() {
     Passage passage = new Passage("A4-110", "Classroom", BOSS_BATTLE, true);
     assertThat(passage.getMood(), is(BOSS_BATTLE));
   }
 
   @Test
-  @DisplayName("Test if the passage is single visit only")
+  @DisplayName("Test that the mood changes correctly")
   void setMood() {
     Passage passage = new Passage("A4-110", "Classroom", BOSS_BATTLE, true);
     passage.setMood(NONE);
