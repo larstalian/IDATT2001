@@ -56,17 +56,17 @@ public class GameView {
   @Getter
   private final VBox centerInfo;
   @Getter
-  private StringProperty contentBar;
+  private final StringProperty contentBar;
   @Getter
   private ScrollPane contentbarScrollPane;
   @Getter
-  private Button deathExitButton;
+  private final Button deathExitButton;
   @Getter
-  private Button deathRestartButton;
+  private final Button deathRestartButton;
   @Getter
   private ImageView goldIcon;
   @Getter
-  private Label playerName;
+  private final Label playerName;
 
   /**
    * Creates a new GameView object.
