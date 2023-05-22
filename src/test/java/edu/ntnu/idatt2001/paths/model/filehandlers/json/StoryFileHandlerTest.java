@@ -127,7 +127,7 @@ class StoryFileHandlerTest {
 
   @Test
   @DisplayName("Get custom sound files test")
-  void testGetCustomSoundFiles() {
+  void testGetCustomSoundFiles() throws IOException {
     assertThat(
         "getCustomSoundFiles() should not throw an exception.",
         StoryFileHandler.getCustomSoundFiles(testStory.getTitle()),
@@ -145,7 +145,7 @@ class StoryFileHandlerTest {
 
   @Test
   @DisplayName("Get broken files test")
-  void testGetBrokenFiles() {
+  void testGetBrokenFiles() throws IOException {
     assertThat(
         "getBrokenFiles() should not throw an exception.",
         StoryFileHandler.getBrokenFiles(testStory),

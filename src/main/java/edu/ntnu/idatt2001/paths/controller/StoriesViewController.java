@@ -391,31 +391,36 @@ public class StoriesViewController {
    * files in the loaded story.
    */
   public void updateMediaFilesLabel() {
-    int numberOfCustomImages = StoryFileHandler.getCustomImageFiles(loadedStory.getTitle()).size();
-    int numberOfCustomSound = StoryFileHandler.getCustomSoundFiles(loadedStory.getTitle()).size();
-    int numberOfBrokenFiles = StoryFileHandler.getBrokenFiles(loadedStory).size();
+    try {
+      int numberOfCustomImages = StoryFileHandler.getCustomImageFiles(loadedStory.getTitle())
+          .size();
+      int numberOfCustomSound = StoryFileHandler.getCustomSoundFiles(loadedStory.getTitle()).size();
+      int numberOfBrokenFiles = StoryFileHandler.getBrokenFiles(loadedStory).size();
 
-    if (numberOfCustomImages > 0) {
-      storiesView.getCustomImagesLabel().setText("Images: " + numberOfCustomImages);
-    } else {
-      storiesView.getCustomImagesLabel().setText("");
-    }
+      if (numberOfCustomImages > 0) {
+        storiesView.getCustomImagesLabel().setText("Images: " + numberOfCustomImages);
+      } else {
+        storiesView.getCustomImagesLabel().setText("");
+      }
 
-    if (numberOfCustomSound > 0) {
-      storiesView.getCustomSoundsLabel().setText("Sound: " + numberOfCustomSound);
-    } else {
-      storiesView.getCustomSoundsLabel().setText("");
-    }
+      if (numberOfCustomSound > 0) {
+        storiesView.getCustomSoundsLabel().setText("Sound: " + numberOfCustomSound);
+      } else {
+        storiesView.getCustomSoundsLabel().setText("");
+      }
 
-    if (numberOfBrokenFiles > 0) {
-      storiesView.getBrokenFilesLabel().setText("Broken Files: " + numberOfBrokenFiles);
-    } else {
-      storiesView.getBrokenFilesLabel().setText("");
-    }
+      if (numberOfBrokenFiles > 0) {
+        storiesView.getBrokenFilesLabel().setText("Broken Files: " + numberOfBrokenFiles);
+      } else {
+        storiesView.getBrokenFilesLabel().setText("");
+      }
 
-    if (numberOfCustomSound == 0 && numberOfCustomImages == 0) {
-      storiesView.getCustomImagesLabel().setText("None");
-      storiesView.getCustomSoundsLabel().setText("");
-    }
+      if (numberOfCustomSound == 0 && numberOfCustomImages == 0) {
+        storiesView.getCustomImagesLabel().setText("None");
+        storiesView.getCustomSoundsLabel().setText("");
+      }
+    }catch (IOException e){
+        Widgets.createAlert("Error", "Error", e.getMessage());
+      }
   }
 }
