@@ -65,7 +65,7 @@
       "title" : "Scary man",
       "content" : "You approach the suspucious looking man. He is snoring",
       "mood" : "SPOOKY",
-      "singleVisitOnly" : false,
+      "singleVisitOnly" : true,
       "links" : [ {
         "text" : "Steal the mans coin",
         "ref" : "Coin steal",
