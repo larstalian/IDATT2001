@@ -5,7 +5,14 @@ import static edu.ntnu.idatt2001.paths.model.story.Story.StoryConstants.MIN_TITL
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 
@@ -14,9 +21,10 @@ import lombok.EqualsAndHashCode;
  *
  * <p>Each passage is represented by a Passage object, and can be linked to other passages using
  * Link objects. The opening passage of the story is represented by a Passage object passed to the
- * constructor of the Story object. Passages can be added to the story using the {@link
- * #addPassage(Passage)} method, and the full list of passages can be accessed using the {@link
- * #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)} method.
+ * constructor of the Story object. Passages can be added to the story using the
+ * {@link #addPassage(Passage)} method, and the full list of passages can be accessed using the
+ * {@link #getPassages()} method. Passages can be retrieved using the {@link #getPassage(Link)}
+ * method.
  *
  * <p>The Story class is immutable, and its properties cannot be modified once the object is
  * constructed. The properties of the story include its title, represented by a String object, and
@@ -30,14 +38,18 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(of = {"title", "openingPassage"})
 public class Story {
-  @JsonProperty private final String title;
-  @JsonProperty private final Passage openingPassage;
-  @JsonProperty private final Map<Link, Passage> passages;
+
+  @JsonProperty
+  private final String title;
+  @JsonProperty
+  private final Passage openingPassage;
+  @JsonProperty
+  private final Map<Link, Passage> passages;
 
   /**
    * Constructs a new Story object with the given title and opening passage.
    *
-   * @param title the title of the story
+   * @param title          the title of the story
    * @param openingPassage the opening passage of the story
    */
   @JsonCreator
@@ -76,7 +88,7 @@ public class Story {
    *
    * @param passage the passage to be added
    * @return {@code true} if the passage was added to the story, {@code false} if the passage
-   *     already exists
+   * already exists
    */
   public boolean addPassage(final Passage passage) {
     Objects.requireNonNull(passage, "Passage cannot be null");
@@ -190,7 +202,8 @@ public class Story {
    * The StoryConstants class contains constants used by the Story class to set the valid range of
    * its fields. The constants are declared as static and final, and can therefore not be modified.
    *
-   * <p>Use the constants to check that parameter values are within the valid range when creating or
+   * <p>Use the constants to check that parameter values are within the valid range when creating
+   * or
    * modifying Story objects.
    *
    * @see Story

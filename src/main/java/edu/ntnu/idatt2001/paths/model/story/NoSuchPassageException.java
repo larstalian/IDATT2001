@@ -7,7 +7,9 @@ package edu.ntnu.idatt2001.paths.model.story;
  */
 public class NoSuchPassageException extends RuntimeException {
 
-  /** Creates a new exception with a default message. */
+  /**
+   * Creates a new exception with a default message.
+   */
   public NoSuchPassageException() {
     super("The requested passage does not exist.");
   }
