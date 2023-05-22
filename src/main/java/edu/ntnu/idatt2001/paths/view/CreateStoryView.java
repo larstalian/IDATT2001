@@ -47,15 +47,15 @@ public class CreateStoryView {
   @Getter
   private final TextArea singleVisitOnly;
   @Getter
-  private Button addPassageButton;
+  private final Button addPassageButton;
   @Getter
-  private Button deletePassageButton;
+  private final Button deletePassageButton;
   @Getter
   private Label passageContainer;
   @Getter
-  private Button deleteActionButton;
+  private final Button deleteActionButton;
   @Getter
-  private Button deleteLinkButton;
+  private final Button deleteLinkButton;
 
   /**
    * Constructs a new CreateStoryView. This involves initializing the UI elements and setting up
